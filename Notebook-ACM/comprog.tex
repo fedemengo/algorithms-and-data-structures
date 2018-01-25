@@ -1,0 +1,803 @@
+\documentclass[8pt,a4paper,landscape,oneside]{amsart}
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{color}
+\usepackage{fancyhdr}
+\usepackage{float}
+\usepackage{fullpage}
+%\usepackage{geometry}
+% \usepackage[top=0pt, bottom=1cm, left=0.3cm, right=0.3cm]{geometry}
+\usepackage[top=3pt, bottom=1cm, left=1cm, right=1cm]{geometry}
+\usepackage{graphicx}
+% \usepackage{listings}
+\usepackage{subcaption}
+\usepackage[scaled]{beramono}
+\usepackage{titling}
+\usepackage{datetime}
+\usepackage{enumitem}
+\usepackage{multicol}
+
+\newcommand{\subtitle}[1]{%
+  \posttitle{%
+    \par\end{center}
+    \begin{center}\large#1\end{center}
+    \vskip0.1em\vspace{-1em}}%
+}
+
+% Minted
+\usepackage{minted}
+\newcommand{\code}[1]{\inputminted[fontsize=\normalsize,baselinestretch=1,linenos, frame=single]{c++}{code/#1}}
+\newcommand{\bashcode}[1]{\inputminted{bash}{code/#1}}
+\newcommand{\regcode}[1]{\inputminted{cpp}{code/#1}}
+
+% Header/Footer
+% \geometry{includeheadfoot}
+%\fancyhf{}
+\pagestyle{fancy}
+\lhead{Bologna University}
+\rhead{\thepage}
+\cfoot{}
+\setlength{\headheight}{15.2pt}
+\setlength{\droptitle}{-20pt}
+\posttitle{\par\end{center}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% Math and bit operators
+\DeclareMathOperator{\lcm}{lcm}
+\newcommand*\BitAnd{\mathrel{\&}}
+\newcommand*\BitOr{\mathrel{|}}
+\newcommand*\ShiftLeft{\ll}
+\newcommand*\ShiftRight{\gg}
+\newcommand*\BitNeg{\ensuremath{\mathord{\sim}}}
+\DeclareRobustCommand{\stirling}{\genfrac\{\}{0pt}{}}
+
+\newenvironment{myitemize}
+{ \begin{itemize}[leftmargin=.5cm]
+    \setlength{\itemsep}{0pt}
+    \setlength{\parskip}{0pt}
+    \setlength{\parsep}{0pt}     }
+{ \end{itemize}                  }
+
+% Title/Author
+\title{\textbf{NoIdea Team}}
+\subtitle{Reference Document}
+\date{\ddmmyyyydate{\today{}}}
+
+% Output Verbosity
+\newif\ifverbose
+\verbosetrue
+% \verbosefalse
+
+\begin{document}
+
+\setlength{\columnsep}{50pt}
+\begin{multicols*}{2}
+\maketitle
+\thispagestyle{fancy}
+\vspace{-3em}
+% \addtocontents{toc}{\protect\enlargethispage{\baselineskip}}
+\tableofcontents
+
+% \clearpage
+
+\section{Data Structures}
+
+    \subsection{Union-Find}
+        \ifverbose
+        An implementation of the Union-Find disjoint sets data structure.
+        \fi
+        \code{data-structures/union_find.cpp}
+
+    \subsection{Sparse Segment Tree}
+        An implementation of a Segment Tree.
+        
+        \code{data-structures/segment_tree_sparse.cpp}
+        
+    \subsection{Segment Tree AND Segment Tree 2D}
+        An implementation of a Segment Tree.
+        
+        \code{data-structures/segment_tree_2d.cpp}
+
+    \subsection{Fenwick Tree}
+        \ifverbose
+        A Fenwick Tree is a data structure that represents an array of $n$
+        numbers. It supports adjusting the $i$-th element in $O(\log n)$ time,
+        and computing the sum of numbers in the range $i..j$ in $O(\log n)$
+        time. It only needs $O(n)$ space.
+        \fi
+        \code{data-structures/fenwick_tree.cpp}
+
+    \ifverbose
+    \subsection{AVL Tree}
+        \ifverbose
+        A fast, easily augmentable, balanced binary search tree.
+        \fi
+        \code{data-structures/avl_tree2.cpp}
+    \fi
+    
+    \ifverbose
+    \subsection{AVL Tree K-$th$}
+        \ifverbose
+        A fast, easily augmenta ble, balanced binary search tree.
+        \fi
+        \code{data-structures/avl_tree_kth.cpp}
+    \fi
+
+    \subsection{Wavelettree}
+        Count values less (or equal) elements, retrieve k-th minimal element
+        \code{data-structures/wavelettree.cpp}
+        
+    \subsection{Treap}
+        Implementation of implicit treap
+        \code{data-structures/treap_implicit.cpp}
+        
+    \subsection{Mergesort tree array}
+        \code{data-structures/mergesort_tree_array.cpp}
+
+    \subsection{$k$-d Tree}
+        \ifverbose
+        A $k$-dimensional tree supporting fast construction, adding points, and
+        nearest neighbor queries.
+        \fi
+        \code{data-structures/kd_tree.cpp}
+
+    \subsection{Sparse Table}
+        \code{data-structures/sparse_table.cpp}
+        
+        
+    \subsection{Minque}
+        \code{data-structures/minqueue.cpp}
+
+\section{Graphs}
+    \subsection{Single-Source Shortest Paths}
+        \subsubsection{Dijkstra's algorithm}
+            \ifverbose
+            It runs in $\Theta(|E|\log{|V|})$ time.
+            \fi
+            \code{graph/dijkstra.cpp}
+
+        \subsubsection{SPFA}
+            \code{graph/spfa.cpp}
+
+    \subsection{All-Pairs Shortest Paths}
+        \subsubsection{Floyd-Warshall algorithm}
+            The Floyd-Warshall algorithm solves the all-pairs shortest paths
+            problem in $O(|V|^3)$ time.
+            \code{graph/floyd_warshall.cpp}
+
+    \subsection{Strongly Connected Components}
+        \subsubsection{Kosaraju's algorithm}
+            \ifverbose
+            Kosarajus's algorithm finds strongly connected components of a
+            directed graph in $O(|V|+|E|)$ time.
+            \fi
+            Returns a Union-Find of the SCCs, as well as a topological ordering
+            of the SCCs. Note that the ordering specifies a random element from
+            each SCC, not the UF parents!
+            \code{graph/kosaraju.cpp}
+
+    \subsection{Cut Points and Bridges}
+        \code{graph/cut_points_and_bridges.cpp}
+
+    \ifverbose
+    \subsection{Minimum Spanning Tree}
+        \subsubsection{Kruskal's algorithm}
+            \code{graph/kruskals_mst.cpp}
+    \fi
+
+    \ifverbose
+    \subsection{Topological Sort}
+        \subsubsection{Modified Depth-First Search}
+            \code{graph/tsort.cpp}
+    \fi
+
+    \subsection{Euler Path}
+        \ifverbose
+        Finds an euler path (or circuit) in a directed graph, or reports that
+        none exist.
+        \fi
+        \code{graph/euler_path.cpp}
+        And an undirected version, which finds a cycle.
+        \code{graph/euler_path_undirected.cpp}
+
+    \subsection{Bipartite Matching}
+
+        \subsubsection{Alternating Paths algorithm}
+            \ifverbose
+            The alternating paths algorithm solves bipartite matching in $O(mn^2)$
+            time, where $m$, $n$ are the number of vertices on the left and right
+            side of the bipartite graph, respectively.
+            \fi
+            \code{graph/bipartite_matching.cpp}
+
+        \subsubsection{Hopcroft-Karp algorithm}
+            \ifverbose
+            An implementation of Hopcroft-Karp algorithm for bipartite
+            matching.
+            \fi
+            Running time is $O(|E|\sqrt{|V|})$.
+            \code{graph/hopcroft_karp.cpp}
+
+        \subsubsection{Minimum Vertex Cover in Bipartite Graphs}
+            \code{graph/bipartite_mvc.cpp}
+
+    \subsection{Maximum Flow}
+        \subsubsection{\textbf{Dinic's algorithm}}
+            An implementation of Dinic's algorithm that runs in
+            $O(|V|^2|E|)$.
+            \ifverbose
+            It computes the maximum sflow of a flow network.
+            \fi
+            \code{graph/dinic.cpp}
+
+    \subsection{Minimum Cost Maximum Flow}
+        \ifverbose
+        An implementation of \textbf{Edmonds Karp's algorithm}, modified to find
+        shortest path to augment each time (instead of just any path). It
+        computes the maximum flow of a flow network, and when there are
+        multiple maximum flows, finds the maximum flow with minimum cost.
+        \fi
+        Running time is $O(|V|^2|E|\log|V|)$.
+        \code{graph/edmonds_karps_mcmf.cpp}
+
+    \subsection{All Pairs Maximum Flow}
+        \subsubsection{Gomory-Hu Tree}
+        An implementation of the Gomory-Hu Tree. The spanning tree is constructed using Gusfield's algorithm
+        in $O(|V| ^ 2)$ plus $|V|-1$ times the time it takes to calculate the maximum flow.
+        If Dinic's algorithm is used to calculate the max flow, the running time is $O(|V|^3|E|)$.
+        NOTE: Not sure if it works correctly with disconnected graphs.
+        \code{graph/gomory_hu_tree.cpp}
+
+    \subsection{Heavy-Light Decomposition}
+        \code{graph/hld.cpp}
+
+    \subsection{Least Common Ancestors, Binary Jumping}
+        \code{graph/lca.cpp}
+
+    \subsection{Maximum Density Subgraph}
+        Given (weighted) undirected graph $G$. Binary search density. If $g$ is
+        current density, construct flow network: $(S, u, m)$, $(u, T,
+        m+2g-d_u)$, $(u,v,1)$, where $m$ is a large constant (larger than sum
+        of edge weights). Run floating-point max-flow. If minimum cut has empty
+        $S$-component, then maximum density is smaller than $g$, otherwise it's
+        larger. Distance between valid densities is at least $1/(n(n-1))$. Edge
+        case when density is $0$. This also works for weighted graphs by
+        replacing $d_u$ by the weighted degree, and doing more iterations (if
+        weights are not integers).
+
+    \subsection{Maximum-Weight Closure}
+        Given a vertex-weighted directed graph $G$. Turn the graph into a flow
+        network, adding weight $\infty$ to each edge. Add vertices $S,T$. For
+        each vertex $v$ of weight $w$, add edge $(S,v,w)$ if $w\geq 0$, or edge
+        $(v,T,-w)$ if $w<0$. Sum of positive weights minus minimum $S-T$ cut is
+        the answer. Vertices reachable from $S$ are in the closure. The
+        maximum-weight closure is the same as the complement of the
+        minimum-weight closure on the graph with edges reversed.
+
+    \subsection{Maximum Weighted Independent Set in a Bipartite Graph}
+        This is the same as the minimum weighted vertex cover. Solve this by
+        constructing a flow network with edges $(S,u,w(u))$ for $u\in L$,
+        $(v,T,w(v))$ for $v\in R$ and $(u,v,\infty)$ for $(u,v)\in E$. The
+        minimum $S,T$-cut is the answer. Vertices adjacent to a cut edge are
+        in the vertex cover.
+
+    \subsection{Max flow with lower bounds on edges}
+        % TODO: Test this!
+        Change edge $(u,v,l\leq f\leq c)$ to $(u,v,f\leq c-l)$. Add edge
+        $(t,s,\infty)$. Create super-nodes $S$, $T$. Let $M(u) = \sum_{v}
+        l(v,u) - \sum_{v} l(u,v)$. If $M(u)<0$, add edge $(u,T,-M(u))$, else
+        add edge $(S,u,M(u))$. Max flow from $S$ to $T$. If all edges from $S$
+        are saturated, then we have a feasible flow. Continue running max flow
+        from $s$ to $t$ in original graph.
+        % TODO: Was there something similar for vertex capacities that we should add?
+
+\section{Strings}
+
+    \subsection{The $Z$ algorithm}
+        \ifverbose
+        Given a string $S$, $Z_i(S)$ is the longest substring of $S$ starting
+        at $i$ that is also a prefix of $S$. The $Z$ algorithm computes these
+        $Z$ values in $O(n)$ time, where $n = |S|$. $Z$ values can, for
+        example, be used to find all occurrences of a pattern $P$ in a string
+        $T$ in linear time. This is accomplished by computing $Z$ values of $S
+        = P T$, and looking for all $i$ such that $Z_i \geq |P|$.
+        \fi
+        \code{strings/z_algorithm.cpp}
+
+    \ifverbose
+    \subsection{Trie}
+        A Trie class.
+        \code{strings/trie.cpp}
+    \fi
+
+    \subsection{Suffix Array}
+        An $O(n \log n)$ construction of a Suffix Tree.
+        \code{strings/suffarray_nlogn.cpp}
+        
+    \subsection{LCP Kasai}
+        An $O(n)$ construction of a LCP array from suffix array.
+        \code{strings/suffarray_kasai.cpp}
+
+    \subsection{Aho-Corasick Algorithm}
+        \ifverbose
+        An implementation of the Aho-Corasick algorithm. Constructs a state
+        machine from a set of keywords which can be used to search a string for
+        any of the keywords.
+        \fi
+        \code{strings/aho-corasick.cpp}
+
+    \subsection{eerTree}
+        \ifverbose
+        Constructs an eerTree in $O(n)$, one character at a time.
+        \fi
+        \code{strings/eertree.cpp}
+        % http://arxiv.org/pdf/1506.04862v1.pdf
+
+    \subsection{Hashing}
+        Modulus should be a large prime. Can also use multiple instances with
+        different moduli to minimize chance of collision.
+        \code{strings/hasher.cpp}
+
+\section{Mathematics}
+
+    \subsection{Binomial Coefficients}
+        The binomial coefficient $\binom{n}{k} = \frac{n!}{k!(n-k)!}$ is the
+        number of ways to choose $k$ items out of a total of $n$ items. Also
+        contains an implementation of Lucas' theorem for computing the answer
+        modulo a prime $p$. Use modular multiplicative inverse if needed, and
+        be very careful of overflows.
+        \code{mathematics/nck.cpp}
+
+    \subsection{Euclidean algorithm}
+        \ifverbose
+        The Euclidean algorithm computes the greatest common divisor of two
+        integers $a$, $b$.
+        \fi
+        \code{mathematics/gcd.cpp}
+
+        The extended Euclidean algorithm computes the greatest common divisor
+        $d$ of two integers $a$, $b$ and also finds two integers $x$, $y$ such
+        that $a\times x + b\times y = d$.
+        \code{mathematics/egcd.cpp}
+
+    \subsection{Sieve of Eratosthenes}
+        \ifverbose
+        An optimized implementation of Eratosthenes' Sieve.
+        \fi
+        \code{mathematics/prime_sieve.cpp}
+
+    \subsection{Divisor Sieve}
+        \ifverbose
+        A O(n) prime sieve. Computes the smallest divisor of any number up to n.
+        \fi
+        \code{mathematics/divisor_sieve.cpp}
+
+    \ifverbose
+    \subsection{Modular Exponentiation}
+        A function to perform fast modular exponentiation.
+        \code{mathematics/mod_pow.cpp}
+    \fi
+
+    \subsection{Modular Multiplicative Inverse}
+        \ifverbose
+        A function to find a modular multiplicative inverse. Alternatively use
+        \texttt{mod\_{}pow(a,m-2,m)} when $m$ is prime.
+        \fi
+        \code{mathematics/mod_inv.cpp}
+        \ifverbose
+        A sieve version:
+        \fi
+        \code{mathematics/mod_inv_sieve.cpp}
+
+    \subsection{Primitive Root}
+        \code{mathematics/primitive_root.cpp}
+
+    \subsection{Summatory Phi}
+        The summatory phi function $\Phi(n) = \sum_{i=1}^n \phi(i)$. Let $L\approx
+        (n\log{\log{n}})^{2/3}$ and the algorithm runs in $O(n^{2/3})$.
+        \code{mathematics/summatory_phi.cpp}
+
+    \subsection{Number of Integer Points under Line}
+        Count the number of integer solutions to $Ax+By\leq C$, $0 \leq x \leq
+        n$, $0 \leq y$. In other words, evaluate the sum $\sum_{x=0}^n
+        \left\lfloor \frac{C-Ax}{B} + 1\right\rfloor$. To count all solutions,
+        let $n = \left\lfloor \frac{c}{a}\right\rfloor$. In any case, it must hold
+        that $C-nA \geq 0$. Be very careful about overflows.
+        \code{mathematics/floor_sum.cpp}
+
+    \subsection{Numbers and Sequences}
+        Some random prime numbers: 1031, 32771, 1048583, 33554467,
+        1073741827, 34359738421, 1099511627791, 35184372088891,
+        1125899906842679, 36028797018963971.
+
+        More random prime numbers: $10^3 + \{-9,-3,9,13\}$, $10^6+
+        \{-17,3,33\}$, $10^9+ \{7,9,21,33,87\}$.
+
+        Some maximal divisor counts:
+        \begin{tabular}{rr}
+        840 & 32 \\
+        720\,720 & 240 \\
+        735\,134\,400 & 1\,344 \\
+        963\,761\,198\,400 & 6\,720 \\
+        866\,421\,317\,361\,600 & 26\,880 \\
+        897\,612\,484\,786\,617\,600 & 103\,680 \\
+        \end{tabular}
+
+    \subsection{Game Theory}
+        Useful identity: \[
+            \oplus_{x=0}^{a-1}\, x = [0,a-1,1,a][a\% 4]
+            \]
+
+\section{Geometry}
+    \subsection{Primitives}
+        \ifverbose
+        Geometry primitives.
+        \fi
+        \code{geometry/primitives.cpp}
+    \subsection{Lines}
+        \ifverbose
+        Line related functions.
+        \fi
+        \code{geometry/lines.cpp}
+    \subsection{Circles}
+        \ifverbose
+        Circle related functions.
+        \fi
+        \code{geometry/circles.cpp}
+
+    \subsection{Polygon}
+        \ifverbose
+        Polygon primitives.
+        \fi
+        \code{geometry/polygon.cpp}
+
+    \subsection{Convex Hull}
+        \ifverbose
+        An algorithm that finds the Convex Hull of a set of points.
+        \fi
+        NOTE: Doesn't work on some weird edge cases. (A small case that
+        included three collinear lines would return the same point on both the
+        upper and lower hull.)
+        \code{geometry/convex_hull.cpp}
+        Another Convex Hull implementation
+        \code{geometry/ch_contains.cpp}
+
+    \subsection{Line Segment Intersection}
+        \ifverbose
+        Computes the intersection between two line segments.
+        \fi
+        \code{geometry/line_segment_intersect.cpp}
+
+    \subsection{Great-Circle Distance}
+        Computes the distance between two points (given as latitude/longitude
+        coordinates) on a sphere of radius $r$.
+        \code{geometry/gc_distance.cpp}
+
+    \subsection{Triangle Circumcenter}
+        Returns the unique point that is the same distance from all three
+        points. It is also the center of the unique circle that goes through
+        all three points.
+        \code{geometry/circumcenter.cpp}
+
+    \subsection{Closest Pair of Points}
+        \ifverbose
+        A sweep line algorithm for computing the distance between the closest
+        pair of points.
+        \fi
+        \code{geometry/closest_pair.cpp}
+
+    \subsection{Line upper/l ower envelope}
+        To find the upper/lower envelope of a collection of lines $a_i+b_i x$,
+        plot the points $(b_i,a_i)$, add the point $(0,\pm \infty)$ (depending
+        on if upper/lower envelope is desired), and then find the convex hull.
+
+    \subsection{Formulas}
+        Let $a = (a_x, a_y)$ and $b = (b_x, b_y)$ be two-dimensional vectors.
+        \begin{itemize}
+            \item $a\cdot b = |a||b|\cos{\theta}$, where $\theta$ is the angle
+                between $a$ and $b$.
+            \item $a\times b = |a||b|\sin{\theta}$, where $\theta$ is the
+                signed angle between $a$ and $b$.
+            \item $a\times b$ is equal to the area of the parallelogram with
+                two of its sides formed by $a$ and $b$. Half of that is the
+                area of the triangle formed by $a$ and $b$.
+            \item \textbf{Euler's formula:} $V - E + F = 2$
+            \item Side lengths $a,b,c$ can form a triangle iff.\ $a+b>c$, $b+c>a$ and $a+c>b$.
+            \item Sum of internal angles of a regular convex $n$-gon is $(n-2)\pi$.
+            \item \textbf{Law of sines:} $\frac{a}{\sin A} = \frac{b}{\sin B} = \frac{c}{\sin C}$
+            \item \textbf{Law of cosines:} $b^2 = a^2 + c^2 - 2ac\cos B$
+            \item Internal tangents of circles $(c_1,r_1), (c_2,r_2)$ intersect at $(c_1r_2+c_2r_1)/(r_1+r_2)$, external intersect at $(c_1r_2-c_2r_1)/(r_1+r_2)$.
+        \end{itemize}
+
+
+\section{Other Algorithms}
+    \subsection{2SAT}
+        \ifverbose
+        A fast 2SAT solver.
+        \fi
+        \code{other/two_sat.cpp}
+
+    \subsection{Simplex}
+        \code{other/simplex.cpp}
+
+    \subsection{Fast Square Testing}
+        An optimized test for square integers.
+        \code{tricks/is_square.cpp}
+
+    \subsection{Fast Input Reading}
+        \ifverbose
+        If input or output is huge, sometimes it is beneficial to optimize the
+        input reading/output writing. This can be achieved by reading all input
+        in at once (using fread), and then parsing it manually. Output can also
+        be stored in an output buffer and then dumped once in the end (using
+        fwrite). A simpler, but still effective, way to achieve speed is to use
+        the following input reading method.
+        \fi
+        \code{tricks/fast_input.cpp}
+
+    \ifverbose
+    \subsection{128-bit Integer}
+        GCC has a 128-bit integer data type named \texttt{\_\_int128}. Useful
+        if doing multiplication of 64-bit integers, or something needing a
+        little more than 64-bits to represent. There's also
+        \texttt{\_\_float128}.
+    \fi
+\end{multicols*}
+\begin{multicols*}{3}
+\section{Useful Information}
+
+    \section{Misc}
+        \subsection{Debugging Tips}
+            \begin{myitemize}
+                \item Stack overflow? Recursive DFS on tree that is actually a long path?
+                \item Floating-point numbers
+                    \begin{itemize}
+                        \item Getting \texttt{NaN}? Make sure \texttt{acos} etc.\ are
+                            not getting values out of their range (perhaps
+                            \texttt{1+eps}).
+                        \item Rounding negative numbers?
+                        \item Outputting in scientific notation?
+                    \end{itemize}
+                \item Wrong Answer?
+                    \begin{itemize}
+                        \item Read the problem statement again!
+                        \item Are multiple test cases being handled correctly?
+                              Try repeating the same test case many times.
+                        \item Integer overflow?
+                        \item Think very carefully about boundaries of all input parameters
+                        \item Try out possible edge cases:
+                            \begin{itemize}
+                                \item $n=0, n=-1, n=1, n=2^{31}-1$ or $n=-2^{31}$
+                                \item List is empty, or contains a single element
+                                \item $n$ is even, $n$ is odd
+                                \item Graph is empty, or contains a single vertex
+                                \item Graph is a multigraph (loops or multiple edges)
+                                \item Polygon is concave or non-simple
+                            \end{itemize}
+                        \item Is initial condition wrong for small cases?
+                        \item Are you sure the algorithm is correct?
+                        \item Explain your solution to someone.
+                        \item Are you using any functions that you don't completely understand? Maybe STL functions?
+                        \item Maybe you (or someone else) should rewrite the solution?
+                        \item Can the input line be empty?
+                    \end{itemize}
+                \item Run-Time Error?
+                    \begin{itemize}
+                        \item Is it actually Memory Limit Exceeded?
+                    \end{itemize}
+            \end{myitemize}
+
+        \subsection{Solution Ideas}
+            \begin{myitemize}
+                \item Dynamic Programming
+                    \begin{itemize}
+                        \item Parsing CFGs: CYK Algorithm
+                        \item Drop a parameter, recover from others
+                        \item Swap answer and a parameter
+                        \item When grouping: try splitting in two
+                        \item $2^k$ trick
+                        \item When optimizing
+                            \begin{itemize}
+                                \item Convex hull optimization
+                                    \begin{itemize}
+                                        \item $\mathrm{dp}[i] = \min_{j<i}\{\mathrm{dp}[j] + b[j] \times a[i]\}$
+                                        \item $b[j] \geq b[j+1]$
+                                        \item optionally $a[i] \leq a[i+1]$
+                                        \item $O(n^2)$ to $O(n)$
+                                    \end{itemize}
+                                \item Divide and conquer optimization
+                                    \begin{itemize}
+                                        \item $\mathrm{dp}[i][j] = \min_{k<j}\{\mathrm{dp}[i-1][k] + C[k][j]\}$
+                                        \item $A[i][j] \leq A[i][j+1]$
+                                        \item $O(kn^2)$ to $O(kn\log{n})$
+                                        \item sufficient: $C[a][c] + C[b][d] \leq C[a][d] + C[b][c]$, $a\leq b\leq c\leq d$ (QI)
+                                    \end{itemize}
+                                \item Knuth optimization
+                                    \begin{itemize}
+                                        \item $\mathrm{dp}[i][j] = \min_{i<k<j}\{\mathrm{dp}[i][k] + \mathrm{dp}[k][j] + C[i][j]\}$
+                                        \item $A[i][j-1] \leq A[i][j] \leq A[i+1][j]$
+                                        \item $O(n^3)$ to $O(n^2)$
+                                        \item sufficient: QI and $C[b][c] \leq C[a][d]$, $a\leq b\leq c\leq d$
+                                    \end{itemize}
+                            \end{itemize}
+                    \end{itemize}
+                \item Greedy
+                \item Randomized
+                \item Optimizations
+                    \begin{itemize}
+                        \item Use bitset (/64)
+                        \item Switch order of loops (cache locality)
+                    \end{itemize}
+                \item Process queries offline
+                    \begin{itemize}
+                        \item Mo's algorithm
+                    \end{itemize}
+                \item Square-root decomposition
+                \item Precomputation
+                \item Efficient simulation
+                    \begin{itemize}
+                        \item Mo's algorithm
+                        \item Sqrt decomposition
+                        \item Store $2^k$ jump pointers
+                    \end{itemize}
+                \item Data structure techniques
+                    \begin{itemize}
+                        \item Sqrt buckets
+                        \item Store $2^k$ jump pointers
+                        \item $2^k$ merging trick
+                    \end{itemize}
+                \item Counting
+                    \begin{itemize}
+                        \item Inclusion-exclusion principle
+                        \item Generating functions
+                    \end{itemize}
+                \item Graphs
+                    \begin{itemize}
+                        \item Can we model the problem as a graph?
+                        \item Can we use any properties of the graph?
+                        \item Strongly connected components
+                        \item Cycles (or odd cycles)
+                        \item Bipartite (no odd cycles)
+                            \begin{itemize}
+                                \item Bipartite matching
+                                \item Hall's marriage theorem
+                                \item Stable Marriage
+                            \end{itemize}
+                        \item Cut vertex/bridge
+                        \item Biconnected components
+                        \item Degrees of vertices (odd/even)
+                        \item Trees
+                            \begin{itemize}
+                                \item Heavy-light decomposition
+                                \item Centroid decomposition
+                                \item Least common ancestor
+                                \item Centers of the tree
+                            \end{itemize}
+                        \item Eulerian path/circuit
+                        \item Chinese postman problem
+                        \item Topological sort
+                        \item (Min-Cost) Max Flow
+                        \item Min Cut
+                            \begin{itemize}
+                                \item Maximum Density Subgraph
+                            \end{itemize}
+                        \item Huffman Coding
+                        \item Min-Cost Arborescence
+                        \item Steiner Tree
+                        \item Kirchoff's matrix tree theorem
+                        \item Pr\"ufer sequences
+                        \item Lov\'asz Toggle
+                        \item Look at the DFS tree (which has no cross-edges)
+                        \item Is the graph a DFA or NFA?
+                            \begin{itemize}
+                                \item Is it the Synchronizing word problem?
+                            \end{itemize}
+                    \end{itemize}
+                \item Mathematics
+                    \begin{itemize}
+                        \item Is the function multiplicative?
+                        \item Look for a pattern
+                        \item Permutations
+                            \begin{itemize}
+                                \item Consider the cycles of the permutation
+                            \end{itemize}
+                        \item Functions
+                            \begin{itemize}
+                                \item Sum of piecewise-linear functions is a piecewise-linear function
+                                \item Sum of convex (concave) functions is convex (concave)
+                            \end{itemize}
+                        \item Modular arithmetic
+                            \begin{itemize}
+                                \item Chinese Remainder Theorem
+                                \item Linear Congruence
+                            \end{itemize}
+                        \item Sieve
+                        \item System of linear equations
+                        \item Values too big to represent?
+                            \begin{itemize}
+                                \item Compute using the logarithm
+                                \item Divide everything by some large value
+                            \end{itemize}
+                        \item Linear programming
+                            \begin{itemize}
+                                \item Is the dual problem easier to solve?
+                            \end{itemize}
+                        \item Can the problem be modeled as a different combinatorial problem? Does that simplify calculations?
+                    \end{itemize}
+                \item Logic
+                    \begin{itemize}
+                        \item 2-SAT
+                        \item XOR-SAT (Gauss elimination or Bipartite matching)
+                    \end{itemize}
+                \item Meet in the middle
+                \item Only work with the smaller half ($\log(n)$)
+                \item Strings
+                    \begin{itemize}
+                        \item Trie (maybe over something weird, like bits)
+                        \item Suffix array
+                        \item Suffix automaton (+DP?)
+                        \item Aho-Corasick
+                        \item eerTree
+                        \item Work with $S+S$
+                    \end{itemize}
+                \item Hashing
+                \item Euler tour, tree to array
+                \item Segment trees
+                    \begin{itemize}
+                        \item Lazy propagation
+                        \item Persistent
+                        \item Implicit
+                        \item Segment tree of X
+                    \end{itemize}
+                \item Geometry
+                    \begin{itemize}
+                        \item Minkowski sum (of convex sets)
+                        \item Rotating calipers
+                        \item Sweep line (horizontally or vertically?)
+                        \item Sweep angle
+                        \item Convex hull
+                    \end{itemize}
+                \item Fix a parameter (possibly the answer).
+                \item Are there few distinct values?
+                \item Binary search
+                \item Sliding Window (+ Monotonic Queue)
+                \item Computing a Convolution? Fast Fourier Transform
+                \item Computing a 2D Convolution? FFT on each row, and then on each column
+                \item Exact Cover (+ Algorithm X)
+                \item Cycle-Finding
+                \item What is the smallest set of values that identify the solution? The cycle structure of the permutation? The powers of primes in the factorization?
+                \item Look at the complement problem
+                    \begin{itemize}
+                        \item Minimize something instead of maximizing
+                    \end{itemize}
+                \item Immediately enforce necessary conditions. (All values greater than 0? Initialize them all to 1)
+                \item Add large constant to negative numbers to make them positive
+                \item Counting/Bucket sort
+            \end{myitemize}
+
+    \section*{Practice Contest Checklist}
+        \begin{itemize}
+            \item How many operations per second ($10^{7/8}$)? Compare to local machine.
+            \item What is the stack size?
+            \item How to use printf/scanf with long long/long double?
+            \item Are \texttt{\_{}\_{}int128} and \texttt{\_{}\_{}float128} available?
+            \item Does MLE give RTE or MLE as a verdict? What about stack overflow?
+            \item What is \texttt{RAND\_{}MAX}?
+            \item How does the judge handle extra spaces (or missing newlines) in the output?
+            \item Look at documentation for programming languages.
+            \item Try different programming languages: C++, Java and Python.
+            \item Try the submit script.
+            \item Try local programs: i?python[23], factor.
+            \item Try submitting with \texttt{assert(false)} and \texttt{assert(true)}.
+            \item Return-value from \texttt{main}.
+            \item Look for directory with sample test cases.
+            \item Make sure printing works.
+
+            \item Remove this page from the notebook.
+        \end{itemize}
+\end{multicols*}
+\end{document}
