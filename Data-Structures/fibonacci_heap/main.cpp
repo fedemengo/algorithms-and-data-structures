@@ -2,6 +2,70 @@
 #include <cmath>
 #include <iostream>
 #include <unordered_map>
+#include <iostream>
+
+// doubly linked list template
+template <typename T>
+class doubly_linked_list {
+private:
+    size_t _size;
+public:
+    T head;
+    doubly_linked_list() : head(nullptr), _size(0) {};
+    ~doubly_linked_list() {};
+    void init() { head = nullptr, _size = 0; }
+    void insert_node(T prev, T node) {
+        if (prev != nullptr) {
+            node->left = prev;
+            node->right = prev->right;
+            prev->right->left = node;
+            prev->right = node;
+        }
+        ++_size;
+    }
+    void extract_node(T node) {     // remove node from list leaving untouched its "left" and "right" pointer
+        if (_size == 1) head = nullptr;
+        else if (node == head) head = node->right;
+        node->right->left = node->left;
+        node->left->right = node->right;
+        --_size;
+    }
+    void remove_node(T node) {          // remove node from list and clear its pointer
+        extract_node(node);
+        node->left = node;
+        node->right = node;
+    }
+    void push_back(T node) {            // append the node at the tail of the list
+        if (empty()) insert_node(head = node, node);
+        else insert_node(head->left, node);
+    }
+    bool empty() { return !_size; }
+    int size() { return _size; }
+    void clear_list(T &x) { head = nullptr, _size = 0, x = nullptr; }
+};
+
+// fibonacci heap node
+template <typename DATA, typename KEY>
+class fibonacci_node {
+public:
+    // attributes
+    fibonacci_node<DATA, KEY> *p;
+    doubly_linked_list<fibonacci_node<DATA, KEY> *> child_list;
+    fibonacci_node<DATA, KEY> *left;
+    fibonacci_node<DATA, KEY> *right;
+    int degree;
+    bool mark;
+    KEY key;
+    DATA data;
+    //methods
+    fibonacci_node() {};
+    fibonacci_node(DATA v, KEY k) : p(nullptr), left(this), right(this), degree(0), mark(false), key(k), data(v) { child_list.init(); }
+    fibonacci_node(fibonacci_node *node) { if(node != nullptr) {key = node->key, data = node->data, delete node; } }
+    ~fibonacci_node() {};
+    bool operator< (const fibonacci_node x){ return key < x.key; }
+    bool operator> (const fibonacci_node x){ return key > x.key; }
+
+};
 
 // fibonacci heap
 template <typename DATA, typename KEY>
