@@ -1,0 +1,31 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZsh{}define P(p) const point \PYGZam{}p}
+\PYG{c+cp}{\PYGZsh{}define L(p0, p1) P(p0), P(p1)}
+\PYG{c+cp}{\PYGZsh{}define C(p0, r) P(p0), double r}
+\PYG{c+cp}{\PYGZsh{}define PP(pp) pair\PYGZlt{}point,point\PYGZgt{} \PYGZam{}pp}
+\PYG{k}{typedef} \PYG{n}{complex}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{double}\PYG{o}{\PYGZgt{}} \PYG{n}{point}\PYG{p}{;}
+\PYG{k+kt}{double} \PYG{n+nf}{dot}\PYG{p}{(}\PYG{n}{P}\PYG{p}{(}\PYG{n}{a}\PYG{p}{),} \PYG{n}{P}\PYG{p}{(}\PYG{n}{b}\PYG{p}{))} \PYG{p}{\PYGZob{}} \PYG{k}{return} \PYG{n}{real}\PYG{p}{(}\PYG{n}{conj}\PYG{p}{(}\PYG{n}{a}\PYG{p}{)} \PYG{o}{*} \PYG{n}{b}\PYG{p}{);} \PYG{p}{\PYGZcb{}}
+\PYG{k+kt}{double} \PYG{n+nf}{cross}\PYG{p}{(}\PYG{n}{P}\PYG{p}{(}\PYG{n}{a}\PYG{p}{),} \PYG{n}{P}\PYG{p}{(}\PYG{n}{b}\PYG{p}{))} \PYG{p}{\PYGZob{}} \PYG{k}{return} \PYG{n}{imag}\PYG{p}{(}\PYG{n}{conj}\PYG{p}{(}\PYG{n}{a}\PYG{p}{)} \PYG{o}{*} \PYG{n}{b}\PYG{p}{);} \PYG{p}{\PYGZcb{}}
+\PYG{n}{point} \PYG{n+nf}{rotate}\PYG{p}{(}\PYG{n}{P}\PYG{p}{(}\PYG{n}{p}\PYG{p}{),} \PYG{k+kt}{double} \PYG{n}{radians} \PYG{o}{=} \PYG{n}{pi} \PYG{o}{/} \PYG{l+m+mi}{2}\PYG{p}{,}
+             \PYG{n}{P}\PYG{p}{(}\PYG{n}{about}\PYG{p}{)} \PYG{o}{=} \PYG{n}{point}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{))} \PYG{p}{\PYGZob{}}
+  \PYG{k}{return} \PYG{p}{(}\PYG{n}{p} \PYG{o}{\PYGZhy{}} \PYG{n}{about}\PYG{p}{)} \PYG{o}{*} \PYG{n}{exp}\PYG{p}{(}\PYG{n}{point}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{radians}\PYG{p}{))} \PYG{o}{+} \PYG{n}{about}\PYG{p}{;} \PYG{p}{\PYGZcb{}}
+\PYG{n}{point} \PYG{n+nf}{reflect}\PYG{p}{(}\PYG{n}{P}\PYG{p}{(}\PYG{n}{p}\PYG{p}{),} \PYG{n}{L}\PYG{p}{(}\PYG{n}{about1}\PYG{p}{,} \PYG{n}{about2}\PYG{p}{))} \PYG{p}{\PYGZob{}}
+  \PYG{n}{point} \PYG{n}{z} \PYG{o}{=} \PYG{n}{p} \PYG{o}{\PYGZhy{}} \PYG{n}{about1}\PYG{p}{,} \PYG{n}{w} \PYG{o}{=} \PYG{n}{about2} \PYG{o}{\PYGZhy{}} \PYG{n}{about1}\PYG{p}{;}
+  \PYG{k}{return} \PYG{n}{conj}\PYG{p}{(}\PYG{n}{z} \PYG{o}{/} \PYG{n}{w}\PYG{p}{)} \PYG{o}{*} \PYG{n}{w} \PYG{o}{+} \PYG{n}{about1}\PYG{p}{;} \PYG{p}{\PYGZcb{}}
+\PYG{n}{point} \PYG{n+nf}{proj}\PYG{p}{(}\PYG{n}{P}\PYG{p}{(}\PYG{n}{u}\PYG{p}{),} \PYG{n}{P}\PYG{p}{(}\PYG{n}{v}\PYG{p}{))} \PYG{p}{\PYGZob{}} \PYG{k}{return} \PYG{n}{dot}\PYG{p}{(}\PYG{n}{u}\PYG{p}{,} \PYG{n}{v}\PYG{p}{)} \PYG{o}{/} \PYG{n}{dot}\PYG{p}{(}\PYG{n}{u}\PYG{p}{,} \PYG{n}{u}\PYG{p}{)} \PYG{o}{*} \PYG{n}{u}\PYG{p}{;} \PYG{p}{\PYGZcb{}}
+\PYG{n}{point} \PYG{n+nf}{normalize}\PYG{p}{(}\PYG{n}{P}\PYG{p}{(}\PYG{n}{p}\PYG{p}{),} \PYG{k+kt}{double} \PYG{n}{k} \PYG{o}{=} \PYG{l+m+mf}{1.0}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k}{return} \PYG{n}{abs}\PYG{p}{(}\PYG{n}{p}\PYG{p}{)} \PYG{o}{==} \PYG{l+m+mi}{0} \PYG{o}{?} \PYG{n}{point}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{)} \PYG{o}{:} \PYG{n}{p} \PYG{o}{/} \PYG{n}{abs}\PYG{p}{(}\PYG{n}{p}\PYG{p}{)} \PYG{o}{*} \PYG{n}{k}\PYG{p}{;} \PYG{p}{\PYGZcb{}}
+\PYG{k+kt}{double} \PYG{n+nf}{ccw}\PYG{p}{(}\PYG{n}{P}\PYG{p}{(}\PYG{n}{a}\PYG{p}{),} \PYG{n}{P}\PYG{p}{(}\PYG{n}{b}\PYG{p}{),} \PYG{n}{P}\PYG{p}{(}\PYG{n}{c}\PYG{p}{))} \PYG{p}{\PYGZob{}} \PYG{k}{return} \PYG{n}{cross}\PYG{p}{(}\PYG{n}{b} \PYG{o}{\PYGZhy{}} \PYG{n}{a}\PYG{p}{,} \PYG{n}{c} \PYG{o}{\PYGZhy{}} \PYG{n}{b}\PYG{p}{);} \PYG{p}{\PYGZcb{}}
+\PYG{k+kt}{bool} \PYG{n+nf}{collinear}\PYG{p}{(}\PYG{n}{P}\PYG{p}{(}\PYG{n}{a}\PYG{p}{),} \PYG{n}{P}\PYG{p}{(}\PYG{n}{b}\PYG{p}{),} \PYG{n}{P}\PYG{p}{(}\PYG{n}{c}\PYG{p}{))} \PYG{p}{\PYGZob{}}
+  \PYG{k}{return} \PYG{n}{abs}\PYG{p}{(}\PYG{n}{ccw}\PYG{p}{(}\PYG{n}{a}\PYG{p}{,} \PYG{n}{b}\PYG{p}{,} \PYG{n}{c}\PYG{p}{))} \PYG{o}{\PYGZlt{}} \PYG{n}{EPS}\PYG{p}{;} \PYG{p}{\PYGZcb{}}
+\PYG{k+kt}{double} \PYG{n+nf}{angle}\PYG{p}{(}\PYG{n}{P}\PYG{p}{(}\PYG{n}{a}\PYG{p}{),} \PYG{n}{P}\PYG{p}{(}\PYG{n}{b}\PYG{p}{),} \PYG{n}{P}\PYG{p}{(}\PYG{n}{c}\PYG{p}{))} \PYG{p}{\PYGZob{}}
+  \PYG{k}{return} \PYG{n}{acos}\PYG{p}{(}\PYG{n}{dot}\PYG{p}{(}\PYG{n}{b} \PYG{o}{\PYGZhy{}} \PYG{n}{a}\PYG{p}{,} \PYG{n}{c} \PYG{o}{\PYGZhy{}} \PYG{n}{b}\PYG{p}{)} \PYG{o}{/} \PYG{n}{abs}\PYG{p}{(}\PYG{n}{b} \PYG{o}{\PYGZhy{}} \PYG{n}{a}\PYG{p}{)} \PYG{o}{/} \PYG{n}{abs}\PYG{p}{(}\PYG{n}{c} \PYG{o}{\PYGZhy{}} \PYG{n}{b}\PYG{p}{));} \PYG{p}{\PYGZcb{}}
+\PYG{k+kt}{double} \PYG{n+nf}{signed\PYGZus{}angle}\PYG{p}{(}\PYG{n}{P}\PYG{p}{(}\PYG{n}{a}\PYG{p}{),} \PYG{n}{P}\PYG{p}{(}\PYG{n}{b}\PYG{p}{),} \PYG{n}{P}\PYG{p}{(}\PYG{n}{c}\PYG{p}{))} \PYG{p}{\PYGZob{}}
+  \PYG{k}{return} \PYG{n}{asin}\PYG{p}{(}\PYG{n}{cross}\PYG{p}{(}\PYG{n}{b} \PYG{o}{\PYGZhy{}} \PYG{n}{a}\PYG{p}{,} \PYG{n}{c} \PYG{o}{\PYGZhy{}} \PYG{n}{b}\PYG{p}{)} \PYG{o}{/} \PYG{n}{abs}\PYG{p}{(}\PYG{n}{b} \PYG{o}{\PYGZhy{}} \PYG{n}{a}\PYG{p}{)} \PYG{o}{/} \PYG{n}{abs}\PYG{p}{(}\PYG{n}{c} \PYG{o}{\PYGZhy{}} \PYG{n}{b}\PYG{p}{));} \PYG{p}{\PYGZcb{}}
+\PYG{k+kt}{double} \PYG{n+nf}{angle}\PYG{p}{(}\PYG{n}{P}\PYG{p}{(}\PYG{n}{p}\PYG{p}{))} \PYG{p}{\PYGZob{}} \PYG{k}{return} \PYG{n}{atan2}\PYG{p}{(}\PYG{n}{imag}\PYG{p}{(}\PYG{n}{p}\PYG{p}{),} \PYG{n}{real}\PYG{p}{(}\PYG{n}{p}\PYG{p}{));} \PYG{p}{\PYGZcb{}}
+\PYG{n}{point} \PYG{n+nf}{perp}\PYG{p}{(}\PYG{n}{P}\PYG{p}{(}\PYG{n}{p}\PYG{p}{))} \PYG{p}{\PYGZob{}} \PYG{k}{return} \PYG{n}{point}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{n}{imag}\PYG{p}{(}\PYG{n}{p}\PYG{p}{),} \PYG{n}{real}\PYG{p}{(}\PYG{n}{p}\PYG{p}{));} \PYG{p}{\PYGZcb{}}
+\PYG{k+kt}{double} \PYG{n+nf}{progress}\PYG{p}{(}\PYG{n}{P}\PYG{p}{(}\PYG{n}{p}\PYG{p}{),} \PYG{n}{L}\PYG{p}{(}\PYG{n}{a}\PYG{p}{,} \PYG{n}{b}\PYG{p}{))} \PYG{p}{\PYGZob{}}
+  \PYG{k}{if} \PYG{p}{(}\PYG{n}{abs}\PYG{p}{(}\PYG{n}{real}\PYG{p}{(}\PYG{n}{a}\PYG{p}{)} \PYG{o}{\PYGZhy{}} \PYG{n}{real}\PYG{p}{(}\PYG{n}{b}\PYG{p}{))} \PYG{o}{\PYGZlt{}} \PYG{n}{EPS}\PYG{p}{)}
+    \PYG{k}{return} \PYG{p}{(}\PYG{n}{imag}\PYG{p}{(}\PYG{n}{p}\PYG{p}{)} \PYG{o}{\PYGZhy{}} \PYG{n}{imag}\PYG{p}{(}\PYG{n}{a}\PYG{p}{))} \PYG{o}{/} \PYG{p}{(}\PYG{n}{imag}\PYG{p}{(}\PYG{n}{b}\PYG{p}{)} \PYG{o}{\PYGZhy{}} \PYG{n}{imag}\PYG{p}{(}\PYG{n}{a}\PYG{p}{));}
+  \PYG{k}{else} \PYG{k}{return} \PYG{p}{(}\PYG{n}{real}\PYG{p}{(}\PYG{n}{p}\PYG{p}{)} \PYG{o}{\PYGZhy{}} \PYG{n}{real}\PYG{p}{(}\PYG{n}{a}\PYG{p}{))} \PYG{o}{/} \PYG{p}{(}\PYG{n}{real}\PYG{p}{(}\PYG{n}{b}\PYG{p}{)} \PYG{o}{\PYGZhy{}} \PYG{n}{real}\PYG{p}{(}\PYG{n}{a}\PYG{p}{));} \PYG{p}{\PYGZcb{}}
+\end{Verbatim}

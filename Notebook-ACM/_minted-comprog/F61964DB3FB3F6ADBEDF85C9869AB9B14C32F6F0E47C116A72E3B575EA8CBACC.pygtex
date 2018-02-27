@@ -1,0 +1,14 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kt}{void} \PYG{n+nf}{readn}\PYG{p}{(}\PYG{k}{register} \PYG{k+kt}{int} \PYG{o}{*}\PYG{n}{n}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k+kt}{int} \PYG{n}{sign} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{p}{;}
+  \PYG{k}{register} \PYG{k+kt}{char} \PYG{n}{c}\PYG{p}{;}
+  \PYG{o}{*}\PYG{n}{n} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+  \PYG{k}{while}\PYG{p}{((}\PYG{n}{c} \PYG{o}{=} \PYG{n}{getc\PYGZus{}unlocked}\PYG{p}{(}\PYG{n}{stdin}\PYG{p}{))} \PYG{o}{!=} \PYG{l+s+sc}{\PYGZsq{}\PYGZbs{}n\PYGZsq{}}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{k}{switch}\PYG{p}{(}\PYG{n}{c}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+      \PYG{k}{case} \PYG{l+s+sc}{\PYGZsq{}\PYGZhy{}\PYGZsq{}}\PYG{o}{:} \PYG{n}{sign} \PYG{o}{=} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{;} \PYG{k}{break}\PYG{p}{;}
+      \PYG{k}{case} \PYG{l+s+sc}{\PYGZsq{} \PYGZsq{}}\PYG{o}{:} \PYG{k}{goto} \PYG{n}{hell}\PYG{p}{;}
+      \PYG{k}{case} \PYG{l+s+sc}{\PYGZsq{}\PYGZbs{}n\PYGZsq{}}\PYG{o}{:} \PYG{k}{goto} \PYG{n}{hell}\PYG{p}{;}
+      \PYG{k}{default}\PYG{o}{:} \PYG{o}{*}\PYG{n}{n} \PYG{o}{*=} \PYG{l+m+mi}{10}\PYG{p}{;} \PYG{o}{*}\PYG{n}{n} \PYG{o}{+=} \PYG{n}{c} \PYG{o}{\PYGZhy{}} \PYG{l+s+sc}{\PYGZsq{}0\PYGZsq{}}\PYG{p}{;} \PYG{k}{break}\PYG{p}{;} \PYG{p}{\PYGZcb{}} \PYG{p}{\PYGZcb{}}
+\PYG{n+nl}{hell}\PYG{p}{:}
+  \PYG{o}{*}\PYG{n}{n} \PYG{o}{*=} \PYG{n}{sign}\PYG{p}{;} \PYG{p}{\PYGZcb{}}
+\end{Verbatim}

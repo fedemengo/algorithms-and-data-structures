@@ -1,0 +1,40 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{//O(NlogN) suffixarray \PYGZhy{} add a char at the end}
+\PYG{k}{struct} \PYG{n}{suffarray}\PYG{p}{\PYGZob{}}
+  \PYG{n}{vi} \PYG{n}{sa}\PYG{p}{;}
+  \PYG{n}{string} \PYG{o}{\PYGZam{}}\PYG{n}{s}\PYG{p}{;}
+  \PYG{k+kt}{void} \PYG{n+nf}{radix\PYGZus{}sort}\PYG{p}{(}\PYG{n}{vi} \PYG{o}{\PYGZam{}}\PYG{n}{rank}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{k}\PYG{p}{)\PYGZob{}}
+    \PYG{n}{vi} \PYG{n}{count}\PYG{p}{(}\PYG{n}{max}\PYG{p}{(}\PYG{l+m+mi}{256}\PYG{p}{,} \PYG{p}{(}\PYG{k+kt}{int}\PYG{p}{)}\PYG{n}{sa}\PYG{p}{.}\PYG{n}{size}\PYG{p}{()));}
+    \PYG{k}{for}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n+nl}{i} \PYG{p}{:} \PYG{n}{sa}\PYG{p}{)} \PYG{n}{count}\PYG{p}{[((}\PYG{n}{i} \PYG{o}{+} \PYG{n}{k}\PYG{p}{)} \PYG{o}{\PYGZlt{}} \PYG{n}{rank}\PYG{p}{.}\PYG{n}{size}\PYG{p}{()} \PYG{o}{?} \PYG{n}{rank}\PYG{p}{[}\PYG{n}{i}\PYG{o}{+}\PYG{n}{k}\PYG{p}{]}\PYG{o}{+}\PYG{l+m+mi}{1} \PYG{o}{:} \PYG{l+m+mi}{1}\PYG{p}{)]}\PYG{o}{++}\PYG{p}{;}
+    \PYG{k+kt}{int} \PYG{n}{last} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+    \PYG{k}{for}\PYG{p}{(}\PYG{k+kt}{int} \PYG{o}{\PYGZam{}}\PYG{n+nl}{i} \PYG{p}{:} \PYG{n}{count}\PYG{p}{)} \PYG{n}{i} \PYG{o}{=} \PYG{n}{last} \PYG{o}{+=} \PYG{n}{i}\PYG{p}{;}
+    \PYG{n}{vi} \PYG{n}{temp}\PYG{p}{(}\PYG{n}{sa}\PYG{p}{.}\PYG{n}{size}\PYG{p}{());}
+    \PYG{k}{for}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n+nl}{i} \PYG{p}{:} \PYG{n}{sa}\PYG{p}{)} \PYG{n}{temp}\PYG{p}{[}\PYG{n}{count}\PYG{p}{[(}\PYG{n}{i} \PYG{o}{+} \PYG{n}{k} \PYG{o}{\PYGZlt{}} \PYG{n}{rank}\PYG{p}{.}\PYG{n}{size}\PYG{p}{()} \PYG{o}{?} \PYG{n}{rank}\PYG{p}{[}\PYG{n}{i} \PYG{o}{+} \PYG{n}{k}\PYG{p}{]} \PYG{o}{:} \PYG{l+m+mi}{0}\PYG{p}{)]}\PYG{o}{++}\PYG{p}{]} \PYG{o}{=} \PYG{n}{i}\PYG{p}{;}
+    \PYG{n}{fill}\PYG{p}{(}\PYG{n}{count}\PYG{p}{.}\PYG{n}{begin}\PYG{p}{(),} \PYG{n}{count}\PYG{p}{.}\PYG{n}{end}\PYG{p}{(),} \PYG{l+m+mi}{0}\PYG{p}{);}
+    \PYG{k}{for}\PYG{p}{(}\PYG{k+kt}{int} \PYG{o}{\PYGZam{}}\PYG{n+nl}{i} \PYG{p}{:} \PYG{n}{rank}\PYG{p}{)} \PYG{n}{count}\PYG{p}{[}\PYG{n}{i}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{o}{++}\PYG{p}{;}
+    \PYG{n}{last} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+    \PYG{k}{for}\PYG{p}{(}\PYG{k+kt}{int} \PYG{o}{\PYGZam{}}\PYG{n+nl}{i} \PYG{p}{:} \PYG{n}{count}\PYG{p}{)} \PYG{n}{i} \PYG{o}{=} \PYG{n}{last} \PYG{o}{+=} \PYG{n}{i}\PYG{p}{;}
+    \PYG{k}{for}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n+nl}{i} \PYG{p}{:} \PYG{n}{temp}\PYG{p}{)} \PYG{n}{sa}\PYG{p}{[}\PYG{n}{count}\PYG{p}{[}\PYG{n}{rank}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]]}\PYG{o}{++}\PYG{p}{]} \PYG{o}{=} \PYG{n}{i}\PYG{p}{;}
+  \PYG{p}{\PYGZcb{}}
+  \PYG{k+kt}{void} \PYG{n+nf}{update\PYGZus{}ranks}\PYG{p}{(}\PYG{n}{vi} \PYG{o}{\PYGZam{}}\PYG{n}{rank}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{k}\PYG{p}{)\PYGZob{}}
+    \PYG{n}{vi} \PYG{n}{old}\PYG{p}{(}\PYG{n}{rank}\PYG{p}{);}
+    \PYG{k+kt}{int} \PYG{n}{r} \PYG{o}{=} \PYG{n}{rank}\PYG{p}{[}\PYG{n}{sa}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]]} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+    \PYG{k}{for}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{rank}\PYG{p}{.}\PYG{n}{size}\PYG{p}{();} \PYG{n}{i}\PYG{o}{++}\PYG{p}{)}
+      \PYG{n}{rank}\PYG{p}{[}\PYG{n}{sa}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]]} \PYG{o}{=} \PYG{p}{(}\PYG{n}{old}\PYG{p}{[}\PYG{n}{sa}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]]} \PYG{o}{==} \PYG{n}{old}\PYG{p}{[}\PYG{n}{sa}\PYG{p}{[}\PYG{n}{i}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]]} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{p}{(}\PYG{n}{sa}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{+} \PYG{n}{k} \PYG{o}{\PYGZlt{}} \PYG{n}{old}\PYG{p}{.}\PYG{n}{size}\PYG{p}{()} \PYG{o}{?}
+      \PYG{n}{old}\PYG{p}{[}\PYG{n}{sa}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{o}{+}\PYG{n}{k}\PYG{p}{]} \PYG{o}{:} \PYG{l+m+mi}{0}\PYG{p}{)} \PYG{o}{\PYGZlt{}=} \PYG{p}{(}\PYG{n}{sa}\PYG{p}{[}\PYG{n}{i}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{o}{+}\PYG{n}{k} \PYG{o}{\PYGZlt{}} \PYG{n}{old}\PYG{p}{.}\PYG{n}{size}\PYG{p}{()} \PYG{o}{?} \PYG{n}{old}\PYG{p}{[}\PYG{n}{sa}\PYG{p}{[}\PYG{n}{i}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{o}{+}\PYG{n}{k}\PYG{p}{]} \PYG{o}{:} \PYG{l+m+mi}{0}\PYG{p}{))} \PYG{o}{?} \PYG{n+nl}{r} \PYG{p}{:} \PYG{o}{++}\PYG{n}{r}\PYG{p}{;}
+  \PYG{p}{\PYGZcb{}}
+  \PYG{n}{suffarray}\PYG{p}{(}\PYG{n}{string} \PYG{o}{\PYGZam{}}\PYG{n}{s}\PYG{p}{)} \PYG{o}{:} \PYG{n}{sa}\PYG{p}{(}\PYG{n}{s}\PYG{p}{.}\PYG{n}{size}\PYG{p}{()),} \PYG{n}{s}\PYG{p}{(}\PYG{n}{s}\PYG{p}{)\PYGZob{}}
+    \PYG{k+kt}{int} \PYG{n}{n} \PYG{o}{=} \PYG{n}{s}\PYG{p}{.}\PYG{n}{size}\PYG{p}{();}
+    \PYG{k}{for}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{n}\PYG{p}{;} \PYG{n}{i}\PYG{o}{++}\PYG{p}{)}
+      \PYG{n}{sa}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{n}{i}\PYG{p}{;}
+    \PYG{n}{vi} \PYG{n+nf}{rank}\PYG{p}{(}\PYG{n}{s}\PYG{p}{.}\PYG{n}{size}\PYG{p}{());}
+    \PYG{k}{for}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{s}\PYG{p}{.}\PYG{n}{size}\PYG{p}{();} \PYG{n}{i}\PYG{o}{++}\PYG{p}{)}
+      \PYG{n}{rank}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{n}{s}\PYG{p}{[}\PYG{n}{i}\PYG{p}{];}
+    \PYG{k}{for}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{k} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{p}{;} \PYG{n}{k} \PYG{o}{\PYGZlt{}=} \PYG{n}{n}\PYG{p}{;} \PYG{n}{k}\PYG{o}{\PYGZlt{}\PYGZlt{}=}\PYG{l+m+mi}{1}\PYG{p}{)\PYGZob{}}
+      \PYG{n}{radix\PYGZus{}sort}\PYG{p}{(}\PYG{n}{rank}\PYG{p}{,} \PYG{n}{k}\PYG{p}{);}
+      \PYG{n}{update\PYGZus{}ranks}\PYG{p}{(}\PYG{n}{rank}\PYG{p}{,} \PYG{n}{k}\PYG{p}{);}
+      \PYG{k}{if}\PYG{p}{(}\PYG{n}{rank}\PYG{p}{[}\PYG{n}{sa}\PYG{p}{.}\PYG{n}{back}\PYG{p}{()]} \PYG{o}{==} \PYG{n}{s}\PYG{p}{.}\PYG{n}{size}\PYG{p}{()}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)} \PYG{k}{break}\PYG{p}{;}
+    \PYG{p}{\PYGZcb{}}
+  \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{};}
+\end{Verbatim}

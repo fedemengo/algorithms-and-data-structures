@@ -1,0 +1,15 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZdq{}../data\PYGZhy{}structures/union\PYGZus{}find.cpp\PYGZdq{}}
+\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{pair}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{p}{,} \PYG{n}{ii}\PYG{o}{\PYGZgt{}} \PYG{o}{\PYGZgt{}} \PYG{n}{mst}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{n}\PYG{p}{,}
+    \PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{pair}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{p}{,} \PYG{n}{ii}\PYG{o}{\PYGZgt{}} \PYG{o}{\PYGZgt{}} \PYG{n}{edges}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{n}{union\PYGZus{}find} \PYG{n}{uf}\PYG{p}{(}\PYG{n}{n}\PYG{p}{);}
+  \PYG{n}{sort}\PYG{p}{(}\PYG{n}{edges}\PYG{p}{.}\PYG{n}{begin}\PYG{p}{(),} \PYG{n}{edges}\PYG{p}{.}\PYG{n}{end}\PYG{p}{());}
+  \PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{pair}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{p}{,} \PYG{n}{ii}\PYG{o}{\PYGZgt{}} \PYG{o}{\PYGZgt{}} \PYG{n}{res}\PYG{p}{;}
+  \PYG{n}{rep}\PYG{p}{(}\PYG{n}{i}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{n}{size}\PYG{p}{(}\PYG{n}{edges}\PYG{p}{))}
+    \PYG{k}{if} \PYG{p}{(}\PYG{n}{uf}\PYG{p}{.}\PYG{n}{find}\PYG{p}{(}\PYG{n}{edges}\PYG{p}{[}\PYG{n}{i}\PYG{p}{].}\PYG{n}{second}\PYG{p}{.}\PYG{n}{first}\PYG{p}{)} \PYG{o}{!=}
+        \PYG{n}{uf}\PYG{p}{.}\PYG{n}{find}\PYG{p}{(}\PYG{n}{edges}\PYG{p}{[}\PYG{n}{i}\PYG{p}{].}\PYG{n}{second}\PYG{p}{.}\PYG{n}{second}\PYG{p}{))} \PYG{p}{\PYGZob{}}
+      \PYG{n}{res}\PYG{p}{.}\PYG{n}{push\PYGZus{}back}\PYG{p}{(}\PYG{n}{edges}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]);}
+      \PYG{n}{uf}\PYG{p}{.}\PYG{n}{unite}\PYG{p}{(}\PYG{n}{edges}\PYG{p}{[}\PYG{n}{i}\PYG{p}{].}\PYG{n}{second}\PYG{p}{.}\PYG{n}{first}\PYG{p}{,}
+               \PYG{n}{edges}\PYG{p}{[}\PYG{n}{i}\PYG{p}{].}\PYG{n}{second}\PYG{p}{.}\PYG{n}{second}\PYG{p}{);} \PYG{p}{\PYGZcb{}}
+  \PYG{k}{return} \PYG{n}{res}\PYG{p}{;} \PYG{p}{\PYGZcb{}}
+\end{Verbatim}

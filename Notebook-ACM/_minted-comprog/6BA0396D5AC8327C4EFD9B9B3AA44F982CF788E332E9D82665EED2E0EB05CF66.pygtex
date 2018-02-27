@@ -1,0 +1,9 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{class} \PYG{n+nc}{T}\PYG{o}{\PYGZgt{}}
+\PYG{n}{T} \PYG{n}{mod\PYGZus{}pow}\PYG{p}{(}\PYG{n}{T} \PYG{n}{b}\PYG{p}{,} \PYG{n}{T} \PYG{n}{e}\PYG{p}{,} \PYG{n}{T} \PYG{n}{m}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{n}{T} \PYG{n}{res} \PYG{o}{=} \PYG{n}{T}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{);}
+  \PYG{k}{while} \PYG{p}{(}\PYG{n}{e}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{k}{if} \PYG{p}{(}\PYG{n}{e} \PYG{o}{\PYGZam{}} \PYG{n}{T}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{))} \PYG{n}{res} \PYG{o}{=} \PYG{n}{smod}\PYG{p}{(}\PYG{n}{res} \PYG{o}{*} \PYG{n}{b}\PYG{p}{,} \PYG{n}{m}\PYG{p}{);}
+    \PYG{n}{b} \PYG{o}{=} \PYG{n}{smod}\PYG{p}{(}\PYG{n}{b} \PYG{o}{*} \PYG{n}{b}\PYG{p}{,} \PYG{n}{m}\PYG{p}{),} \PYG{n}{e} \PYG{o}{\PYGZgt{}\PYGZgt{}=} \PYG{n}{T}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{);} \PYG{p}{\PYGZcb{}}
+  \PYG{k}{return} \PYG{n}{res}\PYG{p}{;} \PYG{p}{\PYGZcb{}}
+\end{Verbatim}

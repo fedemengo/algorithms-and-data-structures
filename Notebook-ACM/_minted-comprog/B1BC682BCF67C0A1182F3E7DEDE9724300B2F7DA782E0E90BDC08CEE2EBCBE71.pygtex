@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZdq{}egcd.cpp\PYGZdq{}}
+\PYG{n}{ll} \PYG{n+nf}{mod\PYGZus{}inv}\PYG{p}{(}\PYG{n}{ll} \PYG{n}{a}\PYG{p}{,} \PYG{n}{ll} \PYG{n}{m}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{n}{ll} \PYG{n}{x}\PYG{p}{,} \PYG{n}{y}\PYG{p}{,} \PYG{n}{d} \PYG{o}{=} \PYG{n}{egcd}\PYG{p}{(}\PYG{n}{a}\PYG{p}{,} \PYG{n}{m}\PYG{p}{,} \PYG{n}{x}\PYG{p}{,} \PYG{n}{y}\PYG{p}{);}
+  \PYG{k}{return} \PYG{n}{d} \PYG{o}{==} \PYG{l+m+mi}{1} \PYG{o}{?} \PYG{n}{smod}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,}\PYG{n}{m}\PYG{p}{)} \PYG{o}{:} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{;} \PYG{p}{\PYGZcb{}}
+\end{Verbatim}

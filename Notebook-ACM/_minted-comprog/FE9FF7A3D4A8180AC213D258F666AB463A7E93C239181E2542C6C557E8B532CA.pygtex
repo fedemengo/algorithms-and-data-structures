@@ -1,0 +1,51 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{//multiple pattern matching, care for \PYGZdq{}sonda\PYGZdq{}}
+\PYG{k}{struct} \PYG{n}{node}\PYG{p}{\PYGZob{}}
+  \PYG{n}{node} \PYG{o}{*}\PYG{n}{parent}\PYG{p}{,} \PYG{o}{*}\PYG{n}{fall}\PYG{p}{,} \PYG{o}{*}\PYG{n}{output}\PYG{p}{;}
+  \PYG{k+kt}{char} \PYG{n}{c} \PYG{o}{=} \PYG{l+s+sc}{\PYGZsq{}\PYGZdl{}\PYGZsq{}}\PYG{p}{;}
+  \PYG{k+kt}{bool} \PYG{n}{ending} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{c+c1}{//make this int for speed  }
+  \PYG{n}{unordered\PYGZus{}map}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{char}\PYG{p}{,} \PYG{n}{node}\PYG{o}{*\PYGZgt{}} \PYG{n}{f}\PYG{p}{;}
+  \PYG{n}{node}\PYG{p}{(}\PYG{n}{node} \PYG{o}{*}\PYG{n}{p}\PYG{p}{,} \PYG{k+kt}{char} \PYG{n}{c}\PYG{p}{)} \PYG{o}{:} \PYG{n}{parent}\PYG{p}{(}\PYG{n}{p}\PYG{p}{),} \PYG{n}{c}\PYG{p}{(}\PYG{n}{c}\PYG{p}{)\PYGZob{}\PYGZcb{}}
+  \PYG{n}{node}\PYG{p}{()\PYGZob{}\PYGZcb{}}
+\PYG{p}{\PYGZcb{};}
+\PYG{k}{struct} \PYG{n}{aho\PYGZus{}trie}\PYG{p}{\PYGZob{}}
+  \PYG{n}{node} \PYG{o}{*}\PYG{n}{root} \PYG{o}{=} \PYG{k}{new} \PYG{n}{node}\PYG{p}{();}
+  \PYG{k+kt}{void} \PYG{n+nf}{insert}\PYG{p}{(}\PYG{n}{string} \PYG{n}{s}\PYG{p}{)\PYGZob{}}
+    \PYG{n}{node} \PYG{o}{*}\PYG{n}{curr} \PYG{o}{=} \PYG{n}{root}\PYG{p}{;}
+    \PYG{k}{for}\PYG{p}{(}\PYG{k+kt}{char} \PYG{n+nl}{c} \PYG{p}{:} \PYG{n}{s}\PYG{p}{)}
+      \PYG{n}{curr} \PYG{o}{=} \PYG{n}{curr}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{f}\PYG{p}{.}\PYG{n}{count}\PYG{p}{(}\PYG{n}{c}\PYG{p}{)} \PYG{o}{?} \PYG{n}{curr}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{f}\PYG{p}{[}\PYG{n}{c}\PYG{p}{]} \PYG{o}{:} \PYG{p}{(}\PYG{n}{curr}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{f}\PYG{p}{[}\PYG{n}{c}\PYG{p}{]} \PYG{o}{=} \PYG{k}{new} \PYG{n}{node}\PYG{p}{(}\PYG{n}{curr}\PYG{p}{,} \PYG{n}{c}\PYG{p}{));}
+  \PYG{p}{\PYGZcb{}}
+  \PYG{k+kt}{void} \PYG{n+nf}{set\PYGZus{}falls}\PYG{p}{()\PYGZob{}}
+    \PYG{n}{queue}\PYG{o}{\PYGZlt{}}\PYG{n}{node}\PYG{o}{*\PYGZgt{}} \PYG{n}{q}\PYG{p}{;}
+    \PYG{n}{q}\PYG{p}{.}\PYG{n}{push}\PYG{p}{(}\PYG{n}{root}\PYG{p}{);}
+    \PYG{k}{while}\PYG{p}{(}\PYG{o}{!}\PYG{n}{q}\PYG{p}{.}\PYG{n}{empty}\PYG{p}{())\PYGZob{}}
+      \PYG{n}{node} \PYG{o}{*}\PYG{n}{curr} \PYG{o}{=} \PYG{n}{q}\PYG{p}{.}\PYG{n}{front}\PYG{p}{();} \PYG{n}{q}\PYG{p}{.}\PYG{n}{pop}\PYG{p}{();}
+      \PYG{k}{for}\PYG{p}{(}\PYG{k}{auto} \PYG{o}{\PYGZam{}}\PYG{n+nl}{x} \PYG{p}{:} \PYG{n}{curr}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{f}\PYG{p}{)}
+        \PYG{n}{q}\PYG{p}{.}\PYG{n}{push}\PYG{p}{(}\PYG{n}{x}\PYG{p}{.}\PYG{n}{second}\PYG{p}{);}
+      \PYG{k}{if}\PYG{p}{(}\PYG{n}{curr} \PYG{o}{==} \PYG{n}{root}\PYG{p}{)} \PYG{k}{continue}\PYG{p}{;}
+      \PYG{n}{curr}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{fall} \PYG{o}{=} \PYG{n}{curr}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{parent}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{fall}\PYG{p}{;}
+      \PYG{k}{while}\PYG{p}{(}\PYG{n}{curr}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{fall}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{f}\PYG{p}{.}\PYG{n}{count}\PYG{p}{(}\PYG{n}{curr}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{c}\PYG{p}{)} \PYG{o}{==} \PYG{l+m+mi}{0} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{n}{curr}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{fall} \PYG{o}{!=} \PYG{n}{root}\PYG{p}{)}
+        \PYG{n}{curr}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{fall} \PYG{o}{=} \PYG{n}{curr}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{fall}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{fall}\PYG{p}{;}
+      \PYG{k}{if}\PYG{p}{(}\PYG{n}{curr}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{fall} \PYG{o}{!=} \PYG{n}{curr}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{parent} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{n}{curr}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{fall}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{f}\PYG{p}{.}\PYG{n}{count}\PYG{p}{(}\PYG{n}{curr}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{c}\PYG{p}{))}
+        \PYG{n}{curr}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{fall} \PYG{o}{=} \PYG{n}{curr}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{fall}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{f}\PYG{p}{[}\PYG{n}{curr}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{c}\PYG{p}{];}
+      \PYG{n}{curr}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{output} \PYG{o}{=} \PYG{n}{curr}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{fall}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{ending} \PYG{o}{?} \PYG{n}{curr}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n+nl}{fall} \PYG{p}{:} \PYG{n}{curr}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{fall}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{output}\PYG{p}{;}
+    \PYG{p}{\PYGZcb{}}
+  \PYG{p}{\PYGZcb{}}
+  \PYG{k+kt}{int} \PYG{n+nf}{query}\PYG{p}{(}\PYG{n}{string} \PYG{n}{s}\PYG{p}{)\PYGZob{}}
+    \PYG{n}{node} \PYG{o}{*}\PYG{n}{stato} \PYG{o}{=} \PYG{n}{root}\PYG{p}{;}
+    \PYG{k+kt}{int} \PYG{n}{ans} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+    \PYG{k}{for}\PYG{p}{(}\PYG{k+kt}{char} \PYG{n+nl}{c} \PYG{p}{:} \PYG{n}{s}\PYG{p}{)\PYGZob{}}
+      \PYG{k}{while}\PYG{p}{(}\PYG{n}{stato} \PYG{o}{!=} \PYG{n}{root} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{n}{stato}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{f}\PYG{p}{.}\PYG{n}{count}\PYG{p}{(}\PYG{n}{c}\PYG{p}{)} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{)}
+        \PYG{n}{stato} \PYG{o}{=} \PYG{n}{stato}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{fall}\PYG{p}{;}
+      \PYG{k}{if}\PYG{p}{(}\PYG{n}{stato}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{f}\PYG{p}{.}\PYG{n}{count}\PYG{p}{(}\PYG{n}{c}\PYG{p}{))}
+        \PYG{n}{stato} \PYG{o}{=} \PYG{n}{stato}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{f}\PYG{p}{[}\PYG{n}{c}\PYG{p}{];}
+      \PYG{n}{node} \PYG{o}{*}\PYG{n}{sonda} \PYG{o}{=} \PYG{n}{stato}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{output}\PYG{p}{;}
+      \PYG{k}{while}\PYG{p}{(}\PYG{n}{sonda} \PYG{o}{!=} \PYG{n}{root}\PYG{p}{)}
+        \PYG{n}{ans}\PYG{o}{++}\PYG{p}{,} \PYG{n}{sonda} \PYG{o}{=} \PYG{n}{sonda}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{output}\PYG{p}{;}
+      \PYG{n}{ans} \PYG{o}{+=} \PYG{n}{stato}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{ending}\PYG{p}{;}
+    \PYG{p}{\PYGZcb{}}
+    \PYG{k}{return} \PYG{n}{ans}\PYG{p}{;}
+  \PYG{p}{\PYGZcb{}}
+  \PYG{n}{aho\PYGZus{}trie}\PYG{p}{()\PYGZob{}} \PYG{n}{root}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{parent} \PYG{o}{=} \PYG{n}{root}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{fall} \PYG{o}{=} \PYG{n}{root}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{output} \PYG{o}{=} \PYG{n}{root}\PYG{p}{;} \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{};}
+\end{Verbatim}

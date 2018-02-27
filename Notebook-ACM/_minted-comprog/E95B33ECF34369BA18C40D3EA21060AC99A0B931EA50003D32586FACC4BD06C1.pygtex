@@ -1,0 +1,45 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{// 1\PYGZhy{}indexed!}
+\PYG{k}{struct} \PYG{n}{wavelet} \PYG{p}{\PYGZob{}}
+    \PYG{k+kt}{int} \PYG{n}{lo}\PYG{p}{,} \PYG{n}{hi}\PYG{p}{;}
+    \PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}} \PYG{n}{b}\PYG{p}{;}
+    \PYG{n}{wavelet} \PYG{o}{*}\PYG{n}{l} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{o}{*}\PYG{n}{r} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+    \PYG{n}{wavelet}\PYG{p}{(}\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}::}\PYG{n}{iterator} \PYG{n}{pl}\PYG{p}{,} \PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}::}\PYG{n}{iterator} \PYG{n}{pr}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{x}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{y}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+        \PYG{n}{lo} \PYG{o}{=} \PYG{n}{x}\PYG{p}{,} \PYG{n}{hi} \PYG{o}{=} \PYG{n}{y}\PYG{p}{;}
+        \PYG{k}{if} \PYG{p}{(}\PYG{n}{lo} \PYG{o}{==} \PYG{n}{hi} \PYG{o}{||} \PYG{n}{pl} \PYG{o}{\PYGZgt{}=} \PYG{n}{pr}\PYG{p}{)} \PYG{k}{return}\PYG{p}{;}
+        \PYG{k+kt}{int} \PYG{n}{mid} \PYG{o}{=} \PYG{n}{lo} \PYG{o}{+} \PYG{p}{(}\PYG{n}{hi} \PYG{o}{\PYGZhy{}} \PYG{n}{lo}\PYG{p}{)} \PYG{o}{/} \PYG{l+m+mi}{2}\PYG{p}{;}
+        \PYG{k}{auto} \PYG{n}{f} \PYG{o}{=} \PYG{p}{[}\PYG{n}{mid}\PYG{p}{](}\PYG{k+kt}{int} \PYG{n}{x}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+            \PYG{k}{return} \PYG{n}{x} \PYG{o}{\PYGZlt{}=} \PYG{n}{mid}\PYG{p}{;}
+        \PYG{p}{\PYGZcb{};}
+        \PYG{n}{b}\PYG{p}{.}\PYG{n}{reserve}\PYG{p}{(}\PYG{n}{pr} \PYG{o}{\PYGZhy{}} \PYG{n}{pl} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{);}
+        \PYG{n}{b}\PYG{p}{.}\PYG{n}{push\PYGZus{}back}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{);}
+        \PYG{k}{for} \PYG{p}{(}\PYG{k}{auto} \PYG{n}{it} \PYG{o}{=} \PYG{n}{pl}\PYG{p}{;} \PYG{n}{it} \PYG{o}{!=} \PYG{n}{pr}\PYG{p}{;} \PYG{n}{it}\PYG{o}{++}\PYG{p}{)}
+            \PYG{n}{b}\PYG{p}{.}\PYG{n}{push\PYGZus{}back}\PYG{p}{(}\PYG{n}{b}\PYG{p}{.}\PYG{n}{back}\PYG{p}{()} \PYG{o}{+} \PYG{n}{f}\PYG{p}{(}\PYG{o}{*}\PYG{n}{it}\PYG{p}{));}
+        \PYG{k}{auto} \PYG{n}{it} \PYG{o}{=} \PYG{n}{stable\PYGZus{}partition}\PYG{p}{(}\PYG{n}{pl}\PYG{p}{,} \PYG{n}{pr}\PYG{p}{,} \PYG{n}{f}\PYG{p}{);}
+        \PYG{n}{l} \PYG{o}{=} \PYG{k}{new} \PYG{n}{wavelet}\PYG{p}{(}\PYG{n}{pl}\PYG{p}{,} \PYG{n}{it}\PYG{p}{,} \PYG{n}{lo}\PYG{p}{,} \PYG{n}{mid}\PYG{p}{),} \PYG{n}{r} \PYG{o}{=} \PYG{k}{new} \PYG{n}{wavelet}\PYG{p}{(}\PYG{n}{it}\PYG{p}{,} \PYG{n}{pr}\PYG{p}{,} \PYG{n}{mid} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{hi}\PYG{p}{);}
+    \PYG{p}{\PYGZcb{}}
+    \PYG{c+c1}{// retrieve the k\PYGZus{}th minimal value in range [l, r]}
+    \PYG{k+kt}{int} \PYG{n}{kth}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{l}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{r}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{k}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+        \PYG{k}{if} \PYG{p}{(}\PYG{n}{l} \PYG{o}{\PYGZgt{}} \PYG{n}{r}\PYG{p}{)} \PYG{k}{return} \PYG{l+m+mi}{0}\PYG{p}{;}
+        \PYG{k}{if} \PYG{p}{(}\PYG{n}{lo} \PYG{o}{==} \PYG{n}{hi}\PYG{p}{)} \PYG{k}{return} \PYG{n}{lo}\PYG{p}{;}
+        \PYG{k+kt}{int} \PYG{n}{le} \PYG{o}{=} \PYG{n}{b}\PYG{p}{[}\PYG{n}{l} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{],} \PYG{n}{ri} \PYG{o}{=} \PYG{n}{b}\PYG{p}{[}\PYG{n}{r}\PYG{p}{];}
+        \PYG{k}{if} \PYG{p}{(}\PYG{n}{ri} \PYG{o}{\PYGZhy{}} \PYG{n}{le} \PYG{o}{\PYGZgt{}=} \PYG{n}{k}\PYG{p}{)} \PYG{k}{return} \PYG{k}{this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{l}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{kth}\PYG{p}{(}\PYG{n}{le} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{ri}\PYG{p}{,} \PYG{n}{k}\PYG{p}{);}
+        \PYG{k}{return} \PYG{k}{this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{r}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{kth}\PYG{p}{(}\PYG{n}{l} \PYG{o}{\PYGZhy{}} \PYG{n}{le}\PYG{p}{,} \PYG{n}{r} \PYG{o}{\PYGZhy{}} \PYG{n}{ri}\PYG{p}{,} \PYG{n}{k} \PYG{o}{\PYGZhy{}} \PYG{p}{(}\PYG{n}{ri} \PYG{o}{\PYGZhy{}} \PYG{n}{le}\PYG{p}{));}
+    \PYG{p}{\PYGZcb{}}
+    \PYG{c+c1}{// count values less than k in range [l, r]}
+    \PYG{k+kt}{int} \PYG{n}{clt}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{l}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{r}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{k}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+        \PYG{k}{if} \PYG{p}{(}\PYG{n}{l} \PYG{o}{\PYGZgt{}} \PYG{n}{r} \PYG{o}{||} \PYG{n}{k} \PYG{o}{\PYGZlt{}=} \PYG{n}{lo}\PYG{p}{)} \PYG{k}{return} \PYG{l+m+mi}{0}\PYG{p}{;}
+        \PYG{k}{if} \PYG{p}{(}\PYG{n}{k} \PYG{o}{\PYGZgt{}} \PYG{n}{hi}\PYG{p}{)} \PYG{k}{return} \PYG{n}{r} \PYG{o}{\PYGZhy{}} \PYG{n}{l} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{;}
+        \PYG{k+kt}{int} \PYG{n}{le} \PYG{o}{=} \PYG{n}{b}\PYG{p}{[}\PYG{n}{l} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{],} \PYG{n}{ri} \PYG{o}{=} \PYG{n}{b}\PYG{p}{[}\PYG{n}{r}\PYG{p}{];}
+        \PYG{k}{return} \PYG{k}{this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{l}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{clt}\PYG{p}{(}\PYG{n}{le} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{ri}\PYG{p}{,} \PYG{n}{k}\PYG{p}{)} \PYG{o}{+} \PYG{k}{this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{r}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{clt}\PYG{p}{(}\PYG{n}{l} \PYG{o}{\PYGZhy{}} \PYG{n}{le}\PYG{p}{,} \PYG{n}{r} \PYG{o}{\PYGZhy{}} \PYG{n}{ri}\PYG{p}{,} \PYG{n}{k}\PYG{p}{);}
+    \PYG{p}{\PYGZcb{}}
+    \PYG{c+c1}{// count equal to k in range [l, r]}
+    \PYG{k+kt}{int} \PYG{n}{ce}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{l}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{r}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{k}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+        \PYG{k}{if} \PYG{p}{(}\PYG{n}{k} \PYG{o}{\PYGZlt{}} \PYG{n}{lo} \PYG{o}{||} \PYG{n}{k} \PYG{o}{\PYGZgt{}} \PYG{n}{hi} \PYG{o}{||} \PYG{n}{l} \PYG{o}{\PYGZgt{}} \PYG{n}{r}\PYG{p}{)} \PYG{k}{return} \PYG{l+m+mi}{0}\PYG{p}{;}
+        \PYG{k}{if} \PYG{p}{(}\PYG{n}{lo} \PYG{o}{==} \PYG{n}{hi}\PYG{p}{)} \PYG{k}{return} \PYG{n}{r} \PYG{o}{\PYGZhy{}} \PYG{n}{l} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{;}
+        \PYG{k+kt}{int} \PYG{n}{le} \PYG{o}{=} \PYG{n}{b}\PYG{p}{[}\PYG{n}{l} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{],} \PYG{n}{ri} \PYG{o}{=} \PYG{n}{b}\PYG{p}{[}\PYG{n}{r}\PYG{p}{];}
+        \PYG{k}{return} \PYG{k}{this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{l}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{ce}\PYG{p}{(}\PYG{n}{le} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{ri}\PYG{p}{,} \PYG{n}{k}\PYG{p}{)} \PYG{o}{+} \PYG{k}{this}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{r}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{ce}\PYG{p}{(}\PYG{n}{l} \PYG{o}{\PYGZhy{}} \PYG{n}{le}\PYG{p}{,} \PYG{n}{r} \PYG{o}{\PYGZhy{}} \PYG{n}{ri}\PYG{p}{,} \PYG{n}{k}\PYG{p}{);}
+    \PYG{p}{\PYGZcb{}}
+    \PYG{o}{\PYGZti{}}\PYG{n}{wavelet}\PYG{p}{()} \PYG{p}{\PYGZob{}} \PYG{k}{delete} \PYG{n}{l}\PYG{p}{,} \PYG{k}{delete} \PYG{n}{r}\PYG{p}{;} \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{};}
+\end{Verbatim}

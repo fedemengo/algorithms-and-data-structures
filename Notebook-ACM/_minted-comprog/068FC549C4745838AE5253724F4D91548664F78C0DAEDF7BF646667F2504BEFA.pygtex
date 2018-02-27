@@ -1,0 +1,14 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{vi}\PYG{o}{*} \PYG{n}{adj}\PYG{p}{;}
+\PYG{k+kt}{bool}\PYG{o}{*} \PYG{n}{done}\PYG{p}{;}
+\PYG{k+kt}{int}\PYG{o}{*} \PYG{n}{owner}\PYG{p}{;}
+\PYG{k+kt}{int} \PYG{n+nf}{alternating\PYGZus{}path}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{left}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k}{if} \PYG{p}{(}\PYG{n}{done}\PYG{p}{[}\PYG{n}{left}\PYG{p}{])} \PYG{k}{return} \PYG{l+m+mi}{0}\PYG{p}{;}
+  \PYG{n}{done}\PYG{p}{[}\PYG{n}{left}\PYG{p}{]} \PYG{o}{=} \PYG{n+nb}{true}\PYG{p}{;}
+  \PYG{n}{rep}\PYG{p}{(}\PYG{n}{i}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{n}{size}\PYG{p}{(}\PYG{n}{adj}\PYG{p}{[}\PYG{n}{left}\PYG{p}{]))} \PYG{p}{\PYGZob{}}
+    \PYG{k+kt}{int} \PYG{n}{right} \PYG{o}{=} \PYG{n}{adj}\PYG{p}{[}\PYG{n}{left}\PYG{p}{][}\PYG{n}{i}\PYG{p}{];}
+    \PYG{k}{if} \PYG{p}{(}\PYG{n}{owner}\PYG{p}{[}\PYG{n}{right}\PYG{p}{]} \PYG{o}{==} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1} \PYG{o}{||}
+        \PYG{n}{alternating\PYGZus{}path}\PYG{p}{(}\PYG{n}{owner}\PYG{p}{[}\PYG{n}{right}\PYG{p}{]))} \PYG{p}{\PYGZob{}}
+      \PYG{n}{owner}\PYG{p}{[}\PYG{n}{right}\PYG{p}{]} \PYG{o}{=} \PYG{n}{left}\PYG{p}{;} \PYG{k}{return} \PYG{l+m+mi}{1}\PYG{p}{;} \PYG{p}{\PYGZcb{}} \PYG{p}{\PYGZcb{}}
+  \PYG{k}{return} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{p}{\PYGZcb{}}
+\end{Verbatim}

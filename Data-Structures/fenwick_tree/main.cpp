@@ -2,11 +2,14 @@
 #include <vector>
 using namespace std;
 
+// range update and point query
+
+// point update and range query
 class fenwick_tree {
 private:
 	vector<int> ft;
-	int LSB(int x) { 
-		return x & (-x); 
+	int LSB(int x) {
+		return x & (-x);
 	}
 public:
 	fenwick_tree(vector<int> &s) : ft(s.size()+1, 0) {
@@ -21,7 +24,7 @@ public:
 	};
 	~fenwick_tree(){};
 
-	int rangeSum(int i) {
+	int range_sum(int i) {
 		int sum = 0;
 		while(i){
 			sum += ft[i];
@@ -30,8 +33,8 @@ public:
 		return sum;
 	}
 
-	int rangeSum(int l, int r) {
-		return rangeSum(r) - (l == 1 ? 0 : rangeSum(l-1));
+	int range_sum(int l, int r) {
+		return range_sum(r) - (l <= 1 ? 0 : range_sum(l-1));
 	}
 
 	void add(int i, int value) {
@@ -43,7 +46,7 @@ public:
 };
 
 int main(int argc, char const *argv[]){
-	
+
 	int N = atoi(argv[1]), a, b, c;
 	vector<int> v(N);
 	for(int &x: v) x = 1;
@@ -51,5 +54,5 @@ int main(int argc, char const *argv[]){
 	fenwick_tree FT(v);
 
 
-	//return 0;
+	return 0;
 }

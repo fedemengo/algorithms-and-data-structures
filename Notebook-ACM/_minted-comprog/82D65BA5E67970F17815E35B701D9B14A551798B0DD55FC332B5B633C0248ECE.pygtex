@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{ll} \PYG{n+nf}{egcd}\PYG{p}{(}\PYG{n}{ll} \PYG{n}{a}\PYG{p}{,} \PYG{n}{ll} \PYG{n}{b}\PYG{p}{,} \PYG{n}{ll}\PYG{o}{\PYGZam{}} \PYG{n}{x}\PYG{p}{,} \PYG{n}{ll}\PYG{o}{\PYGZam{}} \PYG{n}{y}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k}{if} \PYG{p}{(}\PYG{n}{b} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{)} \PYG{p}{\PYGZob{}} \PYG{n}{x} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{p}{;} \PYG{n}{y} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{k}{return} \PYG{n}{a}\PYG{p}{;} \PYG{p}{\PYGZcb{}}
+  \PYG{n}{ll} \PYG{n}{d} \PYG{o}{=} \PYG{n}{egcd}\PYG{p}{(}\PYG{n}{b}\PYG{p}{,} \PYG{n}{a} \PYG{o}{\PYGZpc{}} \PYG{n}{b}\PYG{p}{,} \PYG{n}{x}\PYG{p}{,} \PYG{n}{y}\PYG{p}{);}
+  \PYG{n}{x} \PYG{o}{\PYGZhy{}=} \PYG{n}{a} \PYG{o}{/} \PYG{n}{b} \PYG{o}{*} \PYG{n}{y}\PYG{p}{;} \PYG{n}{swap}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,} \PYG{n}{y}\PYG{p}{);} \PYG{k}{return} \PYG{n}{d}\PYG{p}{;} \PYG{p}{\PYGZcb{}}
+\end{Verbatim}

@@ -1,0 +1,73 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{class} \PYG{n+nc}{T}\PYG{o}{\PYGZgt{}}
+\PYG{k}{struct} \PYG{n}{trie} \PYG{p}{\PYGZob{}}
+  \PYG{k}{struct} \PYG{n}{node} \PYG{p}{\PYGZob{}}
+    \PYG{n}{map}\PYG{o}{\PYGZlt{}}\PYG{n}{T}\PYG{p}{,} \PYG{n}{node}\PYG{o}{*\PYGZgt{}} \PYG{n}{children}\PYG{p}{;}
+    \PYG{k+kt}{int} \PYG{n}{prefixes}\PYG{p}{,} \PYG{n}{words}\PYG{p}{;}
+    \PYG{n}{node}\PYG{p}{()} \PYG{p}{\PYGZob{}} \PYG{n}{prefixes} \PYG{o}{=} \PYG{n}{words} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{p}{\PYGZcb{}} \PYG{p}{\PYGZcb{};}
+  \PYG{n}{node}\PYG{o}{*} \PYG{n}{root}\PYG{p}{;}
+  \PYG{n}{trie}\PYG{p}{()} \PYG{o}{:} \PYG{n}{root}\PYG{p}{(}\PYG{k}{new} \PYG{n}{node}\PYG{p}{())} \PYG{p}{\PYGZob{}}  \PYG{p}{\PYGZcb{}}
+  \PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{class} \PYG{n+nc}{I}\PYG{o}{\PYGZgt{}}
+  \PYG{k+kt}{void} \PYG{n}{insert}\PYG{p}{(}\PYG{n}{I} \PYG{n}{begin}\PYG{p}{,} \PYG{n}{I} \PYG{n}{end}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n}{node}\PYG{o}{*} \PYG{n}{cur} \PYG{o}{=} \PYG{n}{root}\PYG{p}{;}
+    \PYG{k}{while} \PYG{p}{(}\PYG{n+nb}{true}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+      \PYG{n}{cur}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{prefixes}\PYG{o}{++}\PYG{p}{;}
+      \PYG{k}{if} \PYG{p}{(}\PYG{n}{begin} \PYG{o}{==} \PYG{n}{end}\PYG{p}{)} \PYG{p}{\PYGZob{}} \PYG{n}{cur}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{words}\PYG{o}{++}\PYG{p}{;} \PYG{k}{break}\PYG{p}{;} \PYG{p}{\PYGZcb{}}
+      \PYG{k}{else} \PYG{p}{\PYGZob{}}
+        \PYG{n}{T} \PYG{n}{head} \PYG{o}{=} \PYG{o}{*}\PYG{n}{begin}\PYG{p}{;}
+        \PYG{k}{typename} \PYG{n}{map}\PYG{o}{\PYGZlt{}}\PYG{n}{T}\PYG{p}{,} \PYG{n}{node}\PYG{o}{*\PYGZgt{}::}\PYG{n}{const\PYGZus{}iterator} \PYG{n}{it}\PYG{p}{;}
+        \PYG{n}{it} \PYG{o}{=} \PYG{n}{cur}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{children}\PYG{p}{.}\PYG{n}{find}\PYG{p}{(}\PYG{n}{head}\PYG{p}{);}
+        \PYG{k}{if} \PYG{p}{(}\PYG{n}{it} \PYG{o}{==} \PYG{n}{cur}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{children}\PYG{p}{.}\PYG{n}{end}\PYG{p}{())} \PYG{p}{\PYGZob{}}
+          \PYG{n}{pair}\PYG{o}{\PYGZlt{}}\PYG{n}{T}\PYG{p}{,} \PYG{n}{node}\PYG{o}{*\PYGZgt{}} \PYG{n}{nw}\PYG{p}{(}\PYG{n}{head}\PYG{p}{,} \PYG{k}{new} \PYG{n}{node}\PYG{p}{());}
+          \PYG{n}{it} \PYG{o}{=} \PYG{n}{cur}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{children}\PYG{p}{.}\PYG{n}{insert}\PYG{p}{(}\PYG{n}{nw}\PYG{p}{).}\PYG{n}{first}\PYG{p}{;}
+        \PYG{p}{\PYGZcb{}} \PYG{n}{begin}\PYG{o}{++}\PYG{p}{,} \PYG{n}{cur} \PYG{o}{=} \PYG{n}{it}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{second}\PYG{p}{;} \PYG{p}{\PYGZcb{}} \PYG{p}{\PYGZcb{}} \PYG{p}{\PYGZcb{}}
+  \PYG{k}{template}\PYG{o}{\PYGZlt{}}\PYG{k}{class} \PYG{n+nc}{I}\PYG{o}{\PYGZgt{}}
+  \PYG{k+kt}{int} \PYG{n}{countMatches}\PYG{p}{(}\PYG{n}{I} \PYG{n}{begin}\PYG{p}{,} \PYG{n}{I} \PYG{n}{end}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n}{node}\PYG{o}{*} \PYG{n}{cur} \PYG{o}{=} \PYG{n}{root}\PYG{p}{;}
+    \PYG{k}{while} \PYG{p}{(}\PYG{n+nb}{true}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+      \PYG{k}{if} \PYG{p}{(}\PYG{n}{begin} \PYG{o}{==} \PYG{n}{end}\PYG{p}{)} \PYG{k}{return} \PYG{n}{cur}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{words}\PYG{p}{;}
+      \PYG{k}{else} \PYG{p}{\PYGZob{}}
+        \PYG{n}{T} \PYG{n}{head} \PYG{o}{=} \PYG{o}{*}\PYG{n}{begin}\PYG{p}{;}
+        \PYG{k}{typename} \PYG{n}{map}\PYG{o}{\PYGZlt{}}\PYG{n}{T}\PYG{p}{,} \PYG{n}{node}\PYG{o}{*\PYGZgt{}::}\PYG{n}{const\PYGZus{}iterator} \PYG{n}{it}\PYG{p}{;}
+        \PYG{n}{it} \PYG{o}{=} \PYG{n}{cur}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{children}\PYG{p}{.}\PYG{n}{find}\PYG{p}{(}\PYG{n}{head}\PYG{p}{);}
+        \PYG{k}{if} \PYG{p}{(}\PYG{n}{it} \PYG{o}{==} \PYG{n}{cur}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{children}\PYG{p}{.}\PYG{n}{end}\PYG{p}{())} \PYG{k}{return} \PYG{l+m+mi}{0}\PYG{p}{;}
+        \PYG{n}{begin}\PYG{o}{++}\PYG{p}{,} \PYG{n}{cur} \PYG{o}{=} \PYG{n}{it}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{second}\PYG{p}{;} \PYG{p}{\PYGZcb{}} \PYG{p}{\PYGZcb{}} \PYG{p}{\PYGZcb{}}
+  \PYG{k}{template}\PYG{o}{\PYGZlt{}}\PYG{k}{class} \PYG{n+nc}{I}\PYG{o}{\PYGZgt{}}
+  \PYG{k+kt}{int} \PYG{n}{countPrefixes}\PYG{p}{(}\PYG{n}{I} \PYG{n}{begin}\PYG{p}{,} \PYG{n}{I} \PYG{n}{end}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n}{node}\PYG{o}{*} \PYG{n}{cur} \PYG{o}{=} \PYG{n}{root}\PYG{p}{;}
+    \PYG{k}{while} \PYG{p}{(}\PYG{n+nb}{true}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+      \PYG{k}{if} \PYG{p}{(}\PYG{n}{begin} \PYG{o}{==} \PYG{n}{end}\PYG{p}{)} \PYG{k}{return} \PYG{n}{cur}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{prefixes}\PYG{p}{;}
+      \PYG{k}{else} \PYG{p}{\PYGZob{}}
+        \PYG{n}{T} \PYG{n}{head} \PYG{o}{=} \PYG{o}{*}\PYG{n}{begin}\PYG{p}{;}
+        \PYG{k}{typename} \PYG{n}{map}\PYG{o}{\PYGZlt{}}\PYG{n}{T}\PYG{p}{,} \PYG{n}{node}\PYG{o}{*\PYGZgt{}::}\PYG{n}{const\PYGZus{}iterator} \PYG{n}{it}\PYG{p}{;}
+        \PYG{n}{it} \PYG{o}{=} \PYG{n}{cur}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{children}\PYG{p}{.}\PYG{n}{find}\PYG{p}{(}\PYG{n}{head}\PYG{p}{);}
+        \PYG{k}{if} \PYG{p}{(}\PYG{n}{it} \PYG{o}{==} \PYG{n}{cur}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{children}\PYG{p}{.}\PYG{n}{end}\PYG{p}{())} \PYG{k}{return} \PYG{l+m+mi}{0}\PYG{p}{;}
+        \PYG{n}{begin}\PYG{o}{++}\PYG{p}{,} \PYG{n}{cur} \PYG{o}{=} \PYG{n}{it}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{second}\PYG{p}{;} \PYG{p}{\PYGZcb{}} \PYG{p}{\PYGZcb{}} \PYG{p}{\PYGZcb{}} \PYG{p}{\PYGZcb{};}
+
+\PYG{c+c1}{//\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}\PYGZsh{}}
+\PYG{k}{struct} \PYG{n}{t\PYGZus{}node} \PYG{p}{\PYGZob{}}  \PYG{c+c1}{//trie with O(NlogA) operations}
+  \PYG{k+kt}{char} \PYG{n}{c}\PYG{p}{;}
+  \PYG{n}{map}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{char}\PYG{p}{,} \PYG{n}{t\PYGZus{}node}\PYG{o}{*\PYGZgt{}} \PYG{n}{v}\PYG{p}{;}
+  \PYG{n}{t\PYGZus{}node} \PYG{p}{(}\PYG{k+kt}{char} \PYG{n}{c} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{)} \PYG{o}{:} \PYG{n}{c}\PYG{p}{(}\PYG{n}{c}\PYG{p}{)\PYGZob{}\PYGZcb{}}
+\PYG{p}{\PYGZcb{};}
+\PYG{c+c1}{//add with \PYGZdl{} if perfect matching}
+\PYG{k}{struct} \PYG{n}{trie}\PYG{p}{\PYGZob{}}
+  \PYG{n}{t\PYGZus{}node} \PYG{n}{root}\PYG{p}{;}
+  \PYG{k+kt}{void} \PYG{n+nf}{insert}\PYG{p}{(}\PYG{n}{string} \PYG{o}{\PYGZam{}}\PYG{n}{s}\PYG{p}{)\PYGZob{}}
+    \PYG{n}{t\PYGZus{}node} \PYG{o}{*}\PYG{n}{current} \PYG{o}{=} \PYG{o}{\PYGZam{}}\PYG{n}{root}\PYG{p}{;}
+    \PYG{k}{for}\PYG{p}{(}\PYG{k+kt}{char} \PYG{n+nl}{c} \PYG{p}{:} \PYG{n}{s}\PYG{p}{)\PYGZob{}}
+      \PYG{k}{if}\PYG{p}{(}\PYG{n}{current}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{v}\PYG{p}{.}\PYG{n}{count}\PYG{p}{(}\PYG{n}{c}\PYG{p}{)} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{)}
+        \PYG{n}{current}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{v}\PYG{p}{[}\PYG{n}{c}\PYG{p}{]} \PYG{o}{=} \PYG{k}{new} \PYG{n}{t\PYGZus{}node}\PYG{p}{(}\PYG{n}{c}\PYG{p}{);}
+      \PYG{n}{current} \PYG{o}{=} \PYG{n}{current}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{v}\PYG{p}{[}\PYG{n}{c}\PYG{p}{];}
+    \PYG{p}{\PYGZcb{}}
+  \PYG{p}{\PYGZcb{}}
+  \PYG{k+kt}{bool} \PYG{n+nf}{find}\PYG{p}{(}\PYG{n}{string} \PYG{o}{\PYGZam{}}\PYG{n}{s}\PYG{p}{)\PYGZob{}}
+    \PYG{n}{t\PYGZus{}node} \PYG{o}{*}\PYG{n}{current} \PYG{o}{=} \PYG{o}{\PYGZam{}}\PYG{n}{root}\PYG{p}{;}
+    \PYG{k}{for}\PYG{p}{(}\PYG{k+kt}{char} \PYG{n+nl}{c} \PYG{p}{:} \PYG{n}{s}\PYG{p}{)\PYGZob{}}
+      \PYG{k}{if}\PYG{p}{(}\PYG{n}{current}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{v}\PYG{p}{.}\PYG{n}{count}\PYG{p}{(}\PYG{n}{c}\PYG{p}{)} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{)} \PYG{k}{return} \PYG{l+m+mi}{0}\PYG{p}{;}
+      \PYG{n}{current} \PYG{o}{=} \PYG{n}{current}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{v}\PYG{p}{[}\PYG{n}{c}\PYG{p}{];}
+    \PYG{p}{\PYGZcb{}}
+    \PYG{k}{return} \PYG{l+m+mi}{1}\PYG{p}{;}
+  \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{};}
+\end{Verbatim}

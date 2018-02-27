@@ -1,0 +1,23 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{struct} \PYG{n}{union\PYGZus{}find} \PYG{p}{\PYGZob{}}
+  \PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}} \PYG{n}{parent}\PYG{p}{,} \PYG{n}{rank}\PYG{p}{;}
+  \PYG{n}{union\PYGZus{}find}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{N}\PYG{p}{)} \PYG{o}{:} \PYG{n}{parent}\PYG{p}{(}\PYG{n}{N}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{),} \PYG{n}{rank}\PYG{p}{(}\PYG{n}{N}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{k}{for}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i}\PYG{o}{\PYGZlt{}}\PYG{n}{N}\PYG{p}{;} \PYG{o}{++}\PYG{n}{i}\PYG{p}{)} 
+      \PYG{n}{parent}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{n}{i}\PYG{p}{;}
+  \PYG{p}{\PYGZcb{}}
+  \PYG{k+kt}{int} \PYG{n}{find\PYGZus{}set}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{k}{return} \PYG{n}{parent}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{==} \PYG{n}{i} \PYG{o}{?} \PYG{n+nl}{i} \PYG{p}{:} \PYG{p}{(}\PYG{n}{parent}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{n}{find}\PYG{p}{(}\PYG{n}{parent}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]));}
+  \PYG{p}{\PYGZcb{}}
+  \PYG{k+kt}{bool} \PYG{n}{is\PYGZus{}same\PYGZus{}set}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{j}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{k}{return} \PYG{n}{find\PYGZus{}set}\PYG{p}{(}\PYG{n}{i}\PYG{p}{)} \PYG{o}{==} \PYG{n}{find\PYGZus{}set}\PYG{p}{(}\PYG{n}{j}\PYG{p}{);}
+  \PYG{p}{\PYGZcb{}}
+  \PYG{k+kt}{bool} \PYG{n}{unite}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{j}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{k}{if}\PYG{p}{(}\PYG{o}{!}\PYG{n}{is\PYGZus{}same\PYGZus{}set}\PYG{p}{(}\PYG{n}{i}\PYG{p}{,} \PYG{n}{j}\PYG{p}{))} \PYG{p}{\PYGZob{}}
+      \PYG{k+kt}{int} \PYG{n}{x} \PYG{o}{=} \PYG{n}{find\PYGZus{}set}\PYG{p}{(}\PYG{n}{i}\PYG{p}{),} \PYG{n}{y} \PYG{o}{=} \PYG{n}{find\PYGZus{}set}\PYG{p}{(}\PYG{n}{j}\PYG{p}{);}
+      \PYG{k}{if}\PYG{p}{(}\PYG{n}{rank}\PYG{p}{[}\PYG{n}{x}\PYG{p}{]} \PYG{o}{\PYGZgt{}} \PYG{n}{rank}\PYG{p}{[}\PYG{n}{y}\PYG{p}{])} \PYG{n}{p}\PYG{p}{[}\PYG{n}{y}\PYG{p}{]} \PYG{o}{=} \PYG{n}{x}\PYG{p}{;}
+      \PYG{k}{else} \PYG{n}{p}\PYG{p}{[}\PYG{n}{x}\PYG{p}{]} \PYG{o}{=} \PYG{n}{y}\PYG{p}{;}
+      \PYG{k}{if}\PYG{p}{(}\PYG{n}{rank}\PYG{p}{[}\PYG{n}{x}\PYG{p}{]} \PYG{o}{==} \PYG{n}{rank}\PYG{p}{[}\PYG{n}{y}\PYG{p}{])} \PYG{o}{++}\PYG{n}{rank}\PYG{p}{[}\PYG{n}{y}\PYG{p}{];}
+    \PYG{p}{\PYGZcb{}}
+  \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{};}
+\end{Verbatim}

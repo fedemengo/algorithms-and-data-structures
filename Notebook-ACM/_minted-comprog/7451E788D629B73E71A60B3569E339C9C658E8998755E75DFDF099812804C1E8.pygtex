@@ -1,0 +1,23 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZdq{}polygon.cpp\PYGZdq{}}
+\PYG{c+cp}{\PYGZsh{}define MAXN 1000}
+\PYG{n}{point} \PYG{n}{hull}\PYG{p}{[}\PYG{n}{MAXN}\PYG{p}{];}
+\PYG{k+kt}{bool} \PYG{n+nf}{cmp}\PYG{p}{(}\PYG{k}{const} \PYG{n}{point} \PYG{o}{\PYGZam{}}\PYG{n}{a}\PYG{p}{,} \PYG{k}{const} \PYG{n}{point} \PYG{o}{\PYGZam{}}\PYG{n}{b}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k}{return} \PYG{n}{abs}\PYG{p}{(}\PYG{n}{real}\PYG{p}{(}\PYG{n}{a}\PYG{p}{)} \PYG{o}{\PYGZhy{}} \PYG{n}{real}\PYG{p}{(}\PYG{n}{b}\PYG{p}{))} \PYG{o}{\PYGZgt{}} \PYG{n}{EPS} \PYG{o}{?}
+    \PYG{n}{real}\PYG{p}{(}\PYG{n}{a}\PYG{p}{)} \PYG{o}{\PYGZlt{}} \PYG{n}{real}\PYG{p}{(}\PYG{n}{b}\PYG{p}{)} \PYG{o}{:} \PYG{n}{imag}\PYG{p}{(}\PYG{n}{a}\PYG{p}{)} \PYG{o}{\PYGZlt{}} \PYG{n}{imag}\PYG{p}{(}\PYG{n}{b}\PYG{p}{);} \PYG{p}{\PYGZcb{}}
+\PYG{k+kt}{int} \PYG{n+nf}{convex\PYGZus{}hull}\PYG{p}{(}\PYG{n}{polygon} \PYG{n}{p}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k+kt}{int} \PYG{n}{n} \PYG{o}{=} \PYG{n}{size}\PYG{p}{(}\PYG{n}{p}\PYG{p}{),} \PYG{n}{l} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+  \PYG{n}{sort}\PYG{p}{(}\PYG{n}{p}\PYG{p}{.}\PYG{n}{begin}\PYG{p}{(),} \PYG{n}{p}\PYG{p}{.}\PYG{n}{end}\PYG{p}{(),} \PYG{n}{cmp}\PYG{p}{);}
+  \PYG{n}{rep}\PYG{p}{(}\PYG{n}{i}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{n}{n}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{k}{if} \PYG{p}{(}\PYG{n}{i} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{0} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{n}{p}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{==} \PYG{n}{p}\PYG{p}{[}\PYG{n}{i} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{])} \PYG{k}{continue}\PYG{p}{;}
+    \PYG{k}{while} \PYG{p}{(}\PYG{n}{l} \PYG{o}{\PYGZgt{}=} \PYG{l+m+mi}{2} \PYG{o}{\PYGZam{}\PYGZam{}}
+        \PYG{n}{ccw}\PYG{p}{(}\PYG{n}{hull}\PYG{p}{[}\PYG{n}{l} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{2}\PYG{p}{],} \PYG{n}{hull}\PYG{p}{[}\PYG{n}{l} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{],} \PYG{n}{p}\PYG{p}{[}\PYG{n}{i}\PYG{p}{])} \PYG{o}{\PYGZgt{}=} \PYG{l+m+mi}{0}\PYG{p}{)} \PYG{n}{l}\PYG{o}{\PYGZhy{}\PYGZhy{}}\PYG{p}{;}
+    \PYG{n}{hull}\PYG{p}{[}\PYG{n}{l}\PYG{o}{++}\PYG{p}{]} \PYG{o}{=} \PYG{n}{p}\PYG{p}{[}\PYG{n}{i}\PYG{p}{];} \PYG{p}{\PYGZcb{}}
+  \PYG{k+kt}{int} \PYG{n}{r} \PYG{o}{=} \PYG{n}{l}\PYG{p}{;}
+  \PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{n}{n} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{2}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZgt{}=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i}\PYG{o}{\PYGZhy{}\PYGZhy{}}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{k}{if} \PYG{p}{(}\PYG{n}{p}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{==} \PYG{n}{p}\PYG{p}{[}\PYG{n}{i} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{])} \PYG{k}{continue}\PYG{p}{;}
+    \PYG{k}{while} \PYG{p}{(}\PYG{n}{r} \PYG{o}{\PYGZhy{}} \PYG{n}{l} \PYG{o}{\PYGZgt{}=} \PYG{l+m+mi}{1} \PYG{o}{\PYGZam{}\PYGZam{}}
+        \PYG{n}{ccw}\PYG{p}{(}\PYG{n}{hull}\PYG{p}{[}\PYG{n}{r} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{2}\PYG{p}{],} \PYG{n}{hull}\PYG{p}{[}\PYG{n}{r} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{],} \PYG{n}{p}\PYG{p}{[}\PYG{n}{i}\PYG{p}{])} \PYG{o}{\PYGZgt{}=} \PYG{l+m+mi}{0}\PYG{p}{)} \PYG{n}{r}\PYG{o}{\PYGZhy{}\PYGZhy{}}\PYG{p}{;}
+    \PYG{n}{hull}\PYG{p}{[}\PYG{n}{r}\PYG{o}{++}\PYG{p}{]} \PYG{o}{=} \PYG{n}{p}\PYG{p}{[}\PYG{n}{i}\PYG{p}{];} \PYG{p}{\PYGZcb{}}
+  \PYG{k}{return} \PYG{n}{l} \PYG{o}{==} \PYG{l+m+mi}{1} \PYG{o}{?} \PYG{l+m+mi}{1} \PYG{o}{:} \PYG{n}{r} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{;} \PYG{p}{\PYGZcb{}}
+\end{Verbatim}

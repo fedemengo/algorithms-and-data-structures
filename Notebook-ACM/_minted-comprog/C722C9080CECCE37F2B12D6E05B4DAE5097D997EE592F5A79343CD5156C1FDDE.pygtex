@@ -1,0 +1,7 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZdq{}primitives.cpp\PYGZdq{}}
+\PYG{n}{point} \PYG{n+nf}{circumcenter}\PYG{p}{(}\PYG{n}{point} \PYG{n}{a}\PYG{p}{,} \PYG{n}{point} \PYG{n}{b}\PYG{p}{,} \PYG{n}{point} \PYG{n}{c}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{n}{b} \PYG{o}{\PYGZhy{}=} \PYG{n}{a}\PYG{p}{,} \PYG{n}{c} \PYG{o}{\PYGZhy{}=} \PYG{n}{a}\PYG{p}{;}
+  \PYG{k}{return} \PYG{n}{a} \PYG{o}{+}
+    \PYG{n}{perp}\PYG{p}{(}\PYG{n}{b} \PYG{o}{*} \PYG{n}{norm}\PYG{p}{(}\PYG{n}{c}\PYG{p}{)} \PYG{o}{\PYGZhy{}} \PYG{n}{c} \PYG{o}{*} \PYG{n}{norm}\PYG{p}{(}\PYG{n}{b}\PYG{p}{))} \PYG{o}{/} \PYG{l+m+mf}{2.0} \PYG{o}{/} \PYG{n}{cross}\PYG{p}{(}\PYG{n}{b}\PYG{p}{,} \PYG{n}{c}\PYG{p}{);} \PYG{p}{\PYGZcb{}}
+\end{Verbatim}

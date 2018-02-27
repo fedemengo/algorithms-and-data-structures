@@ -1,0 +1,14 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kt}{int} \PYG{n+nf}{nck}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{n}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{k}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k}{if} \PYG{p}{(}\PYG{n}{n} \PYG{o}{\PYGZlt{}} \PYG{n}{k}\PYG{p}{)} \PYG{k}{return} \PYG{l+m+mi}{0}\PYG{p}{;}
+  \PYG{n}{k} \PYG{o}{=} \PYG{n}{min}\PYG{p}{(}\PYG{n}{k}\PYG{p}{,} \PYG{n}{n} \PYG{o}{\PYGZhy{}} \PYG{n}{k}\PYG{p}{);}
+  \PYG{k+kt}{int} \PYG{n}{res} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{p}{;}
+  \PYG{n}{rep}\PYG{p}{(}\PYG{n}{i}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{n}{k}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{)} \PYG{n}{res} \PYG{o}{=} \PYG{n}{res} \PYG{o}{*} \PYG{p}{(}\PYG{n}{n} \PYG{o}{\PYGZhy{}} \PYG{p}{(}\PYG{n}{k} \PYG{o}{\PYGZhy{}} \PYG{n}{i}\PYG{p}{))} \PYG{o}{/} \PYG{n}{i}\PYG{p}{;}
+  \PYG{k}{return} \PYG{n}{res}\PYG{p}{;} \PYG{p}{\PYGZcb{}}
+\PYG{k+kt}{int} \PYG{n+nf}{nck}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{n}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{k}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{p}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k+kt}{int} \PYG{n}{res} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{p}{;}
+  \PYG{k}{while} \PYG{p}{(}\PYG{n}{n} \PYG{o}{||} \PYG{n}{k}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n}{res} \PYG{o}{=} \PYG{n}{nck}\PYG{p}{(}\PYG{n}{n} \PYG{o}{\PYGZpc{}} \PYG{n}{p}\PYG{p}{,} \PYG{n}{k} \PYG{o}{\PYGZpc{}} \PYG{n}{p}\PYG{p}{)} \PYG{o}{\PYGZpc{}} \PYG{n}{p} \PYG{o}{*} \PYG{n}{res} \PYG{o}{\PYGZpc{}} \PYG{n}{p}\PYG{p}{;}
+    \PYG{n}{n} \PYG{o}{/=} \PYG{n}{p}\PYG{p}{,} \PYG{n}{k} \PYG{o}{/=} \PYG{n}{p}\PYG{p}{;} \PYG{p}{\PYGZcb{}}
+  \PYG{k}{return} \PYG{n}{res}\PYG{p}{;} \PYG{p}{\PYGZcb{}}
+\end{Verbatim}

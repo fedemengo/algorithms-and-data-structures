@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{ll} \PYG{n+nf}{gcd}\PYG{p}{(}\PYG{n}{ll} \PYG{n}{a}\PYG{p}{,} \PYG{n}{ll} \PYG{n}{b}\PYG{p}{)} \PYG{p}{\PYGZob{}} \PYG{k}{return} \PYG{n}{b} \PYG{o}{==} \PYG{l+m+mi}{0} \PYG{o}{?} \PYG{n+nl}{a} \PYG{p}{:} \PYG{n}{gcd}\PYG{p}{(}\PYG{n}{b}\PYG{p}{,} \PYG{n}{a} \PYG{o}{\PYGZpc{}} \PYG{n}{b}\PYG{p}{);} \PYG{p}{\PYGZcb{}}
+\end{Verbatim}
