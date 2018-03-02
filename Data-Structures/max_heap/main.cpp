@@ -46,8 +46,26 @@ private:
 			max_heapify(i);
 	}
 public:
-	max_heap(int size, int child_number, int value) : _size(0), _length(size), n_child(child_number), v(std::vector<node>(size)), indeces(std::vector<int>(size)){ for(int i=0; i<size; ++i) push({i, value}); }
+	max_heap(int size, int child_number, int value) : _size(0), _length(size),
+	n_child(child_number), v(std::vector<node>(size)), indeces(std::vector<int>(size)){
+		for(int i=0; i<size; ++i) push({i, value});
+	}
 	~max_heap(){}
+
+	void delete_key(int key){
+		int index = indeces[key];
+		node tmp = v[index];
+		tmp.value = (int)1e9;
+		while(index > 0 && v[parent(index)] < tmp){		// porto in testa come descrease key
+			v[index] = v[parent(index)];
+			indeces[v[index].key] = index;
+			index = parent(index);
+		}
+		v[index] = tmp;
+		indeces[v[index].key] = index;
+		pop();				// poppo
+	}
+
 	void increase_key(int key, int value){
 		int index = indeces[key];
 		if(v[index].value >= value) return;
