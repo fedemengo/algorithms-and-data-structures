@@ -3,10 +3,24 @@ Collection of some Algorithms and Data Structures
 
 ### Data Structure
 
+-	Basic DS
+
+	-	[x] max/min Heap
+	-	[ ] Priority Queue
+	-	[ ] Stack
+	-	[ ] Queue
+	-	[ ] List (simple, double, circular)
+	-	[ ] Binary Tree
+	-	[ ] Hash Table
+	-	[ ] B-Tree
+
 -	List
+
 	-	[ ] XOR list
 	-	[ ] Skiplist
+
 -	Heap
+
 	-	[x] Fibonacci Heap
 	-	[ ] Binomial Heap
 	-	[ ] Leftist Heap
@@ -15,32 +29,45 @@ Collection of some Algorithms and Data Structures
 	-	[ ] Brodal Heap
 	-	[ ] Pairing Heap
 	-	[ ] Weak Heap
+
 -	Tree
+
 	-	[ ] Mergesort Tree
 	-	[ ] Wavelettree
 	-	[ ] Van Emde Boas
+
 -	Binary Search Tree
+
 	-	[ ] AVL Tree
 	-	[ ] Treap
 	-	[ ] AA
 	-	[ ] Scapegoat Tree
 	-	[ ] Red-Black Tree
 	-	[ ] Splay Tree
+
 -	Trie
+
 	-	[ ] C-Trie
 	-	[ ] eerTree
 	-	[ ] Suffix
 	-	[ ] Ternary Search
 	-	[ ] X-fast, Y-fast
+
 -	Data partitioning Tree
+
 	-	[ ] Fenwick Tree
 	-	[ ] Segment Tree
 	-	[ ] k-d Tree
 	-	[ ] Quad Tree
+
 -	Sparse Table
+
 -	Disjoint-Sets Union
+
 -	SQRT Decomposition
+
 -	Heavy-Light Decomposition
+
 -	Fractional Cascading
 
 ### Algorithms
