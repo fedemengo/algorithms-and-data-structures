@@ -1,6 +1,8 @@
 Collection of some Algorithms and Data Structures
 -------------------------------------------------
 
+Below a list of what I'd like to add (pretty much anything)
+
 ### Data Structure
 
 -	Basic DS
@@ -81,12 +83,13 @@ Collection of some Algorithms and Data Structures
 	-	[ ] Euler tour
 	-	[ ] Max Flow (Edmonds-Karp, Dinic)
 	-	[ ] Ford-Fulkerson
-	-	[ ] LCA (binary jumping)
+	-	[ ] LCA (binary jumps)
 	-	[ ] Bipartite Graph
 	-	[ ] Vertex cover
 	-	[ ] TSP
 	-	[ ] 2SAT
 -	String
+	-   [ ] Polynomial Hashing
 	-	[ ] KMP
 	-	[ ] Z Algorithm
 	-	[ ] Manacher
