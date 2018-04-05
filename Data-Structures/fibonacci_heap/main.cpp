@@ -155,8 +155,8 @@ private:
     // upper_bound of number of root nodes in the root lists that will be present after consolidation
     int max_degree() { return (int)floor(log((double)nodes)/log((1.0+sqrt(5.0))/2.0))+1; }
 public:
-    fibonacci_heap(int size, KEY default_key) : nodes(0), min_node(nullptr), addresses() { fill(size, default_key); }
     fibonacci_heap() : nodes(0), min_node(nullptr), addresses() {}
+    fibonacci_heap(int size, KEY default_key) : nodes(0), min_node(nullptr), addresses() { fill(size, default_key); }
     ~fibonacci_heap() {};
     void fill(int size, KEY default_key){
         for(int node_id=0; node_id<size; ++node_id)
@@ -204,36 +204,10 @@ public:
     int size() { return nodes; }
 };
 
-std::string gen_random(const int len) {
-    std::string s;
-    static const char alphanum[] =
-        "0123456789"
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        "abcdefghijklmnopqrstuvwxyz";
-
-    for (int i = 0; i < len; ++i) s.push_back(alphanum[rand() % (sizeof(alphanum) - 1)]);
-    return s;
-}
 
 int main(int argc, char const *argv[]) {
-    int n = atoi(argv[1]);
-    fibonacci_heap<int, std::string> FH = fibonacci_heap<int, std::string>();
-    srand(time(0));
-    std::pair<int, std::string> x;          
-
-    //while(--n) FH.insert(n+atoi(argv[1]), std::to_string(rand() % 100000));
-
-    while(1){
-        while(FH.size() < n) {
-            FH.insert(FH.size()+1, gen_random(15));
-            //std::cout << "insert " << FH.size() << "\n";
-        }
-        std::string x;
-        while(!FH.empty()){
-            x = FH.extract_min().second;
-            //std::cout << "extract " << x.first << " " << x.second << "\n";
-        }
-    }
+    
+    fibonacci_heap<int, std::string> FH({});
 
     return 0;
 }
