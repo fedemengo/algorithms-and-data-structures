@@ -75,7 +75,7 @@ Below a list of what I'd like to add (pretty much anything)
 ### Algorithms
 
 -	Graph
-	-	[ ] SSSP (Dijkstra, SPFA)
+	-	[x] SSSP (Dijkstra, SPFA)
 	-	[ ] APSP (Floyd-Warshall)
 	-	[ ] SCC
 	-	[ ] Topological sort
