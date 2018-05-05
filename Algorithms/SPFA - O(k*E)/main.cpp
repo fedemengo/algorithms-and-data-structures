@@ -7,8 +7,8 @@
 #include <queue>
 using namespace std;
 
-#define MOD 100
-#define INF 1e9
+const long long INF = 1e15;
+vector<long long> dist;
 
 struct edge {
     int node;
@@ -18,14 +18,17 @@ struct edge {
 
 typedef vector<vector<edge>> graph;
 
-void SPFA(int s, graph &G, vector<unsigned> &dist){
+void SPFA(int s, graph &G, vector<long long> &dist){
     dist.resize(G.size(), INF);
-    vector<bool> inQueue(G.size(), false);
     queue<edge> Q;
     Q.push({s, dist[s] = 0});
+    
+    vector<bool> inQueue(G.size(), false);
     inQueue[s] = true;
+    
     while (!Q.empty()) {
         edge u = Q.front(); Q.pop();
+        inQueue[u.node] = false;
         for(edge &v: G[u.node]){
             if(dist[v.node] > dist[u.node] + v.weigth){
                 dist[v.node] = dist[u.node] + v.weigth;
@@ -44,7 +47,7 @@ int main(int argc, char *argv[]){
     int V = atoi(argv[1]), sparsity = atoi(argv[2]), s = 0;
     
     graph G(V);
-    vector<unsigned> dist;
+    vector<long long> dist;
 
     for(auto &node : G){
         for(int i=0; i<V; ++i){
