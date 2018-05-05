@@ -9,15 +9,13 @@ void dijkstra(int s, vector<vector<pair<int, int>>> &G) {
     dist.resize(G.size(), INF);
     fibonacci_heap<long long, int> FH(G.size(), INF);
     
-    dist[s] = 0;
-    FH.decrease_key(dist[s], s);
+    FH.decrease_key(dist[s] = 0, s);
 
     while(!FH.empty()){
         pair<long long, int> u = FH.extract_min();
         for(auto &v : G[u.second]) {
             if(dist[v.second] > dist[u.second] + v.first){
-                dist[v.second] = dist[u.second] + v.first;
-                FH.decrease_key(dist[v.second], v.second);
+                FH.decrease_key(dist[v.second] = dist[u.second] + v.first, v.second);
             }
         }
     }
