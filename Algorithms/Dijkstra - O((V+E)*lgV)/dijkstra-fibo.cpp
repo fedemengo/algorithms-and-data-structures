@@ -1,5 +1,5 @@
 #include "bits/stdc++.h"
-#include "../../Data-Structures/fibonacci_heap/fibo.cpp"
+#include "../../Data-Structures/fibonacci_heap/fibo.hpp"
 using namespace std;
 const long long INF = 1e15;
 

@@ -24,10 +24,8 @@ void merge(vector<int> &v, int p, int q, int r){
 		}
 		++k;
 	}
-	while(i < n1) 
-		v[k++] = L[i++];
-	while(j < n2)
-		v[k++] = R[j++];
+	while(i < n1) v[k++] = L[i++];
+	while(j < n2) v[k++] = R[j++];
 }
 
 void merge_sort(vector<int> &v, int p, int r) {

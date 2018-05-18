@@ -10,12 +10,19 @@ using namespace std;
 
 typedef vector<vector<int>> graph;
 
-void DFS(int s, graph &G, vector<bool> &visited){
+void DFSvisit(int s, graph &G, vector<bool> &visited){
 	visited[s] = true;
 	for(int u : G[s]){
 		if(!visited[u]){
-			DFS(u, G, visited);
+			DFSvisit(u, G, visited);
 		}
+	}
+}
+
+void DFS(graph &G, vector<bool> &visited){
+    for(int i=0; i<G.size(); ++i){
+		if(!visited[i])
+			DFSvisit(i, G, visited);
 	}
 }
 
@@ -28,16 +35,14 @@ int main(int argc, char *argv[]){
 
     for(auto &node : G){
         for(int i=0; i<V; ++i){
-            if(rand()%2)
+            if(rand() % 2)
                 node.push_back(i);
         }
     }
     
     vector<bool> visited(G.size(), false);
-	for(int i=0; i<G.size(); ++i){
-		if(!visited[i])
-			DFS(i, G, visited);
-	}
+
+    DFS(G, visited);
 
     return 0;
 }
