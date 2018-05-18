@@ -13,6 +13,8 @@
  *  map each node to an INT in the range (0, size)
  *  to avoid that, use empty constructor and insert(key, data)
  *
+ *  C++11 or above
+ * 
  *  TODO: to speed up the construction, create SIZE nodes at once and retrieve them from a node "pool"
  *
  **/
