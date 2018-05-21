@@ -25,12 +25,12 @@ public:
             int set_y = find_set(y);
             // Union by rank
             if(rank[set_x] > rank[set_y]){
-                parent[y] = x;
+                parent[set_y] = set_x;
             } else {
-                parent[x] = y;
+                parent[set_x] = set_y;
             } 
             if(rank[set_x] == rank[set_y]){
-                rank[y]++;
+                rank[set_y]++;
             }
         }
     }
