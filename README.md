@@ -64,7 +64,7 @@ Below a list of what I'd like to add (pretty much anything)
 
 -	Sparse Table
 
--	Disjoint-Sets Union
+-	[x] Disjoint-Sets Union
 
 -	SQRT Decomposition
 
