@@ -47,9 +47,23 @@ pivot partition(vector<int> &v, int p, int r){
 	return {j-1, k};	// {j-1, j};
 }
 
+void insertion_sort(vector<int> &v, int p, int r){
+	for(int i=p + 1; i<r; ++i){
+		int key = v[i];
+        int j = i-1;
+        while(j > p-1 && key < v[j]){
+            v[j+1] = v[j];
+            --j;
+        }
+        v[j+1] = key;
+	}
+}
+
 // the pivot end to be at index "q", so we dont need to consider it again
 void quick_sort(vector<int> &v, int p, int r){
-	if(p < r-1){
+	if(r - p < 20){
+		insertion_sort(v, p, r);
+	} else {
 		pivot q = partition(v, p, r);
 		quick_sort(v, p, q.start);
 		quick_sort(v, q.end, r);
@@ -72,6 +86,10 @@ int main(int argc, char *argv[]){
     start = clock();
     quick_sort(v, 0, N);
     printf("quick_sort = %lf\n", (double)(clock()-start)/(double)CLOCKS_PER_SEC);
+
+	if(!equal(v.begin(), v.end(), w.begin())){
+		printf("Error\n");
+	}
 
     printf("%lld\n", comparison);
     
