@@ -27,15 +27,10 @@ private:
     template <typename T>
     class doubly_linked_list {
     private:
+        T _head;
         size_t _size;
-    public:
-        T head;
-        
-        doubly_linked_list() { init(); };
-        
-        void init() { head = nullptr, _size = 0; }
-        
-        void insert_node(T prev, T node) {
+    
+        void insert_after(T prev, T node) {
             if (prev != nullptr) {
                 node->left = prev;
                 node->right = prev->right;
@@ -44,31 +39,36 @@ private:
             }
             ++_size;
         }
-        
-        void extract_node(T node) {     // remove node from list leaving untouched its "left" and "right" pointer
-            if (_size == 1) head = nullptr;
-            else if (node == head) head = node->right;
+
+    public:
+
+        doubly_linked_list() : _head(nullptr), _size(0) {};
+
+        T head() { return _head; }
+
+        void remove(T node) {          // remove node from list and clear its pointer
+            if (_size == 1) {
+                _head = nullptr;
+            } else if (node == _head) {
+                _head = node->right;
+            }
             node->right->left = node->left;
             node->left->right = node->right;
+            node->left = node;
+            node->right = node;
             --_size;
         }
         
-        void remove_node(T node) {          // remove node from list and clear its pointer
-            extract_node(node);
-            node->left = node;
-            node->right = node;
-        }
-        
         void push_back(T node) {            // append the node at the tail of the list
-            if (empty()) insert_node(head = node, node);
-            else insert_node(head->left, node);
+            if (empty()) insert_after(_head = node, node);
+            else insert_after(_head->left, node);
         }
         
         bool empty() { return !_size; }
         
         int size() { return _size; }
         
-        void clear(T &x) { head = nullptr, _size = 0, x = nullptr; }
+        void clear() { _head = nullptr, _size = 0; }
     };
 
 	template <typename KEY_NODE, typename DATA_NODE>
@@ -83,7 +83,7 @@ private:
         DATA_NODE data;
 
         //methods
-        fibonacci_node(KEY_NODE k, DATA_NODE d) : p(nullptr), left(this), right(this), degree(0), mark(false), key(k), data(d), child_list() {}
+        fibonacci_node(KEY_NODE k, DATA_NODE d) : p(nullptr), left(this), right(this), child_list(), degree(0), mark(false), key(k), data(d) {}
         
         fibonacci_node(fibonacci_node *node) { if(node != nullptr) key = node->key, data = node->data; }
         
@@ -115,20 +115,22 @@ private:
             }
             pointer[d] = x;
         }
-        root_list.clear(min_node);
+        root_list.clear();
+        min_node = nullptr;
         for (auto &x: pointer) {
             if (x) {
                 root_list.push_back(x);
-                if (min_node == nullptr)
+                if (min_node == nullptr) {
                     min_node = x;
-                else if (*x < *min_node)
+                } else if (*x < *min_node) {
                     min_node = x;
+                }
             }
         }
     }
     
     void cut(fibonacci_node<KEY, DATA> *x, fibonacci_node<KEY, DATA> *y) {
-        y->child_list.remove_node(x);
+        y->child_list.remove(x);
         --y->degree;
         root_list.push_back(x);
         x->p = nullptr;
@@ -149,7 +151,7 @@ private:
     }
     
     void make_child(fibonacci_node<KEY, DATA> *y, fibonacci_node<KEY, DATA> *x) {
-        root_list.remove_node(y);
+        root_list.remove(y);
         x->child_list.push_back(y);
         ++x->degree;
         y->p = x;
@@ -159,10 +161,11 @@ private:
     void insert(fibonacci_node<KEY, DATA> *node) {
         addresses[node->data] = node;
         root_list.push_back(node);
-        if (min_node == nullptr)
+        if (min_node == nullptr) {
             min_node = node;
-        else if(*node < *min_node)
+        } else if(*node < *min_node) {
             min_node = node;
+        }
         ++nodes;
     }
     
@@ -189,16 +192,17 @@ public:
         if (extracted != nullptr) {
         	x = {extracted->key, extracted->data};
             while (extracted->child_list.size()) {
-                child = extracted->child_list.head->right;
-                extracted->child_list.remove_node(child);
+                child = extracted->child_list.head()->right;
+                extracted->child_list.remove(child);
                 child->p = nullptr;
                 root_list.push_back(child);
             }
-            root_list.extract_node(extracted);
-            if (extracted == extracted->right) {
+            fibonacci_node<KEY, DATA> *next_node = extracted->right;
+            root_list.remove(extracted);
+            if (extracted == next_node) {
                 min_node = nullptr;
             } else {
-                min_node = extracted->right;
+                min_node = next_node;
                 consolidate();
             }
             --nodes;
@@ -218,8 +222,9 @@ public:
                 cut(node, parent);
                 cascading_cut(parent);
             }
-            if (*node < *min_node)
+            if (*node < *min_node) {
                 min_node = node;
+            }
         }
     }
     
