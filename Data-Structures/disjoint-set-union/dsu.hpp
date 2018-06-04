@@ -3,9 +3,9 @@
 class dsu {
 private:
     std::vector<int> parent;
-    std::vector<int> rank;
+    std::vector<int> size;
 public:
-    dsu(int size) : parent(size), rank(size, 0) {
+    dsu(int size) : parent(size), size(size, 0) {
         for(int i=0; i<size; ++i){
             parent[i] = i;
         }
@@ -24,13 +24,13 @@ public:
             int set_x = find_set(x);
             int set_y = find_set(y);
             // Union by rank
-            if(rank[set_x] > rank[set_y]){
+            if(size[set_x] > size[set_y]){
                 parent[set_y] = set_x;
             } else {
                 parent[set_x] = set_y;
             } 
-            if(rank[set_x] == rank[set_y]){
-                rank[set_y]++;
+            if(size[set_x] == size[set_y]){
+                size[set_y]++;
             }
         }
     }
