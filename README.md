@@ -62,15 +62,15 @@ Below a list of what I'd like to add (pretty much anything)
 	-	[ ] k-d Tree
 	-	[ ] Quad Tree
 
--	Sparse Table
+-	[ ] Sparse Table
 
 -	[x] Disjoint-Sets Union
 
--	SQRT Decomposition
+-	[ ] SQRT Decomposition
 
--	Heavy-Light Decomposition
+-	[ ] Heavy-Light Decomposition
 
--	Fractional Cascading
+-	[ ] Fractional Cascading
 
 ### Algorithms
 
