@@ -1,15 +1,12 @@
-#include <bits/stdc++.h>
-
+#include <iostream>
 /*
-    TODO
-    HEAD insert, remove, select
-    TAIL insert, remove, select
-    INDX insert, remove, select
-    search, list_delete
+    Insert in range [0, size)
+    if insert at @size: push_back
+    else insert at @index and slide the content
  */
 
 template <typename T>
-class linked_list {
+class single_linked {
     class node {
     public:
         T data;
@@ -17,7 +14,6 @@ class linked_list {
 
         node(T d) : data(d), next(nullptr) {}
     };
-
 
     class iterator {
     public:
@@ -42,28 +38,18 @@ class linked_list {
     int _size;
 
 public:
-    linked_list(){
+    single_linked(){
         head = nullptr;
         tail = nullptr;
         _size = 0;
     }
 
     void push_back(T data){
-        node *n = new node(data);
-        if(head == nullptr){
-            tail = head = n;
-        } else {
-            tail->next = n;
-            tail = tail->next;
-        }
-        _size++;
+        insert(_size, data);
     }
 
     void push_front(T data){
-        node *n = new node(data);
-        n->next = head;
-        head = n;
-        _size++;
+        insert(0, data);
     }
 
     void pop_back(){
@@ -71,9 +57,7 @@ public:
     }
 
     void pop_front(){
-        node *tmp = head;
-        head = head->next;
-        delete tmp;
+        remove(0);
     }
 
     node* find(int data){
@@ -93,7 +77,7 @@ public:
 
     std::pair<node *, std::pair<node *, node*>> get(int index){
         node *n = head, *prev = nullptr;
-        while(index-- && n != nullptr){
+        while(index-- && n->next != nullptr){
             prev = n;
             n = n->next;
         }
@@ -113,8 +97,8 @@ public:
         } else {
             data.second.first->next = data.second.second;
         }
-        _size--;
         delete data.first;
+        --_size;
     }
 
     void insert(int index, T data){
@@ -122,23 +106,24 @@ public:
         if(index == 0){
             n->next = head;
             head = n;
+            if(_size == 0){
+                tail = head;
+            }
         } else if(index == _size){
             tail->next = n;
             tail = n;
         } else {
             std::pair<node *, std::pair<node *, node*>> data = get(index);
             n->next = data.first;
-            data.second.first = n;
+            data.second.first->next = n;
         }
-        _size++;
+        ++_size;
     }
 
-    node *get_head() { return head; }
-
-    node *get_tail() { return tail; }
-
-
     int size() { return _size; }
+
+    //node *get_head() { return head; }
+    //node *get_tail() { return tail; }
 
     iterator begin() const { return iterator(head); }
     iterator end() const { return iterator(tail->next); }
@@ -153,33 +138,3 @@ public:
         std::cout << std::endl;
     }
 };
-
-void print(linked_list<std::string> &l){
-    for(auto &x : l){
-        std::cout << std::setw(2) << x << " ";
-    }
-    std::cout << std::endl;
-}
-
-int main(int argc, char const *argv[]) {
-    int N = atoi(argv[1]);
-    srand(time(0));
-
-    linked_list<std::string> list({});
-
-    for(int i=0; i<N; ++i){
-        std::string str = "hello";
-        str.append(std::to_string(i));
-        list.push_back(str);
-    }
-
-    list.print();
-
-    while(list.size()){
-        list.remove(rand() % list.size());
-        //list.pop_back();
-        print(list);
-    }
-
-    return 0;
-}
