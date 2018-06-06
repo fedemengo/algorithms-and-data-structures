@@ -21,6 +21,14 @@ int main(int argc, char const *argv[]) {
         list.print();
     }
     
+    //for(std::string str : list){
+    //    std::cout << str << std::endl;
+    //}
+
+    //for(auto it = list.begin(); it != list.end(); it++){
+    //    std::cout << *it << std::endl;
+    //}
+
     while(list.size()){
         list.remove(rand() % list.size());
         //print(list);

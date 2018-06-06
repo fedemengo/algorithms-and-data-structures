@@ -23,14 +23,26 @@ class doubly_linked {
     class iterator {
     public:
         iterator(node *ptr) : ptr(ptr){}
-        
+        // iterator pre increment 
         iterator &operator++() { 
             ptr = ptr->next; 
             return *this; 
         }
+        // iterator post increment
+        iterator &operator++(int) {
+            iterator *it = this;
+            ptr = ptr->next; 
+            return *it; 
+        }
+
         iterator &operator--() { 
             ptr = ptr->prev; 
             return *this; 
+        }
+        iterator &operator--(int) {
+            iterator *it = this;
+            ptr = ptr->prev; 
+            return *it; 
         }
         bool operator!=(const iterator & other) { return ptr != other.ptr; }
         T &operator*() const { return ptr->data; }
