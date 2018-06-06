@@ -11,7 +11,7 @@ Below a list of what I'd like to add (pretty much anything)
 	-	[ ] Priority Queue
 	-	[ ] Stack
 	-	[ ] Queue
-	-	[ ] List (simple, double, circular)
+	-	[x] List (simple, double)
 	-	[ ] Binary Tree
 	-	[ ] Hash Table
 	-	[ ] B-Tree
@@ -57,7 +57,7 @@ Below a list of what I'd like to add (pretty much anything)
 
 -	Data partitioning Tree
 
-	-	[ ] Fenwick Tree
+	-	[x] Fenwick Tree (frequency and cumulative frequency)
 	-	[ ] Segment Tree
 	-	[ ] k-d Tree
 	-	[ ] Quad Tree
