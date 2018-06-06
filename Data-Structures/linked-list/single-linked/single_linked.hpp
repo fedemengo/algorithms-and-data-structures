@@ -88,6 +88,9 @@ public:
         if(_size == 0){
             throw std::invalid_argument("can't remove from empty list");
         }
+        if(index < 0 || index > _size){
+            throw std::out_of_range("index out of bounds"); 
+        }
         std::pair<node *, std::pair<node *, node*>> data = get(index);
         if(data.second.first == nullptr){
             head = data.second.second;
@@ -102,6 +105,9 @@ public:
     }
 
     void insert(int index, T data){
+        if(index < 0 || index > _size + 1){
+            throw std::out_of_range("index out of bounds"); 
+        }
         node *n = new node(data);
         if(index == 0){
             n->next = head;
