@@ -21,7 +21,10 @@ class doubly_linked {
     };
 
     class iterator {
-    public:
+    private:
+        node *ptr;
+    
+	public:
         iterator(node *ptr) : ptr(ptr){}
         // iterator pre increment 
         iterator &operator++() { 
@@ -46,9 +49,10 @@ class doubly_linked {
         }
         bool operator!=(const iterator & other) { return ptr != other.ptr; }
         T &operator*() const { return ptr->data; }
-    private:
-        node *ptr;
     };
+
+    node *&head() { return dummy->next; }
+    node *&tail() { return dummy->prev; }
 
     node *dummy;
     int _size;
@@ -78,7 +82,7 @@ public:
     }
 
     node* find(int data){
-        node *n = dummy->next;
+        node *n = head();
         if(n->data == data){
             return n;
         } else {
@@ -93,7 +97,7 @@ public:
     }
 
     node *get(int index){
-        node *n = dummy->next;
+        node *n = head();
         while(index-- && n->next != dummy){
             n = n->next;
         }
@@ -109,13 +113,13 @@ public:
         }
         node *n;
         if(index == 0){
-            n = dummy->next;
-            dummy->next->next->prev = dummy;
-            dummy->next = dummy->next->next;
+            n = head();
+            n->next->prev = dummy;
+            head() = n->next;
         } else if(index == _size-1) {
-            n = dummy->prev;
+            n = tail();
             n->prev->next = dummy;
-            dummy->prev = n->prev;
+            tail() = n->prev;
         } else {
             n = get(index);
             n->prev->next = n->next;
@@ -131,15 +135,15 @@ public:
         }
         node *n = new node(data);
         if(index == 0){
-            n->next = dummy->next;
+            n->next = head();
             n->prev = dummy;
-            dummy->next->prev = n;
-            dummy->next = n;
+            head()->prev = n;
+            head() = n;
         } else if(index == _size){
-            dummy->prev->next = n;
-            dummy->prev->next->prev = dummy->prev;
-            dummy->prev = n;
-            dummy->prev->next = dummy;
+            n->prev = tail();
+            n->next = dummy;
+            tail()->next = n;
+            tail() = n;
         } else {
             node *tmp = get(index);
             n->prev = tmp->prev;
@@ -158,8 +162,8 @@ public:
     T &operator[] (int i) { return this->get(i)->data; }
     
     void print(){
-        for(node *n = dummy->next; n != dummy; n = n->next){
-            std:: cout << n->data << " ";
+        for(auto &x : *this){
+            std:: cout << x << " ";
         }
         std::cout << std::endl;
     }
