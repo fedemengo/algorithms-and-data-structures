@@ -3,6 +3,8 @@
     Insert in range [0, size)
     if insert at @size: push_back
     else insert at @index and slide the content
+
+    TODO: Consider whether to allow iterator to be modified
  */
 
 template <typename T>
@@ -16,6 +18,8 @@ class single_linked {
     };
 
     class iterator {
+    private:
+        node* ptr;
     public:
         iterator(node *ptr) : ptr(ptr){}
         iterator &operator++() { 
@@ -27,20 +31,21 @@ class single_linked {
             ptr = ptr->next; 
             return *it; 
         }
-        bool operator!=(const iterator & other) { return ptr != other.ptr; }
-        T &operator*() const { return ptr->data; }
-    private:
-        node* ptr;
+        bool operator!=(const iterator &other) { return ptr != other.ptr; }
+        T &operator*() { return ptr->data; }
     };
 
-    node *head;
-    node *tail;
+    node *&head() { return _head; }
+    node *&tail() { return _tail; }
+
+    node *_head;
+    node *_tail;
     int _size;
 
 public:
     single_linked(){
-        head = nullptr;
-        tail = nullptr;
+        head() = nullptr;
+        tail() = nullptr;
         _size = 0;
     }
 
@@ -61,7 +66,7 @@ public:
     }
 
     node* find(int data){
-        node *n = head;
+        node *n = head();
         if(n->data == data){
             return n;
         } else {
@@ -76,7 +81,7 @@ public:
     }
 
     std::pair<node *, std::pair<node *, node*>> get(int index){
-        node *n = head, *prev = nullptr;
+        node *n = head(), *prev = nullptr;
         while(index-- && n->next != nullptr){
             prev = n;
             n = n->next;
@@ -93,9 +98,9 @@ public:
         }
         std::pair<node *, std::pair<node *, node*>> data = get(index);
         if(data.second.first == nullptr){
-            head = data.second.second;
+            head() = data.second.second;
         } else if(data.second.second == nullptr){
-            tail = data.second.first;
+            tail() = data.second.first;
             data.second.first->next = nullptr;
         } else {
             data.second.first->next = data.second.second;
@@ -110,14 +115,14 @@ public:
         }
         node *n = new node(data);
         if(index == 0){
-            n->next = head;
-            head = n;
+            n->next = head();
+            head() = n;
             if(_size == 0){
-                tail = head;
+                tail() = head();
             }
         } else if(index == _size){
-            tail->next = n;
-            tail = n;
+            tail()->next = n;
+            tail() = n;
         } else {
             std::pair<node *, std::pair<node *, node*>> data = get(index);
             n->next = data.first;
@@ -128,18 +133,14 @@ public:
 
     int size() { return _size; }
 
-    //node *get_head() { return head; }
-    //node *get_tail() { return tail; }
-
-    iterator begin() const { return iterator(head); }
-    iterator end() const { return iterator(tail->next); }
+    iterator begin() const { return iterator(_head); }
+    iterator end() const { return iterator(_tail->next); }
 
     T &operator[] (int i) { return this->get(i).first->data; }
     
     void print(){
-        node *n = head;
-        for(int i=0; i<_size; ++i, n = n->next){
-            std:: cout << (*this)[i] << " ";
+        for(auto &x : *this){
+            std::cout << x << " ";
         }
         std::cout << std::endl;
     }
