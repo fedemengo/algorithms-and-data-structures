@@ -63,7 +63,16 @@ private:
             if (empty()) insert_after(_head = node, node);
             else insert_after(_head->left, node);
         }
-        
+
+		void merge(doubly_linked_list &l) {
+			T last_node = _head->left;
+			_head->left = l._head->left;
+			l._head->left->right = _head;
+			l._head->left = last_node;
+			last_node->right = l._head;
+			_size += l.size();
+		}
+
         bool empty() { return !_size; }
         
         int size() { return _size; }
@@ -227,6 +236,15 @@ public:
             }
         }
     }
-    
+
+	void merge(fibonacci_heap<KEY, DATA> &other) {
+		root_list.merge(other.root_list);
+
+		if(min_node == nullptr || (other.min_node != nullptr && *(other.min_node) < *min_node))
+			min_node = other.min_node;
+		
+		nodes += other.size();
+	}
+ 
     int size() { return nodes; }
 };
