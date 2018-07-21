@@ -1,21 +1,14 @@
-#include <iostream>
-#include <algorithm>
-#include <stdlib.h>
-#include <vector>
-#include <utility>
-#include <fstream>
-using namespace std;
-
-class node {
-public:
-	int key;
-	int value;
-	bool operator< (const node &x){ return value < x.value; }
-	bool operator> (const node &x){ return value > x.value; }
-};
 
 class max_heap {
 private:
+	class node {
+	public:
+		int key;
+		int value;
+		bool operator< (const node &x){ return value < x.value; }
+		bool operator> (const node &x){ return value > x.value; }
+	};
+
 	const int INF = (int)1e9;
 	size_t _size, _length;
 	int n_child;	// MUST BE A POWER OF 2
@@ -104,8 +97,3 @@ public:
 		}
 	}
 };
-
-int main(int argc, char const *argv[]) {
-	/* code */
-	return 0;
-}
