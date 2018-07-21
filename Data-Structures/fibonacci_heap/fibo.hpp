@@ -73,6 +73,14 @@ private:
 			_size += l.size();
 		}
 
+		void print() {
+			T n = _head;
+			do {
+				std::cout << n->key << " @" << n << std::endl;
+				n = n->right;
+			} while (n != _head);
+		}
+        
         bool empty() { return !_size; }
         
         int size() { return _size; }
