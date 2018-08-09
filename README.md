@@ -7,103 +7,91 @@ Below a list of what I'd like to add (pretty much anything)
 
 ### Data Structure
 
--	Basic DS
+- Basic DS
+	- [ ] Stack
+	- [ ] Queue
+	- [x] List
+	- [ ] Hash Table
 
-	-	[x] max/min Heap
-	-	[ ] Priority Queue
-	-	[ ] Stack
-	-	[ ] Queue
-	-	[x] List (simple, double)
-	-	[ ] Binary Tree
-	-	[ ] Hash Table
-	-	[ ] B-Tree
-
--	List
-
+- List
 	-	[ ] XOR list
 	-	[ ] Skiplist
 
--	Heap
+- Heap
+	- [x] Binary Heap
+	- [ ] Priority Queue
+	- [x] Fibonacci Heap
+	- [ ] Binomial Heap
+	- [ ] Leftist Heap
+	- [ ] Skew Heap
+	- [ ] d-Heap
+	- [ ] Brodal Heap
+	- [ ] Pairing Heap
+	- [ ] Weak Heap
 
-	-	[x] Fibonacci Heap
-	-	[ ] Binomial Heap
-	-	[ ] Leftist Heap
-	-	[ ] Skew Heap
-	-	[ ] d-Heap
-	-	[ ] Brodal Heap
-	-	[ ] Pairing Heap
-	-	[ ] Weak Heap
+- Tree
+	- [ ] Mergesort Tree
+	- [ ] Wavelettree
+	- [ ] Van Emde Boas
 
--	Tree
+- Binary Search Tree
+	- [ ] B-Tree
+	- [ ] AVL Tree
+	- [ ] Treap
+	- [ ] AA
+	- [ ] Scapegoat Tree
+	- [ ] Red-Black Tree
+	- [ ] Splay Tree
 
-	-	[ ] Mergesort Tree
-	-	[ ] Wavelettree
-	-	[ ] Van Emde Boas
+- Trie
+	- [ ] C-Trie
+	- [ ] eerTree
+	- [ ] Suffix
+	- [ ] Ternary Search
+	- [ ] X-fast, Y-fast
 
--	Binary Search Tree
+- Data partitioning Tree
+	- [x] Fenwick Tree (frequency and cumulative frequency)
+	- [ ] Segment Tree
+	- [ ] k-d Tree
+	- [ ] Quad Tree
 
-	-	[ ] AVL Tree
-	-	[ ] Treap
-	-	[ ] AA
-	-	[ ] Scapegoat Tree
-	-	[ ] Red-Black Tree
-	-	[ ] Splay Tree
-
--	Trie
-
-	-	[ ] C-Trie
-	-	[ ] eerTree
-	-	[ ] Suffix
-	-	[ ] Ternary Search
-	-	[ ] X-fast, Y-fast
-
--	Data partitioning Tree
-
-	-	[x] Fenwick Tree (frequency and cumulative frequency)
-	-	[ ] Segment Tree
-	-	[ ] k-d Tree
-	-	[ ] Quad Tree
-
--	[ ] Sparse Table
-
--	[x] Disjoint-Sets Union
-
--	[ ] SQRT Decomposition
-
--	[ ] Heavy-Light Decomposition
-
--	[ ] Fractional Cascading
+- [ ] Sparse Table
+- [x] Disjoint-Sets
+- [ ] SQRT Decomposition
+- [ ] Heavy-Light Decomposition
+- [ ] Fractional Cascading
 
 ### Algorithms
 
--	Graph
-	-	[x] SSSP (Dijkstra, SPFA)
-	-	[ ] APSP (Floyd-Warshall)
-	-	[ ] SCC
-	-	[ ] Topological sort
-	-	[ ] MST (Prim, Kruskal)
-	-	[ ] Euler tour
-	-	[ ] Max Flow (Edmonds-Karp, Dinic)
-	-	[ ] Ford-Fulkerson
-	-	[ ] LCA (binary jumps)
-	-	[ ] Bipartite Graph
-	-	[ ] Vertex cover
-	-	[ ] TSP
-	-	[ ] 2SAT
--	String
-	-   [ ] Polynomial Hashing
-	-	[ ] KMP
-	-	[ ] Z Algorithm
-	-	[ ] Manacher
-	-	[ ] Aho Corasick
-	-	[ ] Suffix Automatom
-	-	[ ] Suffix Tree
-	-	[ ] Suffix Array
-	-	[ ] LCP Array
-	-	[ ] LCS
-	-	[ ] String matching 2D
-	-	[ ] String hashing
--	Geometry
-	-	[ ] Convex Hull
-	-	[ ] Closest Pair
+- Graph
+	- [x] SSSP (Dijkstra, SPFA)
+	- [ ] APSP (Floyd-Warshall)
+	- [ ] SCC
+	- [ ] Topological sort
+	- [ ] MST (Prim, Kruskal)
+	- [ ] Euler tour
+	- [ ] Max Flow (Edmonds-Karp, Dinic)
+	- [ ] Ford-Fulkerson
+	- [ ] LCA (binary jumps)
+	- [ ] Bipartite Graph
+	- [ ] Vertex cover
+	- [ ] TSP
+	- [ ] 2SAT
+- String
+	- [ ] Polynomial Hashing
+	- [ ] KMP
+	- [ ] Z Algorithm
+	- [ ] Manacher
+	- [ ] Aho Corasick
+	- [ ] Suffix Automatom
+	- [ ] Suffix Tree
+	- [ ] Suffix Array
+	- [ ] LCP Array
+	- [ ] LCS
+	- [ ] String matching 2D
+	- [ ] String hashing
 
+- Geometry
+	- [ ] Convex Hull
+	- [ ] Closest Pair
