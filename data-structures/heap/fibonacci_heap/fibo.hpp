@@ -8,6 +8,8 @@
  *  usage example in SP's algorithm
  *  the KEY would be the distance to each node, initialized at INF
  *  the DATA would be an identifier for the node itself
+ *  for this reason all element's DATA should be different from one another while
+ *  it's reasonable to have two element with the same KEY
  *
  *  NOTE: the method fill(size, default_value) and therefore the constructor (size, default_value)
  *  map each node to an INT in the range (0, size)
