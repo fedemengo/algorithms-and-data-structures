@@ -1,5 +1,7 @@
-Collection of some Algorithms and Data Structures
+Algorithms and Data Structures
 -------------------------------------------------
+
+Implementation of some algorithms and data structures in **C++**.
 
 Below a list of what I'd like to add (pretty much anything)
 
@@ -104,3 +106,4 @@ Below a list of what I'd like to add (pretty much anything)
 -	Geometry
 	-	[ ] Convex Hull
 	-	[ ] Closest Pair
+
