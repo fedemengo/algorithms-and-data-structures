@@ -14,7 +14,7 @@
  **/
 
 template <typename KEY, typename DATA>
-class heap {
+class binary_heap {
 private:
 	template <typename KEY_NODE, typename DATA_NODE>
 	class node {
@@ -65,26 +65,7 @@ private:
 			heapify(i);
 	}
 
-public:
-	heap(std::function<bool(KEY, KEY)> cmp) : _size(0), length(0), n_child(2), v(), indeces(), compare(cmp) {}
-
-	/* 
-	void delete_key(KEY key){
-		int index = indeces[key];
-		node<KEY, DATA> *tmp = v[index];
-		tmp.key = 
-		bool emptyValue = true;
-		while(index > 0 && (emptyValue || v[parent(index)] < tmp)){		// porto in testa come descrease key
-			v[index] = v[parent(index)];
-			indeces[v[index].key] = index;
-			index = parent(index);
-		}
-		v[index] = tmp;
-		indeces[v[index].key] = index;
-		pop();				// poppo
-	} 
-	*/
-
+protected:
 	void update_key(KEY new_key, DATA data){
 		int index = indeces[data];
 		if(v[index]->init && compare(v[index]->key, new_key)) 
@@ -101,6 +82,9 @@ public:
 		v[index] = tmp;
 		indeces[v[index]->data] = index;
 	}
+
+public:
+	binary_heap(std::function<bool(KEY, KEY)> cmp) : _size(0), length(0), n_child(2), v(), indeces(), compare(cmp) {}
 
 	void push(KEY key, DATA data){
 		node<KEY, DATA> *x = new node<KEY, DATA>(key, data);
@@ -124,10 +108,10 @@ public:
 
 	int size() { return _size; }
 
-	void heap_sort(bool inOrder){
-		if(!inOrder)
+	void heap_sort(bool isHeap){
+		if(!isHeap)
 			build_heap();
-		for(int i=length-1; i>-1; --i){
+		for(int i=_size-1; i>-1; --i){
 			node<KEY, DATA> *x = top(); pop();
 			v[i] = x;
 		}
