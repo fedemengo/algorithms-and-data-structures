@@ -14,12 +14,12 @@ Below a list of what I'd like to add (pretty much anything)
 	- [ ] Hash Table
 
 - List
-	-	[ ] XOR list
-	-	[ ] Skiplist
+	- [ ] XOR list
+	- [ ] Skiplist
 
 - Heap
 	- [x] Binary Heap
-	- [ ] Priority Queue
+	- [x] Priority Queue
 	- [x] Fibonacci Heap
 	- [ ] Binomial Heap
 	- [ ] Leftist Heap
