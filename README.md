@@ -7,14 +7,9 @@ Below a list of what I'd like to add (pretty much anything)
 
 ### Data Structure
 
-- Basic DS
-	- [ ] Stack
-	- [ ] Queue
-	- [x] List
-	- [ ] Hash Table
-
 - List
-	- [ ] XOR list
+	- [x] Linked list
+	- [x] XOR list
 	- [ ] Skiplist
 
 - Heap
@@ -56,6 +51,7 @@ Below a list of what I'd like to add (pretty much anything)
 	- [ ] k-d Tree
 	- [ ] Quad Tree
 
+- [ ] Hash Table
 - [ ] Sparse Table
 - [x] Disjoint-Sets
 - [ ] SQRT Decomposition

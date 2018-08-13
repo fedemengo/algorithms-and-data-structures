@@ -24,14 +24,14 @@ private:
         iterator &operator++() {
             xor_list_node<T_NODE> *old = ptr;
             ptr = XOR(ptr->np, last);
-            last = ptr;
+            last = old;
             return *this; 
         }
         iterator &operator++(int) {
             iterator *it = this;
             xor_list_node<T_NODE> *old = ptr;
             ptr = XOR(ptr->np, last);
-            last = ptr;
+            last = old;
             return *it; 
         }
         bool operator!=(const iterator &other) { return ptr != other.ptr; }
@@ -93,7 +93,13 @@ public:
         return d;
     }
 
-    int size() {
+	void swap(){
+		xor_list_node<T> *tmp = head;
+		head = tail;
+		tail = tmp;
+	}
+	
+	int size() {
         return _size;
     }
 

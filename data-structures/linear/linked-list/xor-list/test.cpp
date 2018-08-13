@@ -47,9 +47,10 @@ int main(int argc, char const *argv[]) {
             //test_at(list, i, check[i]);
         }
 
+
         int i = 0;
         for(std::string &str: check){
-            test_equal(l1.pop_front(), check[i]);
+            //test_equal(l1.pop_front(), check[i]);
             ++i;
         }
 
@@ -73,6 +74,20 @@ int main(int argc, char const *argv[]) {
             test_equal(x, check[i]);
             i++;
         }
+
+		i = check.size()-1;
+        l1.swap();
+		for(auto x: l1){
+			test_equal(x, check[i]);
+            i--;
+        }
+
+        i = check.size()-1;
+        for(auto it = l1.begin(); it != l1.end(); i--, it++){
+            test_equal(*it, check[i]);
+        }
+
+
 
 /*
         while(list.size()){
