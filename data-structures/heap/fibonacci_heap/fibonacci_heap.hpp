@@ -124,7 +124,9 @@ private:
 
     const int POOL_SIZE = 1000;
     int nodes;
-    std::stack<fibonacci_node<KEY, DATA> *> pool;
+    // pool implemented using a stack instead of a queue 
+	// to reuse nodes as soon as possible (cache friendly?)
+	std::stack<fibonacci_node<KEY, DATA> *> pool;
     fibonacci_node<KEY, DATA> *top_node;
     doubly_linked_list<fibonacci_node<KEY, DATA> *> root_list;
     std::unordered_map<DATA, fibonacci_node<KEY, DATA> *> addresses;
