@@ -2,7 +2,8 @@
 #include <exception>
 
 void test_extract(fibonacci_heap<int, std::string> &h, int k, std::string v) {
-	auto x = h.extract_min();
+	auto x = h.get_min();
+	h.remove_min();
 
 	if(x.first != k){
 		throw std::invalid_argument("Expected key " + std::to_string(k) + " but got " + std::to_string(x.first));
@@ -18,9 +19,9 @@ int main(int argc, char const *argv[]) {
 
 	try {
 		F1.insert(1, "hello");
-		F2.insert(2, "dope");
-		F1.insert(4, "wow");
-		F2.insert(0, "awesome");
+		F2.insert(3, "dope");
+		F1.insert(6, "wow");
+		F2.insert(-10, "awesome");
 
 		F3.insert(0, "a");	
 		F3.insert(11, "z");
@@ -33,21 +34,22 @@ int main(int argc, char const *argv[]) {
 
 		F1.merge(F2);
 
-		test_extract(F1, 0, "awesome");
-		test_extract(F1, 1, "hello");
-		test_extract(F1, 2, "dope");
-		test_extract(F1, 4, "wow");
-
 		F3.decrease_key(-3, "w");
 		F3.decrease_key(4, "f");
 		F3.decrease_key(-1, "z");
 
+		F3.merge(F1);
+
+		test_extract(F3, -10, "awesome");
 		test_extract(F3, -3, "w");
 		test_extract(F3, -1, "z");
 		test_extract(F3, 0, "a");
+		test_extract(F3, 1, "hello");
 		test_extract(F3, 2, "x");
+		test_extract(F3, 3, "dope");
 		test_extract(F3, 4, "f");
 		test_extract(F3, 5, "c");
+		test_extract(F3, 6, "wow");
 		test_extract(F3, 7, "h");
 		test_extract(F3, 13, "n");
 

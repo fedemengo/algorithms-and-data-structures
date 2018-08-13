@@ -114,8 +114,6 @@ private:
     fibonacci_node<KEY, DATA> *min_node;
     doubly_linked_list<fibonacci_node<KEY, DATA> *> root_list;
     std::unordered_map<DATA, fibonacci_node<KEY, DATA> *> addresses;
-    fibonacci_node<KEY, DATA> *child;
-    fibonacci_node<KEY, DATA> *extracted;
 
     void consolidate() {
         std::vector<fibonacci_node<KEY, DATA> *> pointer(max_degree(), nullptr);
@@ -204,14 +202,16 @@ public:
     bool empty() { return !nodes; }
     
     void insert(KEY k, DATA d) { insert(new fibonacci_node<KEY, DATA>(k, d)); }
+
+    std::pair<KEY, DATA> get_min() {
+        return {min_node->key, min_node->data};
+    }
     
-    std::pair<KEY, DATA> extract_min(){
-    	std::pair<KEY, DATA> x;
-        extracted = min_node;
+    void remove_min(){
+        fibonacci_node<KEY, DATA> *extracted = min_node;
         if (extracted != nullptr) {
-        	x = {extracted->key, extracted->data};
             while (extracted->child_list.size()) {
-                child = extracted->child_list.head()->right;
+                fibonacci_node<KEY, DATA> *child = extracted->child_list.head()->right;
                 extracted->child_list.remove(child);
                 child->p = nullptr;
                 root_list.push_back(child);
@@ -228,7 +228,6 @@ public:
             addresses.erase(extracted->data);
             delete extracted;	
         }
-        return x;
     }
     
     void decrease_key(KEY key, DATA data) {
