@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <iostream>
 #include <functional>
+#include <stack>
 
 /**
  *  usage example in SP's algorithm
@@ -108,12 +109,22 @@ private:
             key = k;
             data = d;
         }
-        
+
+        void clear() {
+            p = nullptr;
+            left = this;
+            right = this;
+            child_list = doubly_linked_list<fibonacci_node<KEY_NODE, DATA_NODE> *>();
+            degree = 0;
+            mark = false;        }
+         
         bool operator< (const fibonacci_node x){ return key < x.key; }
         bool operator> (const fibonacci_node x){ return key > x.key; }
     };
 
+    const int POOL_SIZE = 1000;
     int nodes;
+    std::stack<fibonacci_node<KEY, DATA> *> pool;
     fibonacci_node<KEY, DATA> *top_node;
     doubly_linked_list<fibonacci_node<KEY, DATA> *> root_list;
     std::unordered_map<DATA, fibonacci_node<KEY, DATA> *> addresses;
@@ -193,22 +204,41 @@ private:
     // upper_bound of number of root nodes in the root lists that will be present after consolidation
     int max_degree() { return (int)floor(log((double)nodes)/log((1.0+sqrt(5.0))/2.0))+1; }
 
+    void fill_pool(){
+        for(int i=0; i<POOL_SIZE; i++){
+            pool.push(new fibonacci_node<KEY, DATA>());
+        }
+    }
+
+    fibonacci_node<KEY, DATA> *get_node(KEY &k, DATA &d){
+        fibonacci_node<KEY, DATA> *x = pool.top();
+        pool.pop();
+        x->key = k;
+        x->data = d;
+        if(pool.size() == 0)
+            fill_pool();
+        return x;
+    }
+
 public:
     fibonacci_heap(std::function<bool(KEY, KEY)> cmp) : nodes(0), top_node(nullptr), addresses(), compare(cmp) {
+        fill_pool();
+    }
     
     // by default it's a min heap
-    fibonacci_heap(int size, KEY default_key, std::function<bool(KEY, KEY)> cmp = [](KEY &k1, KEY &k2){ return k1 < k2;}) : fibonacci_heap<KEY, DATA>(cmp) { 
+    fibonacci_heap(int size, KEY default_key, std::function<bool(KEY, KEY)> cmp = [](KEY k1, KEY k2){ return k1 < k2;}) : fibonacci_heap<KEY, DATA>(cmp) { 
         fill(size, default_key);
     }
     
     void fill(int size, KEY default_key){
-        for(int node_id=0; node_id<size; ++node_id)
-            insert(new fibonacci_node<KEY, DATA>(default_key, node_id));
+        for(int node_id=0; node_id<size; ++node_id){
+            insert(get_node(default_key, node_id));
+        }
     }
     
     bool empty() { return !nodes; }
     
-    void insert(KEY k, DATA d) { insert(new fibonacci_node<KEY, DATA>(k, d)); }
+    void insert(KEY k, DATA d) { insert(get_node(k, d)); }
 
     std::pair<KEY, DATA> get() {
         return {top_node->key, top_node->data};
@@ -233,7 +263,8 @@ public:
             }
             --nodes;
             addresses.erase(extracted->data);
-            delete extracted;	
+            extracted->clear();
+            pool.push(extracted);
         }
     }
     
