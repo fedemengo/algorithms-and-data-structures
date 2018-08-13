@@ -3,6 +3,7 @@
 #include <iostream>
 #include <unordered_map>
 #include <iostream>
+#include <functional>
 
 /**
  *  usage example in SP's algorithm
@@ -93,7 +94,7 @@ private:
 	template <typename KEY_NODE, typename DATA_NODE>
     class fibonacci_node {
     public:
-        // attributes
+
         fibonacci_node<KEY_NODE, DATA_NODE> *p, *left, *right;
         doubly_linked_list<fibonacci_node<KEY_NODE, DATA_NODE> *> child_list;
         int degree;
@@ -101,30 +102,33 @@ private:
         KEY_NODE key;
         DATA_NODE data;
 
-        //methods
-        fibonacci_node(KEY_NODE k, DATA_NODE d) : p(nullptr), left(this), right(this), child_list(), degree(0), mark(false), key(k), data(d) {}
-        
-        fibonacci_node(fibonacci_node *node) { if(node != nullptr) key = node->key, data = node->data; }
+        fibonacci_node() : p(nullptr), left(this), right(this), child_list(), degree(0), mark(false) {}
+        // If obj are modified after being insrted something bad could happen
+        fibonacci_node(KEY_NODE &k, DATA_NODE &d) :  fibonacci_node<KEY_NODE, DATA_NODE>() {
+            key = k;
+            data = d;
+        }
         
         bool operator< (const fibonacci_node x){ return key < x.key; }
         bool operator> (const fibonacci_node x){ return key > x.key; }
     };
 
     int nodes;
-    fibonacci_node<KEY, DATA> *min_node;
+    fibonacci_node<KEY, DATA> *top_node;
     doubly_linked_list<fibonacci_node<KEY, DATA> *> root_list;
     std::unordered_map<DATA, fibonacci_node<KEY, DATA> *> addresses;
+    std::function<bool(KEY, KEY)> compare;
 
     void consolidate() {
         std::vector<fibonacci_node<KEY, DATA> *> pointer(max_degree(), nullptr);
-        fibonacci_node<KEY, DATA> *node = min_node, *x, *y;
+        fibonacci_node<KEY, DATA> *node = top_node, *x, *y;
 
         for(int i=0; i<root_list.size(); ++i){
             node = (x = node)->right;   // x = node, node = x->right
             int d = x->degree;
             while (pointer[d]) {
                 y = pointer[d];
-                if (*x > *y)
+                if (!compare(x->key, y->key))
                     std::swap(x, y);
                 make_child(y, x);
                 pointer[d] = nullptr;
@@ -133,14 +137,14 @@ private:
             pointer[d] = x;
         }
         root_list.clear();
-        min_node = nullptr;
+        top_node = nullptr;
         for (auto &x: pointer) {
             if (x) {
                 root_list.push_back(x);
-                if (min_node == nullptr) {
-                    min_node = x;
-                } else if (*x < *min_node) {
-                    min_node = x;
+                if (top_node == nullptr) {
+                    top_node = x;
+                } else if (compare(x->key, top_node->key)) {
+                    top_node = x;
                 }
             }
         }
@@ -178,10 +182,10 @@ private:
     void insert(fibonacci_node<KEY, DATA> *node) {
         addresses[node->data] = node;
         root_list.push_back(node);
-        if (min_node == nullptr) {
-            min_node = node;
-        } else if(*node < *min_node) {
-            min_node = node;
+        if (top_node == nullptr) {
+            top_node = node;
+        } else if(compare(node->key, top_node->key)) {
+            top_node = node;
         }
         ++nodes;
     }
@@ -190,9 +194,12 @@ private:
     int max_degree() { return (int)floor(log((double)nodes)/log((1.0+sqrt(5.0))/2.0))+1; }
 
 public:
-    fibonacci_heap() : nodes(0), min_node(nullptr), addresses() {}
+    fibonacci_heap(std::function<bool(KEY, KEY)> cmp) : nodes(0), top_node(nullptr), addresses(), compare(cmp) {
     
-    fibonacci_heap(int size, KEY default_key) : nodes(0), min_node(nullptr), addresses() { fill(size, default_key); }
+    // by default it's a min heap
+    fibonacci_heap(int size, KEY default_key, std::function<bool(KEY, KEY)> cmp = [](KEY &k1, KEY &k2){ return k1 < k2;}) : fibonacci_heap<KEY, DATA>(cmp) { 
+        fill(size, default_key);
+    }
     
     void fill(int size, KEY default_key){
         for(int node_id=0; node_id<size; ++node_id)
@@ -203,12 +210,12 @@ public:
     
     void insert(KEY k, DATA d) { insert(new fibonacci_node<KEY, DATA>(k, d)); }
 
-    std::pair<KEY, DATA> get_min() {
-        return {min_node->key, min_node->data};
+    std::pair<KEY, DATA> get() {
+        return {top_node->key, top_node->data};
     }
     
-    void remove_min(){
-        fibonacci_node<KEY, DATA> *extracted = min_node;
+    void remove(){
+        fibonacci_node<KEY, DATA> *extracted = top_node;
         if (extracted != nullptr) {
             while (extracted->child_list.size()) {
                 fibonacci_node<KEY, DATA> *child = extracted->child_list.head()->right;
@@ -219,9 +226,9 @@ public:
             fibonacci_node<KEY, DATA> *next_node = extracted->right;
             root_list.remove(extracted);
             if (extracted == next_node) {
-                min_node = nullptr;
+                top_node = nullptr;
             } else {
-                min_node = next_node;
+                top_node = next_node;
                 consolidate();
             }
             --nodes;
@@ -230,18 +237,18 @@ public:
         }
     }
     
-    void decrease_key(KEY key, DATA data) {
+    void update_key(KEY key, DATA data) {
         if(addresses.count(data) == 0) return;
         fibonacci_node<KEY, DATA> *node = addresses[data];
-        if (key < node->key) {
+        if (compare(key, node->key)) {
             node->key = key;
             fibonacci_node<KEY, DATA> *parent = node->p;
-            if (parent != nullptr && *node < *parent) {
+            if (parent != nullptr && compare(node->key, parent->key)) {
                 cut(node, parent);
                 cascading_cut(parent);
             }
-            if (*node < *min_node) {
-                min_node = node;
+            if (compare(node->key, top_node->key)) {
+                top_node = node;
             }
         }
     }
@@ -249,8 +256,8 @@ public:
 	void merge(fibonacci_heap<KEY, DATA> &other) {
 		root_list.merge(other.root_list);
 
-		if(min_node == nullptr || (other.min_node != nullptr && *(other.min_node) < *min_node))
-			min_node = other.min_node;
+		if(top_node == nullptr || (other.top_node != nullptr && compare(other.top_node->key, top_node->key)))
+			top_node = other.top_node;
 		
 		nodes += other.size();
 	}
