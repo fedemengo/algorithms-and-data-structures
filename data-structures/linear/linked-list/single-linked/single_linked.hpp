@@ -9,19 +9,23 @@
 
 template <typename T>
 class single_linked {
+private:
+
+    template <typename T_NODE>
     class node {
     public:
-        T data;
-        node *next;
+        T_NODE data;
+        node<T_NODE> *next;
 
-        node(T d) : data(d), next(nullptr) {}
+        node(T_NODE d) : data(d), next(nullptr) {}
     };
 
+    template <typename T_NODE>
     class iterator {
     private:
-        node* ptr;
+        node<T_NODE> *ptr;
     public:
-        iterator(node *ptr) : ptr(ptr){}
+        iterator(node<T_NODE> *ptr) : ptr(ptr){}
         iterator &operator++() { 
             ptr = ptr->next; 
             return *this; 
@@ -35,11 +39,11 @@ class single_linked {
         T &operator*() { return ptr->data; }
     };
 
-    node *&head() { return _head; }
-    node *&tail() { return _tail; }
+    node<T> *&head() { return _head; }
+    node<T> *&tail() { return _tail; }
 
-    node *_head;
-    node *_tail;
+    node<T> *_head;
+    node<T> *_tail;
     int _size;
 
 public:
@@ -65,8 +69,8 @@ public:
         remove(0);
     }
 
-    node* find(int data){
-        node *n = head();
+    node<T> *find(int data){
+        node<T> *n = head();
         if(n->data == data){
             return n;
         } else {
@@ -80,8 +84,8 @@ public:
         return nullptr;
     }
 
-    std::pair<node *, std::pair<node *, node*>> get(int index){
-        node *n = head(), *prev = nullptr;
+    std::pair<node<T> *, std::pair<node<T> *, node<T> *>> get(int index){
+        node<T> *n = head(), *prev = nullptr;
         while(index-- && n->next != nullptr){
             prev = n;
             n = n->next;
@@ -96,7 +100,7 @@ public:
         if(index < 0 || index > _size){
             throw std::out_of_range("index out of bounds"); 
         }
-        std::pair<node *, std::pair<node *, node*>> data = get(index);
+        std::pair<node<T> *, std::pair<node<T> *, node<T> *>> data = get(index);
         if(data.second.first == nullptr){
             head() = data.second.second;
         } else if(data.second.second == nullptr){
@@ -113,7 +117,7 @@ public:
         if(index < 0 || index > _size + 1){
             throw std::out_of_range("index out of bounds"); 
         }
-        node *n = new node(data);
+        node<T> *n = new node<T>(data);
         if(index == 0){
             n->next = head();
             head() = n;
@@ -124,7 +128,7 @@ public:
             tail()->next = n;
             tail() = n;
         } else {
-            std::pair<node *, std::pair<node *, node*>> data = get(index);
+            std::pair<node<T> *, std::pair<node<T> *, node<T> *>> data = get(index);
             n->next = data.first;
             data.second.first->next = n;
         }
@@ -133,8 +137,8 @@ public:
 
     int size() { return _size; }
 
-    iterator begin() const { return iterator(_head); }
-    iterator end() const { return iterator(_tail->next); }
+    iterator<T> begin() const { return iterator<T>(_head); }
+    iterator<T> end() const { return iterator<T>(_tail->next); }
 
     T &operator[] (int i) { return this->get(i).first->data; }
     

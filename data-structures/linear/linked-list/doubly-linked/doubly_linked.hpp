@@ -10,22 +10,24 @@
 template <typename T>
 class doubly_linked {
 
+    template <typename T_NODE>
     class node {
     public:
-        T data;
-        node *next;
-        node *prev;
+        T_NODE data;
+        node<T_NODE> *next;
+        node<T_NODE> *prev;
 
-        node(T d) : data(d), next(nullptr), prev(nullptr) {}
+        node(T_NODE d) : data(d), next(nullptr), prev(nullptr) {}
         node() : next(this), prev(this) {}
     };
 
+    template <typename T_NODE>
     class iterator {
     private:
-        node *ptr;
+        node<T_NODE> *ptr;
     
 	public:
-        iterator(node *ptr) : ptr(ptr){}
+        iterator(node<T_NODE> *ptr) : ptr(ptr){}
         // iterator pre increment 
         iterator &operator++() { 
             ptr = ptr->next; 
@@ -51,15 +53,15 @@ class doubly_linked {
         T &operator*() const { return ptr->data; }
     };
 
-    node *&head() { return dummy->next; }
-    node *&tail() { return dummy->prev; }
+    node<T> *&head() { return dummy->next; }
+    node<T> *&tail() { return dummy->prev; }
 
-    node *dummy;
+    node<T> *dummy;
     int _size;
 
 public:
     doubly_linked(){
-        dummy = new node();
+        dummy = new node<T>();
         _size = 0;
     }
 
@@ -81,8 +83,8 @@ public:
         remove(0);
     }
 
-    node* find(int data){
-        node *n = head();
+    node<T> * find(int data){
+        node<T> *n = head();
         if(n->data == data){
             return n;
         } else {
@@ -96,8 +98,8 @@ public:
         return nullptr;
     }
 
-    node *get(int index){
-        node *n = head();
+    node<T> *get(int index){
+        node<T> *n = head();
         while(index-- && n->next != dummy){
             n = n->next;
         }
@@ -111,7 +113,7 @@ public:
         if(index < 0 || index > _size){
             throw std::out_of_range("index out of bounds"); 
         }
-        node *n;
+        node<T> *n;
         if(index == 0){
             n = head();
             n->next->prev = dummy;
@@ -133,7 +135,7 @@ public:
         if(index < 0 || index > _size + 1){
             throw std::out_of_range("index out of bounds"); 
         }
-        node *n = new node(data);
+        node<T> *n = new node<T>(data);
         if(index == 0){
             n->next = head();
             n->prev = dummy;
@@ -145,7 +147,7 @@ public:
             tail()->next = n;
             tail() = n;
         } else {
-            node *tmp = get(index);
+            node<T> *tmp = get(index);
             n->prev = tmp->prev;
             n->prev->next = n;
             tmp->prev = n;
@@ -156,8 +158,8 @@ public:
 
     int size() { return _size; }
 
-    iterator begin() const { return iterator(dummy->next); }
-    iterator end() const { return iterator(dummy); }
+    iterator<T> begin() const { return iterator<T>(dummy->next); }
+    iterator<T> end() const { return iterator<T>(dummy); }
 
     T &operator[] (int i) { return this->get(i)->data; }
     
