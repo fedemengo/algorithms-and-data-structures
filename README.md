@@ -5,6 +5,16 @@ Implementation of some algorithms and data structures in **C++**.
 
 Below a list of what I'd like to add (pretty much anything)
 
+### Testing
+
+To compile each test I use
+
+`g++ test.cpp /usr/lib/libgtest.so`
+
+Other library are needed if they are not linked automatically (e.g `-lpthread`)
+
+For testing rapidily I used the `atest.sh` script ("atest" is just for fast tab-completion). To use it in any folder its location should be added to `PATH`, so `PATH="${PATH}:/path/to/folder/algorithms-and-data-structures"`.
+
 ### Data Structure
 
 - List
