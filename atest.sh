@@ -1,10 +1,10 @@
 #!/bin/bash
 
-test-ds(){
+testFolder(){
     curr=`pwd`
     echo "Testing $1"
     cd $1
-    rm a.out 2>/dev/null
+	rm a.out 2>/dev/null
     g++ test.cpp /usr/lib/libgtest.so
     ./a.out
 	rm a.out
@@ -16,10 +16,12 @@ explore(){
     
     if test -f "$1/test.cpp"
     then
-        test-ds $1
+        testFolder $1
     fi
 
-    subfolder=()
+	rm -rf "$1/.vscode" 2>/dev/null
+    
+	subfolder=()
     for dir in $1/*;
     do
         if test -d "$dir"
