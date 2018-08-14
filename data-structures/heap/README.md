@@ -25,11 +25,28 @@ A pool of instantiate nodes is used to lower the overhead of dynamic node creati
 
 ### Operations
 
-- Insert - O(log N)
+- Insert - O(1)
 - Get - O(1)
-- Remove - O(log N)
-- Update key - O(1)
+- Remove - O(log N)*
+- Update key - O(1)*
 - Merge - O(1)
+
+\* Amortized time
+
+## Leftist Heap
+
+For this structure holds both the heap property and also the leftist property: `n->left->rank >= n->right->rank` and `n->left == nullptr` only if `n->right == nullptr`. In each node the shorted path to a leaf in left subtree is at least as long as the one in the right subtree.
+
+A function passed to the constructor is used to determine the relative order of the element.
+
+All operations are based on `merge`. When pushing, merge the new node with the heap, when popping, merge the root's left tree with the root's right tree.
+
+### Operations
+
+- Push - O(log N)
+- Top - O(1)
+- Pop - O(log N)
+- Merge - 0(log N)
 
 ## Priority Queue
 

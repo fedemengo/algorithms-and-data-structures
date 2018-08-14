@@ -16,7 +16,7 @@ void test_extract(fibonacci_heap<int, std::string> &h, int k, std::string v) {
 int main(int argc, char const *argv[]) {
 
 	// min heap
-    fibonacci_heap<int, std::string> F1([](int k1, int k2){ return k1 < k2;});
+	fibonacci_heap<int, std::string> F1([](int k1, int k2){ return k1 < k2;});
 	fibonacci_heap<int, std::string> F2([](int k1, int k2){ return k1 < k2;});
 	fibonacci_heap<int, std::string> F3([](int k1, int k2){ return k1 < k2;});
 	fibonacci_heap<int, std::string> F4([](int k1, int k2){ return k1 > k2;});

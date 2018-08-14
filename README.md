@@ -17,7 +17,7 @@ Below a list of what I'd like to add (pretty much anything)
 	- [x] Priority Queue
 	- [x] Fibonacci Heap
 	- [ ] Binomial Heap
-	- [ ] Leftist Heap
+	- [x] Leftist Heap
 	- [ ] Skew Heap
 	- [ ] d-Heap
 	- [ ] Brodal Heap
