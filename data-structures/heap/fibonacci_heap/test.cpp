@@ -1,85 +1,124 @@
 #include "fibonacci_heap.hpp"
-#include <exception>
+#include <gtest/gtest.h>
 
-void test_extract(fibonacci_heap<int, std::string> &h, int k, std::string v) {
-	auto x = h.get();
+const int SIZE = 10000;
+std::vector<std::pair<int, std::string>> vx, v1, v2, v3, v;
+
+std::pair<int, std::string> GetAndRemove(fibonacci_heap<int, std::string> &h){
+	std::pair<int, std::string> x = h.get();
 	h.remove();
+	return x;
+}
 
-	if(x.first != k){
-		throw std::invalid_argument("Expected key " + std::to_string(k) + " but got " + std::to_string(x.first));
+struct min_fibonacci_heap_Test : testing::Test {
+	fibonacci_heap<int, std::string> *heap;
+
+	min_fibonacci_heap_Test(){
+		heap = new fibonacci_heap<int, std::string>([](int k1, int k2){ return k1 < k2;});
 	}
-	if(x.second != v){
-		throw std::invalid_argument("Expected value " + v + " but got " + x.second);
+};
+
+struct max_fibonacci_heap_Test : testing::Test {
+	fibonacci_heap<unsigned long long int, std::string> *heap;
+
+	max_fibonacci_heap_Test(){
+		heap = new fibonacci_heap<unsigned long long int, std::string>([](unsigned long long int k1, unsigned long long int k2){ return k1 > k2;});
+	}
+};
+
+TEST_F(min_fibonacci_heap_Test, InsertRemove) {
+
+	for(auto &p: vx)
+		heap->insert(p.first, p.second);
+
+	std::sort(vx.begin(), vx.end());
+	for(auto &p: vx)
+    	ASSERT_EQ(p, GetAndRemove(*heap));
+}
+
+TEST_F(min_fibonacci_heap_Test, Merge) {
+
+	fibonacci_heap<int, std::string> F2([](int k1, int k2){ return k1 < k2;});
+	fibonacci_heap<int, std::string> F3([](int k1, int k2){ return k1 < k2;});
+
+	for(auto &p: v1)
+		heap->insert(p.first, p.second);
+	
+	for(auto &p: v2)
+		F2.insert(p.first, p.second);
+
+	for(auto &p: v3)
+		F3.insert(p.first, p.second);
+
+	heap->merge(F2);
+	F3.merge(*heap);
+
+	for(auto &p: v)
+		ASSERT_EQ(p, GetAndRemove(F3));
+}
+
+TEST_F(max_fibonacci_heap_Test, UpdateKey) {
+
+	std::set<std::pair<unsigned long long int, std::string>, std::greater<std::pair<unsigned long long int, std::string>>> s;
+	for(int i=0; i<SIZE; ++i){
+		s.insert({i*3, "data" + std::to_string(i*3)});
+		heap->insert(i*3, "data" + std::to_string(i*3));
+	}
+
+	int upds = SIZE / 2;
+
+	while(upds){
+		unsigned long long int k = rand() % SIZE;
+
+		std::set<std::pair<unsigned long long int, std::string>>::iterator it;
+		it = s.find({k*3, "data" + std::to_string(k*3)});
+
+		if(it != s.end()){
+			unsigned long long int k1 = it->first;
+			std::string v = it->second;
+			s.erase(it);
+			s.insert({k1*105943, v});
+			
+			heap->update_key(k1*105943, v);
+			upds--;
+		}
+	}
+
+
+	while(s.size()){
+		std::pair<unsigned long long int, std::string> p = *s.begin();
+		s.erase(s.begin());
+		ASSERT_EQ(s.size(), heap->size()-1);
+		std::pair<unsigned long long int, std::string> x = heap->get();
+		heap->remove();
+		EXPECT_EQ(p, x);
 	}
 }
 
-int main(int argc, char const *argv[]) {
+int main(int argc, char *argv[]) {
 
-	// min heap
-	fibonacci_heap<int, std::string> F1([](int k1, int k2){ return k1 < k2;});
-	fibonacci_heap<int, std::string> F2([](int k1, int k2){ return k1 < k2;});
-	fibonacci_heap<int, std::string> F3([](int k1, int k2){ return k1 < k2;});
-	fibonacci_heap<int, std::string> F4([](int k1, int k2){ return k1 > k2;});
-
-	try {
-		F1.insert(1, "hello");
-		F2.insert(3, "dope");
-		F1.insert(6, "wow");
-		F2.insert(-10, "awesome");
-
-		F3.insert(0, "a");	
-		F3.insert(11, "z");
-		F3.insert(2, "x");
-		F3.insert(3, "w");
-		F3.insert(5, "c");
-		F3.insert(7, "h");
-		F3.insert(11, "f");
-		F3.insert(13, "n");
-
-		F1.merge(F2);
-
-		F3.update_key(-3, "w");
-		F3.update_key(4, "f");
-		F3.update_key(-1, "z");
-
-		F3.merge(F1);
-
-		test_extract(F3, -10, "awesome");
-		test_extract(F3, -3, "w");
-		test_extract(F3, -1, "z");
-		test_extract(F3, 0, "a");
-		test_extract(F3, 1, "hello");
-		test_extract(F3, 2, "x");
-		test_extract(F3, 3, "dope");
-		test_extract(F3, 4, "f");
-		test_extract(F3, 5, "c");
-		test_extract(F3, 6, "wow");
-		test_extract(F3, 7, "h");
-		test_extract(F3, 13, "n");
-
-		F4.insert(-100, "test");
-		F4.update_key(1000000, "test");
-
-		int SIZE = 100000;
-		for(int i=0; i<SIZE; ++i){
-			F3.insert(i, std::to_string(i) + "min");
-			F4.insert(i, std::to_string(i) + "max");
-		}
-
-		test_extract(F4, 1000000, "test");
-
-		int i = 0;
-		while(F4.size()){
-			test_extract(F3, i, std::to_string(i) + "min");
-			test_extract(F4, SIZE-1-i, std::to_string(SIZE-1-i) + "max");
-			++i;
-		}
-
-		std::cout << "OK" << std::endl;
-	} catch (std::exception &e) {
-		std::cout << "ERROR" << std::endl;
-		std::cout << e.what() << std::endl;
+	srand(time(0));
+	for(int i=0; i<SIZE; i++){
+		int key = rand() % (SIZE * 100) + 1;
+		std::string str = "data" + std::to_string(key);
+		v1.push_back({key, str});
+		vx.push_back({key, str});
+		v.push_back({key, str});
 	}
-	
-	return 0;
+	for(int i=0; i<SIZE; i++){
+		int key = rand() % (SIZE * 100) + 1;
+		std::string str = "data" + std::to_string(key);
+		v2.push_back({key, str});
+		v.push_back({key, str});
+	}
+	for(int i=0; i<SIZE; i++){
+		int key = rand() % (SIZE * 100) + 1;
+		std::string str = "data" + std::to_string(key);
+		v3.push_back({key, str});
+		v.push_back({key, str});
+	}
+	std::sort(v.begin(), v.end());
+
+	testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
 }

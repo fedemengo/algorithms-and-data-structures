@@ -85,7 +85,7 @@ private:
 		
 		bool empty() { return !_size; }
 		
-		int size() { return _size; }
+		ssize_t size() { return _size; }
 		
 		void clear() { _head = nullptr, _size = 0; }
 	};
@@ -96,7 +96,7 @@ private:
 
 		fibonacci_heap_node<KEY_NODE, DATA_NODE> *p, *left, *right;
 		doubly_linked_list<fibonacci_heap_node<KEY_NODE, DATA_NODE> *> child_list;
-		int degree;
+		ssize_t degree;
 		bool mark;
 		KEY_NODE key;
 		DATA_NODE data;
@@ -122,7 +122,7 @@ private:
 	};
 
 	const int POOL_SIZE = 1000;
-	int nodes;
+	ssize_t nodes;
 	// pool implemented using a stack instead of a queue 
 	// to reuse nodes as soon as possible (cache friendly?)
 	std::stack<fibonacci_heap_node<KEY, DATA> *> pool;
@@ -135,9 +135,9 @@ private:
 		std::vector<fibonacci_heap_node<KEY, DATA> *> pointer(max_degree(), nullptr);
 		fibonacci_heap_node<KEY, DATA> *node = top_node, *x, *y;
 
-		for(int i=0; i<root_list.size(); ++i){
+		for(ssize_t i=0; i<root_list.size(); ++i){
 			node = (x = node)->right;   // x = node, node = x->right
-			int d = x->degree;
+			ssize_t d = x->degree;
 			while (pointer[d]) {
 				y = pointer[d];
 				if (!compare(x->key, y->key))
@@ -203,10 +203,10 @@ private:
 	}
 	
 	// upper_bound of number of root nodes in the root lists that will be present after consolidation
-	int max_degree() { return (int)floor(log((double)nodes)/log((1.0+sqrt(5.0))/2.0))+1; }
+	ssize_t max_degree() { return (ssize_t)floor(log((double)nodes)/log((1.0+sqrt(5.0))/2.0))+1; }
 
 	void fill_pool(){
-		for(int i=0; i<POOL_SIZE; i++){
+		for(ssize_t i=0; i<POOL_SIZE; i++){
 			pool.push(new fibonacci_heap_node<KEY, DATA>());
 		}
 	}
@@ -231,8 +231,8 @@ public:
 		fill(size, default_key);
 	}
 	
-	void fill(int size, KEY default_key){
-		for(int node_id=0; node_id<size; ++node_id){
+	void fill(ssize_t size, KEY default_key){
+		for(ssize_t node_id=0; node_id<size; ++node_id){
 			insert(get_node(default_key, node_id));
 		}
 	}
@@ -294,5 +294,5 @@ public:
 		nodes += other.size();
 	}
  
-	int size() { return nodes; }
+	ssize_t size() { return nodes; }
 };
