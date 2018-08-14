@@ -10,10 +10,10 @@ To use the internal `update_key` an **unordered_map** is used to index a node gi
 
 ### Operations
 
-- Push - O(log N)
-- Top - O(1)
-- Pop - O(log N)
-- Heapsort - O(Nlog N)
+- `push` - O(log N)
+- `top` - O(1)
+- `pop` - O(log N)
+- `heapsort` - O(Nlog N)
 
 ## Fibonacci Heap
 
@@ -25,11 +25,11 @@ A pool of instantiate nodes is used to lower the overhead of dynamic node creati
 
 ### Operations
 
-- Insert - O(1)
-- Get - O(1)
-- Remove - O(log N)*
-- Update key - O(1)*
-- Merge - O(1)
+- `insert` - O(1)
+- `get` - O(1)
+- `remove` - O(log N)*
+- `update_key` - O(1)*
+- `merge` - O(1)
 
 \* Amortized time
 
@@ -43,10 +43,10 @@ All operations are based on `merge`. When pushing, merge the new node with the h
 
 ### Operations
 
-- Push - O(log N)
-- Top - O(1)
-- Pop - O(log N)
-- Merge - 0(log N)
+- `push` - O(log N)
+- `top` - O(1)
+- `pop` - O(log N)
+- `merge` - 0(log N)
 
 ## Priority Queue
 
@@ -54,7 +54,7 @@ Implementation based on binary heap. It exposes the `update_key` method
 
 ### Operations
 
-- Push - O(log N)
-- Top - O(1)
-- Pop - O(log N)
-- Update key - O(log N)
+- `push` - O(log N)
+- `top` - O(1)
+- `pop` - O(log N)
+- `update_key` - O(log N)

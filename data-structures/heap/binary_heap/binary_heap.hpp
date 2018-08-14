@@ -29,8 +29,28 @@ private:
 		bool operator> (const node &x){ return key > x.key; }
 	};
 
-	size_t _size;
-	size_t length;
+	template <typename KEY_NODE, typename DATA_NODE>
+	class iterator {
+	private:
+		int index;
+		node<KEY_NODE, DATA_NODE> *ptr;
+	public:
+		iterator(node<KEY_NODE, DATA_NODE> *ptr) : index(0), ptr(ptr){}
+		iterator &operator++() {
+			ptr = v[index++];
+			return *this; 
+		}
+		iterator &operator++(int) {
+			iterator *it = this;
+			ptr = v[index++];
+			return *it; 
+		}
+		bool operator!=(const iterator &other) { return ptr != other.ptr; }
+		std::pair<KEY_NODE, DATA_NODE> &operator*() { return {ptr->key, ptr->data}; }
+	};
+
+	int _size;
+	size_t _length;
 	int n_child;	// MUST BE A POWER OF 2
 	std::vector<node<KEY, DATA> *> v;
 	std::unordered_map<DATA, int> indeces;
@@ -84,11 +104,15 @@ protected:
 	}
 
 public:
-	binary_heap(std::function<bool(KEY, KEY)> cmp) : _size(0), length(0), n_child(2), v(), indeces(), compare(cmp) {}
+	binary_heap(std::function<bool(KEY, KEY)> cmp) : _size(0), _length(0), n_child(2), v(), indeces(), compare(cmp) {}
 
 	void push(KEY key, DATA data){
 		node<KEY, DATA> *x = new node<KEY, DATA>(key, data);
-		v.push_back(x);
+		if(_size < v.size()){
+			v[_size] = x;
+		} else {
+			v.push_back(x);
+		}
 		v[_size]->data = data;
 		indeces[x->data] = _size;
 		++_size;
@@ -101,19 +125,33 @@ public:
 
 	void pop(){
 		--_size;
+		indeces.erase(v[0]->data);
 		v[0] = v[_size];
+		v.pop_back();
 		indeces[v[0]->data] = 0;
 		heapify(0);
 	}
 
 	int size() { return _size; }
 
-	void heap_sort(bool isHeap){
-		if(!isHeap)
-			build_heap();
-		for(int i=_size-1; i>-1; --i){
-			node<KEY, DATA> *x = top(); pop();
-			v[i] = x;
+	int length() { return _length; }
+
+	void heap_sort(){
+		//build_heap(); build only if passing a vector
+		while(_size > 0) {
+			--_size;
+			++_length;
+			node<KEY, DATA> *x = v[0];
+			indeces.erase(v[0]->data);
+			v[0] = v[_size];
+			indeces[v[0]->data] = 0;
+			heapify(0);
+			v[_size] = x;
 		}
 	}
+
+	iterator<KEY, DATA> begin() const { return iterator<KEY, DATA>(v.begin()); }
+	iterator<KEY, DATA> end() const { return iterator<KEY, DATA>(v.end()); }
+
+	std::pair<KEY, DATA> operator[] (int i) { return {v[i]->key, v[i]->data}; }
 };
