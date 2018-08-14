@@ -48,7 +48,7 @@ All operations are based on `merge`. When pushing, merge the new node with the h
 - `pop` - O(log N)
 - `merge` - 0(log N)
 
-## Leftist Heap
+## Skew Heap
 
 Similar to the leftist heap but instead of rebalancing the structure on every merge operation (used both for pushin and popping), rotate `left` and `right` subtree for each node in the merge path.
 

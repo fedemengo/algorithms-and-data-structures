@@ -18,8 +18,11 @@ TEST(max_binary_heap_Test, PushPop) {
 	for(auto &p: values)
 		max_heap.push(p.first, p.second);
 
-	for(int i=0; i<values.size(); ++i)
-    	ASSERT_EQ(values[values.size()-i-1], TopAndPop(max_heap));
+	std::vector<std::pair<int, std::string>> x(values);
+	std::sort(x.begin(), x.end(), std::greater<std::pair<int, std::string>>());
+	
+	for(auto &p: x)
+    	ASSERT_EQ(p, TopAndPop(max_heap));
 }
 
 struct min_binary_heap_Test : testing::Test {
@@ -33,13 +36,15 @@ struct min_binary_heap_Test : testing::Test {
 std::pair<int, std::string> GetIndex(binary_heap<int, std::string> &h, int index){
 	return h[index];
 }
-
 TEST_F(min_binary_heap_Test, PushPop) {
 
+	std::sort(values.begin(), values.end(), std::greater<std::pair<int, std::string>>());
 	for(auto &p: values)
 		heap->push(p.first, p.second);
 
-	for(auto &p: values)
+	std::vector<std::pair<int, std::string>> x(values);
+	std::sort(x.begin(), x.end());
+	for(auto &p: x)
     	ASSERT_EQ(p, TopAndPop(*heap));
 }
 
@@ -53,21 +58,24 @@ TEST_F(min_binary_heap_Test, Heapsort) {
 		heap->push(key, str);
 	}
 
-	sort(v.begin(), v.end(), std::greater<std::pair<int, std::string>>());
+	std::sort(v.begin(), v.end(), std::greater<std::pair<int, std::string>>());
 	heap->heap_sort();
 
 	for(int i=0; i<heap->length(); ++i){
-		std::pair<int, std::string> x = GetIndex(*heap, i);
-		ASSERT_EQ(v[i], x);
+		std::pair<int, std::string> y = GetIndex(*heap, i);
+		ASSERT_EQ(v[i], y);
 	}
 }
 
 TEST_F(min_binary_heap_Test, PushPopAfterHeapSort) {
 
+	std::vector<std::pair<int, std::string>> x(values);
+	std::sort(x.begin(), x.end(), std::greater<std::pair<int, std::string>>());
 	for(auto &p: values)
 		heap->push(p.first, p.second);
-
-	for(auto &p: values)
+	
+	std::sort(x.begin(), x.end());
+	for(auto &p: x)
     	ASSERT_EQ(p, TopAndPop(*heap));
 }
 
@@ -79,7 +87,6 @@ int main(int argc, char **argv) {
 		std::string str = "data" + std::to_string(key);
 		values.push_back({key, str});
 	}
-	std::sort(values.begin(), values.end());
 	
 	testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();

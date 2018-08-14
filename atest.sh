@@ -7,6 +7,7 @@ test-ds(){
     rm a.out 2>/dev/null
     g++ test.cpp /usr/lib/libgtest.so
     ./a.out
+	rm a.out
     echo ""
     cd $curr
 }

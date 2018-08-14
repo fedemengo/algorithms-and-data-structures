@@ -1,73 +1,93 @@
 #include "priority_queue.hpp"
-#include <exception>
+#include <gtest/gtest.h>
+#include <algorithm>
 
-void test_pop(priority_queue<int, std::string> &h, int k, std::string v) {
-	auto x = h.top();
+const int SIZE = 100000;
+std::vector<std::pair<unsigned long long int, std::string>> values;
+
+std::pair<unsigned long long int, std::string> TopAndPop(priority_queue<unsigned long long int, std::string> &h){
+	std::pair<unsigned long long int, std::string> x = h.top();
 	h.pop();
+	return x;
+}
 
-	if(x.first != k){
-		throw std::invalid_argument("Expected key " + std::to_string(k) + " but got " + std::to_string(x.first));
+struct max_priority_queue_Test : testing::Test {
+	priority_queue<unsigned long long int, std::string> *heap;
+
+	max_priority_queue_Test(){
+		heap = new priority_queue<unsigned long long int, std::string>([](unsigned long long int k1, unsigned long long int k2){ return k1 > k2;});
 	}
-	if(x.second != v){
-		throw std::invalid_argument("Expected value " + v + " but got " + x.second);
+};
+
+// Instanciate obj inside test
+TEST_F(max_priority_queue_Test, PushPop) { 
+	
+	for(auto &p: values)
+		heap->push(p.first, p.second);
+
+	std::vector<std::pair<unsigned long long int, std::string>> x(values);
+	std::sort(x.begin(), x.end(), std::greater<std::pair<unsigned long long int, std::string>>());
+	
+	for(auto &p: x)
+    	ASSERT_EQ(p, TopAndPop(*heap));
+}
+
+TEST_F(max_priority_queue_Test, UpdateKey) {
+
+	std::set<std::pair<unsigned long long int, std::string>, std::greater<std::pair<unsigned long long int, std::string>>> s;
+	for(int i=0; i<SIZE; ++i){
+		s.insert({i*3, "data" + std::to_string(i*3)});
+		heap->push(i*3, "data" + std::to_string(i*3));
+	}
+
+	int upds = SIZE / 2;
+
+	while(upds){
+		unsigned long long int k = rand() % SIZE;
+
+		std::set<std::pair<unsigned long long int, std::string>>::iterator it;
+		it = s.find({k*3, "data" + std::to_string(k*3)});
+
+		if(it != s.end()){
+			unsigned long long int k1 = it->first;
+			std::string v = it->second;
+			s.erase(it);
+			s.insert({k1*105943, v});
+			
+			heap->update_priority(k1*105943, v);
+			upds--;
+		}
+	}
+
+	while(s.size()){
+		std::pair<unsigned long long int, std::string> p = *s.begin();
+		s.erase(s.begin());
+		EXPECT_EQ(p, TopAndPop(*heap));
 	}
 }
 
-int main(int argc, char const *argv[]) {
+TEST(min_priority_queue_Test, PushPop) {
+	priority_queue<unsigned long long int, std::string> min_heap([](unsigned long long int k1, unsigned long long int k2){ return k1 < k2;});
 
-	priority_queue<int, std::string> max_pq([](int k1, int k2){ return k1 > k2;});
-	priority_queue<int, std::string> min_pq([](int k1, int k2){ return k1 < k2;});
+	std::sort(values.begin(), values.end());
+	for(auto &p: values)
+		min_heap.push(p.first, p.second);
 
-	try {
-		max_pq.push(0, "a");	
-		max_pq.push(1, "z");
-		max_pq.push(2, "x");
-		max_pq.push(3, "w");
-		max_pq.push(5, "c");
-		max_pq.push(7, "h");
-		max_pq.push(11, "f");
-		max_pq.push(13, "n");
+	std::vector<std::pair<unsigned long long int, std::string>> x(values);
+	std::sort(x.begin(), x.end());
+	for(auto &p: x)
+    	ASSERT_EQ(p, TopAndPop(min_heap));
+}
 
-		min_pq.push(0, "a");	
-		min_pq.push(1, "z");
-		min_pq.push(2, "x");
-		min_pq.push(3, "w");
-		min_pq.push(5, "c");
-		min_pq.push(7, "h");
-		min_pq.push(11, "f");
-		min_pq.push(13, "n");
+int main(int argc, char **argv) {
 
-		max_pq.update_priority(12, "w");
-		max_pq.update_priority(8, "a");
-		max_pq.update_priority(9, "x");
-
-		min_pq.update_priority(-3, "w");
-		min_pq.update_priority(4, "f");
-		min_pq.update_priority(-1, "z");
-
-		test_pop(max_pq, 13, "n");	
-		test_pop(max_pq, 12, "w");
-		test_pop(max_pq, 11, "f");
-		test_pop(max_pq, 9, "x");
-		test_pop(max_pq, 8, "a");
-		test_pop(max_pq, 7, "h");
-		test_pop(max_pq, 5, "c");
-		test_pop(max_pq, 1, "z");
-			
-		test_pop(min_pq, -3, "w");	
-		test_pop(min_pq, -1, "z");
-		test_pop(min_pq, 0, "a");
-		test_pop(min_pq, 2, "x");
-		test_pop(min_pq, 4, "f");
-		test_pop(min_pq, 5, "c");
-		test_pop(min_pq, 7, "h");
-		test_pop(min_pq, 13, "n");
-
-		std::cout << "OK" << std::endl;
-	} catch (std::exception &e) {
-		std::cout << "ERROR" << std::endl;
-		std::cout << e.what() << std::endl;
+	srand(time(0));
+	for(int i=0; i<SIZE; i++){
+		int key = rand() % (SIZE * 100) + 1;
+		std::string str = "data" + std::to_string(key);
+		values.push_back({key, str});
 	}
-
-	return 0;
+	
+	testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
 }

@@ -36,34 +36,28 @@ private:
 		leftist_heap_node<KEY, DATA> *right_root1, *right_root2;
 		if(compare(root->key, root2->key)){
 			// current root should be on top, the other heap should be
-			// merge in the current root right tree
-			right_root1 = root->right;
+			// merged in the current root right tree
 			right_root2 = root2;
 		} else {
 			// the other root goes on top, merge the current root
 			// to the other root's right tree
-			right_root1 = root2->right;
 			right_root2 = root;
 			root = root2;
 		}
+		right_root1 = root->right;
 
-		std::stack<leftist_heap_node<KEY, DATA> *> path;
 		leftist_heap_node<KEY, DATA> *curr_root = root;
 	
 		while(right_root1 != nullptr && right_root2 != nullptr){
 			// save the path in order to rebalance the structure later
 			path.push(curr_root);
-			if(compare(right_root1->key, right_root2->key)){
-				// right_root1 should be positioned before right_root2
-				curr_root->right = right_root1;  // position right_root1 in the right subtree of the current root
-				curr_root = right_root1;         // move the root down
-				right_root1 = curr_root->right;  // set the new right_root1 as current'root right child (split right tree 1)
-			} else {
-				// right_root2 should be positioned before right_root1
-				curr_root->right = right_root2;  // position right_root2 in the right subtree of the current root
-				curr_root = right_root2;         // move the root down
-				right_root2 = curr_root->right;  // set the new right_root2 as current'root right child (split right tree 1)
-			}
+			// right_root1 will always hold the value of the next node to merge // right_root1 will always hold the value of the next node to merge
+			if(!compare(right_root1->key, right_root2->key))
+				std::swap(right_root1, right_root2);
+
+			curr_root->right = right_root1;  	// position right_root1 in the right subtree of the current root
+			curr_root = curr_root->right;		// move the root down to the right
+			right_root1 = right_root1->right; 	// move down the next_right_root
 		}
 
 		// positioning the last node
@@ -94,6 +88,7 @@ private:
 	}
 
 	leftist_heap_node<KEY, DATA> *root;
+	std::stack<leftist_heap_node<KEY, DATA> *> path;
 	ssize_t _size;
 	std::function<bool(KEY, KEY)> compare;
 

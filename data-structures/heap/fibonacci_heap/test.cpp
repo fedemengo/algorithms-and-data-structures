@@ -88,7 +88,7 @@ TEST_F(max_fibonacci_heap_Test, UpdateKey) {
 	while(s.size()){
 		std::pair<unsigned long long int, std::string> p = *s.begin();
 		s.erase(s.begin());
-		ASSERT_EQ(s.size(), heap->size()-1);
+	
 		std::pair<unsigned long long int, std::string> x = heap->get();
 		heap->remove();
 		EXPECT_EQ(p, x);
