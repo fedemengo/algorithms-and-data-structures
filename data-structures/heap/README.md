@@ -48,6 +48,21 @@ All operations are based on `merge`. When pushing, merge the new node with the h
 - `pop` - O(log N)
 - `merge` - 0(log N)
 
+## Leftist Heap
+
+Similar to the leftist heap but instead of rebalancing the structure on every merge operation (used both for pushin and popping), rotate `left` and `right` subtree for each node in the merge path.
+
+A function passed to the constructor is used to determine the relative order of the element.
+
+All operations are based on `merge`. When pushing, merge the new node with the heap, when popping, merge the root's left tree with the root's right tree.
+
+### Operations
+
+- `push` - O(log N)
+- `top` - O(1)
+- `pop` - O(log N)
+- `merge` - 0(log N)
+
 ## Priority Queue
 
 Implementation based on binary heap. It exposes the `update_key` method
