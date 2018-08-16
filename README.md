@@ -10,7 +10,13 @@ Inside the folders that group different algorithms/data structures related to ea
 
 ## Testing
 
-To compile each test I use `g++ test.cpp /usr/lib/libgtest.so`. Other library should be linked if necessary (e.g `-lpthread`), just take a look at [Google Test](https://github.com/google/googletest).
+To compile each test I use `g++ test.cpp -lgtest`. Other library should be linked if necessary (e.g `-lpthread`), just take a look at [Google Test](https://github.com/google/googletest).
 
 For testing rapidily I used the `atest.sh` script ("atest" is just for fast tab-completion). To use it in any folder its location should be added to `PATH`, so `PATH="${PATH}:/path/to/folder/algorithms-and-data-structures"`. By passing a directory to test it will generate and run all test in its subfolder that contains a `test.cpp` file.
+
+## Benchmark
+
+To compile each test I use `g++ benchmark.cpp -lbenchmark`. Other library should be linked if necessary (e.g `-lpthread`), just take a look at [Google Benchmark](https://github.com/google/benchmark).
+
+For benchmarking rapidily I used the `abench.sh` script ("abench" is just for fast tab-completion). To use it in any folder its location should be added to `PATH`, so `PATH="${PATH}:/path/to/folder/algorithms-and-data-structures"`. By passing a directory to test it will generate and run all test in its subfolder that contains a `benchmark.cpp` file.
 

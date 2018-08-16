@@ -1,11 +1,11 @@
 #!/bin/bash
 
-testFolder(){
+benchFolder(){
     curr=`pwd`
+    echo "Benchmark in ${curr##*/}"
     cd "$1"
-    echo "Testing ${1##*/}"
 	rm a.out 2>/dev/null
-    g++ test.cpp -lgtest
+    g++ benchmark.cpp -lbenchmark
     ./a.out
 	rm a.out
     echo ""
@@ -13,10 +13,10 @@ testFolder(){
 }
 
 explore(){
-    
-    if test -f "$1/test.cpp"
+    if test -f "$1/benchmark.cpp"
     then
-        testFolder "$1"
+        benchFolder "$1"
+        return
     fi
 
 	rm -rf "$1/.vscode" 2>/dev/null
@@ -38,7 +38,7 @@ explore(){
 
 if [[ "$#" -eq "0" ]]
 then
-    echo "Directory to test required"
+    echo "Directory to benchmark required"
 else
     explore "$1"
 fi
