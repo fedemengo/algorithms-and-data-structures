@@ -69,7 +69,7 @@ public:
         remove(0);
     }
 
-    node<T> *find(DATA data){
+    node<T> *find(T data){
         node<T> *n = head();
         if(n->data == data){
             return n;
