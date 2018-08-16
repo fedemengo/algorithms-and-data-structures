@@ -39,4 +39,7 @@ Implementaion with a single pointer that holds the value `prevNode ^ nextNode`. 
 - `pop_back` - O(1)
 - `pop_front` - O(1)
 - `swap` - O(1)
+- `insert(index, elem)` - O(N)
+- `remove(index)` - O(N) 
+- `find(elem)` - O(N)
 
