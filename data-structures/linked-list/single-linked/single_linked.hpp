@@ -69,7 +69,7 @@ public:
         remove(0);
     }
 
-    node<T> *find(int data){
+    node<T> *find(DATA data){
         node<T> *n = head();
         if(n->data == data){
             return n;
@@ -84,13 +84,13 @@ public:
         return nullptr;
     }
 
-    std::pair<node<T> *, std::pair<node<T> *, node<T> *>> get(int index){
+    std::pair<node<T> *, node<T> *> get(int index){
         node<T> *n = head(), *prev = nullptr;
         while(index-- && n->next != nullptr){
             prev = n;
             n = n->next;
         }
-        return {n, {prev, n->next}};
+        return {n, prev};
     }
  
     void remove(int index){
@@ -100,14 +100,14 @@ public:
         if(index < 0 || index > _size){
             throw std::out_of_range("index out of bounds"); 
         }
-        std::pair<node<T> *, std::pair<node<T> *, node<T> *>> data = get(index);
-        if(data.second.first == nullptr){
-            head() = data.second.second;
-        } else if(data.second.second == nullptr){
-            tail() = data.second.first;
-            data.second.first->next = nullptr;
+        std::pair<node<T> *, node<T> *> data = get(index);
+        if(data.second == nullptr){
+            head() = data.first->next;
+        } else if(data.first->next == nullptr){
+            tail() = data.second;
+            data.second->next = nullptr;
         } else {
-            data.second.first->next = data.second.second;
+            data.second->next = data.first->next;
         }
         delete data.first;
         --_size;
@@ -128,9 +128,9 @@ public:
             tail()->next = n;
             tail() = n;
         } else {
-            std::pair<node<T> *, std::pair<node<T> *, node<T> *>> data = get(index);
+            std::pair<node<T> *, node<T> *> data = get(index);
             n->next = data.first;
-            data.second.first->next = n;
+            data.second->next = n;
         }
         ++_size;
     }
