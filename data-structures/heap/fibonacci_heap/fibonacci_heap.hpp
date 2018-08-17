@@ -13,10 +13,6 @@
  *  for this reason all element's DATA should be different from one another while
  *  it's reasonable to have two element with the same KEY
  *
- *  NOTE: the method fill(size, default_value) and therefore the constructor (size, default_value)
- *  map each node to an INT in the range (0, size)
- *  to avoid that, use empty constructor and insert(key, data)
- *
  *  C++11 or above
  *
  **/
@@ -48,7 +44,7 @@ private:
 
 		T head() { return _head; }
 
-		void remove(T node) {          // remove node from list and clear its pointer
+		void remove(T node) {          // remove node from list and clear its pointers
 			if (_size == 1) {
 				_head = nullptr;
 			} else if (node == _head) {
@@ -132,25 +128,25 @@ private:
 	std::function<bool(KEY, KEY)> compare;
 
 	void consolidate() {
-		std::vector<fibonacci_heap_node<KEY, DATA> *> pointer(max_degree(), nullptr);
+		std::vector<fibonacci_heap_node<KEY, DATA> *> pointers(max_degree(), nullptr);
 		fibonacci_heap_node<KEY, DATA> *node = top_node, *x, *y;
 
 		for(ssize_t i=0; i<root_list.size(); ++i){
 			node = (x = node)->right;   // x = node, node = x->right
 			ssize_t d = x->degree;
-			while (pointer[d]) {
-				y = pointer[d];
+			while (pointers[d]) {
+				y = pointers[d];
 				if (!compare(x->key, y->key))
 					std::swap(x, y);
 				make_child(y, x);
-				pointer[d] = nullptr;
+				pointers[d] = nullptr;
 				++d, --i;
 			}
-			pointer[d] = x;
+			pointers[d] = x;
 		}
 		root_list.clear();
 		top_node = nullptr;
-		for (auto &x: pointer) {
+		for (auto &x: pointers) {
 			if (x) {
 				root_list.push_back(x);
 				if (top_node == nullptr) {
@@ -225,19 +221,6 @@ public:
 	fibonacci_heap(std::function<bool(KEY, KEY)> cmp) : nodes(0), top_node(nullptr), addresses(), compare(cmp) {
 		fill_pool();
 	}
-	
-	// by default it's a min heap
-	fibonacci_heap(int size, KEY default_key, std::function<bool(KEY, KEY)> cmp = [](KEY k1, KEY k2){ return k1 < k2;}) : fibonacci_heap<KEY, DATA>(cmp) { 
-		fill(size, default_key);
-	}
-	
-	void fill(ssize_t size, KEY default_key){
-		for(ssize_t node_id=0; node_id<size; ++node_id){
-			insert(get_node(default_key, node_id));
-		}
-	}
-	
-	bool empty() { return !nodes; }
 	
 	void insert(KEY k, DATA d) { insert(get_node(k, d)); }
 
