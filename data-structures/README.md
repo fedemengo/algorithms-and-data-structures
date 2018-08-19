@@ -40,8 +40,8 @@
 	- [ ] X-fast, Y-fast
 
 - Data Partitioning
-	- [x] Fenwick Tree (frequency and cumulative frequency)
-	- [ ] Segment Tree
+	- [-] Fenwick Tree (basic, multidimensional)
+	- [ ] Segment Tree (basic, 2D, persistent)
 	- [ ] k-d Tree
 	- [ ] Quad Tree
 
@@ -52,3 +52,8 @@
     - [ ] SQRT Decomposition
     - [ ] Heavy-Light Decomposition
     - [ ] Fractional Cascading
+
+- Moscode
+	- [ ] Cartesian Tree (Treap)
+	- [ ] Persistent BST
+	- [ ] 

@@ -16,7 +16,7 @@
 	- [ ] Euler tour
 	- [ ] Max Flow (Edmonds-Karp, Dinic)
 	- [ ] Ford-Fulkerson
-	- [ ] LCA (binary jumps)
+	- [ ] LCA (binary jumps, RMQ)
 	- [ ] Bipartite Graph
 	- [ ] Vertex cover
 	- [ ] TSP
@@ -42,3 +42,43 @@
 - Geometry
 	- [ ] Convex Hull
 	- [ ] Closest Pair
+
+- ACM Workshop
+	- [ ] Knuth's Optimization
+	- [ ] Cormen Algorithm
+	- [ ] Convex Hull Trick
+	- [ ] Four Russian Technique
+	- [ ] Dominator Tree
+	- [ ] Bridges
+	- [ ] Articulation points
+	- [ ] Santa's algorithm
+	- [ ] Maximum matching in bipartite graph (Kuhn's algorithm)
+	- [ ] Maximum independent set and minimum vertex cover in bipartite graph
+	- [ ] Dilworth's theorem
+	- [ ] Preflow push algorithm (push & relabel)
+	- [ ] Hungarian algorithm
+	- [ ] Triangulation of polygon
+	- [ ] Voronoi diagram / Delaunay triangulation
+	- [ ] Minimum covering circle
+	- [ ] Duval's algorithm (for Lyndon's decomposition)
+	- [ ] Branch and bound
+	- [ ] Alpha-beta pruning
+	- [ ] Meet-in-the-middle (Knapsack, Maximum clique)
+	- [ ] Gauss algorithm
+	- [ ] Simplex method
+	- [ ] Cut space and cycle space
+	- [ ] Tutt's matrix
+	- [ ] Scanline technique
+	- [ ] Pollard's rho algorithm
+	- [ ] Miller-Rabin primality test
+	- [ ] Euler function
+	- [ ] Fermat's little theorem
+	- [ ] Fast Fourier Transform
+	- [ ] Mobius function
+	- [ ] Catalan numbers
+	- [ ] Burnside's lemma
+	- [ ] Ternary search
+	- [ ] Annealing simulation
+	- [ ] Numerical integration (Simpson)
+	- [ ] Newton method optimization
+
