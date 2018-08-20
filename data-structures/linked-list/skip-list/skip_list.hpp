@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <stack>
+#include <functional>
 
 template <typename KEY, typename DATA>
 class skip_list {
@@ -15,6 +16,7 @@ private:
         std::vector<int> width;
 
         skip_lnode() : next(MAX_LEVEL), width(MAX_LEVEL, 1) {}
+    
         skip_lnode(KEY_NODE k, DATA_NODE d) : skip_lnode() {
             key = k;
             data = d;
@@ -41,6 +43,27 @@ private:
         DATA_NODE &operator*() { return ptr->data; }
     };
 
+    void fix_remove(std::stack<skip_lnode<KEY, DATA> *> &update, skip_lnode<KEY, DATA> *curr){
+        skip_lnode<KEY, DATA> *node = curr->next[0];
+        int lv = 0;
+        // update nodes from level 0 going up
+        while(update.size()){
+            // get next to update
+            curr = update.top(); update.pop();
+            // if next node is not "tail" update current node width. If it's tail the width is calculated during insertion
+            if(curr->next[lv]){
+                // merge current node width with next node width and remove current node
+                curr->width[lv] += curr->next[lv]->width[lv] - 1;
+                curr->next[lv] = curr->next[lv]->next[lv];
+            }
+            ++lv;
+        }
+        // clear the node and put it back in the pool
+        node->clear();
+        pool.push(node);
+        --_size;
+    }
+
     skip_lnode<KEY, DATA> *get_node(KEY k, DATA d){
         if(pool.size() == 0)
             fill_pool();
@@ -62,43 +85,33 @@ private:
     skip_lnode<KEY, DATA> *head;
     ssize_t _size;
     std::stack<skip_lnode<KEY, DATA> *> pool;
-    std::stack<skip_lnode<KEY, DATA> *> update;
+    std::function<bool(KEY, KEY)> compare;
 
 public:
-    skip_list() : head(new skip_lnode<KEY, DATA>(-1, "")), _size(0), pool(), update() {
+    skip_list(std::function<bool(KEY, KEY)> cmp) : head(new skip_lnode<KEY, DATA>(-1, "")), _size(0), pool(), compare(cmp) {
         srand(time(0));
         fill_pool();
     }
-
-    void print(){
-        std::cout << "PRINT" << std::endl;
-        for(int i=0; i<MAX_LEVEL; ++i){
-            skip_lnode<KEY, DATA> *prev = head;
-            std::cout << "LEVEL " << i << std::endl;
-            while(prev != nullptr){
-                if(prev->next[i]){
-                    std::cout << " " << prev->key << ":" << prev->width[i] << " -";
-                    for(int j=prev->key; j<prev->next[i]->key-1; ++j)
-                        std::cout << " -----";
-                }
-                else
-                    std::cout << " " << prev->key << ":prev";
-                prev = prev->next[i];
-            }
-            std::cout << std::endl;
-        }
-    }
     
     void insert(KEY k, DATA d){
+        // create new node
         skip_lnode<KEY, DATA> *prev = head, *n = get_node(k, d);
+        // keep track of node to update
+        std::stack<skip_lnode<KEY, DATA> *> update;
+        // keep track of the right-move per level
         std::stack<int> skipped;
         int lv = MAX_LEVEL, right = 0, lv_width, lv_right;
         while(--lv >= 0){
-            while(prev->next[lv] && prev->next[lv]->key < k){
+            // if next node it's not the "tail"
+            while(prev->next[lv] && compare(prev->next[lv]->key, k)){
+                // update distance on the right
                 right += prev->width[lv];
+                // update the node
                 prev = prev->next[lv];
             }
+            // save node to update
             update.push(prev);
+            // save the distance to the right moved on current level
             skipped.push(right);
         }
         do {
@@ -107,53 +120,73 @@ public:
             
             ++lv;
 
+            // get current node width
             if(prev->next[lv])
                 lv_width = prev->next[lv]->width[lv];
             else
                 lv_width = size() - lv_right + 1;
 
+            // set new node width
             n->width[lv] = lv_right + lv_width - right;
+            // update previous node width
             prev->width[lv] = right - lv_right + 1;
 
+            // set new node in position
             n->next[lv] = prev->next[lv];
             prev->next[lv] = n;
-
         } while(rand() & 1 && lv < MAX_LEVEL-1);
         ++_size;
     }
 
     bool remove(KEY k){
-        skip_lnode<KEY, DATA> *prev = head, *node = nullptr;
+        skip_lnode<KEY, DATA> *curr = head;
+        std::stack<skip_lnode<KEY, DATA> *> update;
         int lv = MAX_LEVEL;
+
         while(--lv >= 0){
-            while(prev->next[lv] && prev->next[lv]->key < k)
-                prev = prev->next[lv];
-            if(prev->next[lv] && prev->next[lv]->key == k){
-                node = prev->next[lv];
-                prev->next[lv] = prev->next[lv]->next[lv];
-            }
+            while(curr->next[lv] && compare(curr->next[lv]->key, k))
+                curr = curr->next[lv];
+            // save nodes to update if the element to remove is present
+            update.push(curr);
         }
-        if(node != nullptr){
-            node->clear();
-            pool.push(node);
-            --_size;
+
+        // if the node to be removed is present, proceed
+        if(curr->next[0] && curr->next[0]->key == k){
+            fix_remove(update, curr);
             return true;
         }
         return false;
     }
 
-    std::pair<KEY, DATA> find(KEY k){
-        int lv = MAX_LEVEL;
-        skip_lnode<KEY, DATA> *prev = head;
+    void remove_at(int index){
+        skip_lnode<KEY, DATA> *curr = head;
+        std::stack<skip_lnode<KEY, DATA> *> update;
+        int lv = MAX_LEVEL, pos = -1;
+
         while(--lv >= 0){
-            while(prev->next[lv] && prev->next[lv]->key < k)
-                prev = prev->next[lv];
+            while(curr->next[lv] && pos + curr->width[lv] < index){
+                pos += curr->width[lv];
+                curr = curr->next[lv];
+            }
+            // save nodes to update
+            update.push(curr);
         }
-        prev = prev->next[0];
-        return {prev->key, prev->data};
+        fix_remove(update, curr);
     }
 
-    std::pair<KEY, DATA> min(){
+    std::pair<KEY, DATA> find(KEY k){
+        int lv = MAX_LEVEL;
+        skip_lnode<KEY, DATA> *curr = head;
+        // advance as much as possible
+        while(--lv >= 0){
+            while(curr->next[lv] && compare(curr->next[lv]->key, k))
+                curr = curr->next[lv];
+        }
+        // the node should be the one after the current
+        return {curr->next[0]->key, curr->next[0]->data};
+    }
+
+    std::pair<KEY, DATA> top(){
         return {head->next[0]->key, head->next[0]->data};
     }
 
@@ -162,14 +195,14 @@ public:
     //std::pair<KEY, DATA> &operator[] (int i)
     std::pair<KEY, DATA> operator[] (int i) {
         int lv = MAX_LEVEL, pos = -1;
-        skip_lnode<KEY, DATA> *prev = head;
+        skip_lnode<KEY, DATA> *curr = head;
         while(--lv >= 0){
-            while(prev->next[lv] != nullptr && pos + prev->width[lv] < i){
-                pos += prev->width[lv];
-                prev = prev->next[lv];
+            while(curr->next[lv] != nullptr && pos + curr->width[lv] < i){
+                pos += curr->width[lv];
+                curr = curr->next[lv];
             }
         }
-        return {prev->next[0]->key, prev->next[0]->data}; 
+        return {curr->next[0]->key, curr->next[0]->data}; 
     }
 
     iterator<KEY, DATA> begin() const { return iterator<KEY, DATA>(head->next[0]); }

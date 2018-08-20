@@ -4,7 +4,7 @@
 	- [x] Single Linked list
     - [x] Doubly Linked list
 	- [x] XOR list
-	- [ ] Skiplist
+	- [x] Skiplist
 
 - Heap
 	- [x] Binary Heap
@@ -53,7 +53,7 @@
     - [ ] Heavy-Light Decomposition
     - [ ] Fractional Cascading
 
-- Moscode
+- ACM Workshop
 	- [ ] Cartesian Tree (Treap)
 	- [ ] Persistent BST
-	- [ ] 
+
