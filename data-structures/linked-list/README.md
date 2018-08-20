@@ -30,7 +30,13 @@ Usual implementaion with pointers to the next and previous node. Implementation 
 
 ## Xor List
 
-Implementaion with a single pointer that holds the value `prevNode ^ nextNode`. Implementation of **iterators**. 
+<div align="center">
+
+![xor list](https://i.imgur.com/G4qsBzD.png)
+
+</div>
+
+Implementation with a single pointer that holds the value `prevNode ^ nextNode`. Implementation of **iterators**. 
 
 ### Operations
 
@@ -44,7 +50,12 @@ Implementaion with a single pointer that holds the value `prevNode ^ nextNode`. 
 - `find(elem)` - O(N)
 
 ## Skip List
+
+<div align="center">
+
 ![skip list](https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Skip_list_add_element-en.gif/800px-Skip_list_add_element-en.gif)
+
+</div>
 
 Implementation with fixed number of levels, currently `MAX_LEVEL = 16`. In general the structure is suitable for storing `2^MAX_LEVEL` items. Implementation of **iterators** and index operator **[]**. A comparison function passed to the constructor determine the relative order between elements.
 
