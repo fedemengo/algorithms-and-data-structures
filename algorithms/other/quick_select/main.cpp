@@ -8,11 +8,11 @@ using namespace std;
 
 const int MOD = (int)1e9;
 
-int randomized_partition(int v[], int p, int r){
-    int p_i = rand() % (r-p) + p, j = p;        // median of 3 improvement
-    swap(v[p_i], v[r-1]);
+int partition(int v[], int l, int r){
+    int p = rand() % (r-l) + l, j = l;        // median of 3 improvement
+    swap(v[p], v[r-1]);
     
-    for(int i=p; i<r-1; ++i) {
+    for(int i=l; i<r-1; ++i) {
         if(v[i] <= v[r-1]){
             swap(v[i], v[j]);
             ++j;
@@ -22,26 +22,21 @@ int randomized_partition(int v[], int p, int r){
     return j;
 }
 
-int random_select(int v[], int p, int r, int index){
-    if(p == r)
-        return v[p];
-    int q = randomized_partition(v, p, r);
-    int k = q-p;
+int quick_select(int v[], int l, int r, int index){
+    if(l == r)
+        return v[l];
+    int q = partition(v, l, r);
+    int k = q-l;
     if(index == k)
         return v[q];
     else if(index < k)
-        return random_select(v, p, q, index);
+        return quick_select(v, l, q, index);
     else
-        return random_select(v, q, r, index-k);
+        return quick_select(v, q, r, index-k);
 }
 
 int main(int argc, char *argv[]){
     
-    struct rlimit limit_stack;
-    limit_stack.rlim_cur = 67104768;
-    limit_stack.rlim_max = 67104768;
-    setrlimit(RLIMIT_STACK, &limit_stack);
-
     srand(time(0));
     int N = atoi(argv[1]), index = atoi(argv[2]);
     int v[N];
@@ -49,7 +44,7 @@ int main(int argc, char *argv[]){
     for(auto &i:v)
         i = rand() % MOD;
     
-    int element = random_select(v, 0, N, index);
+    int element = quick_select(v, 0, N, index);
     time_t start, end;
     start = clock();
     cout << index << " -> " << element << "\n";

@@ -1,16 +1,8 @@
-#include <iostream>
-#include <algorithm>
-#include <stdlib.h>
 #include <vector>
-#include <utility>
-#include <fstream>
-using namespace std;
-
-#define MOD 100
 
 long long comparison = 0;
 
-int median3(vector<int> &v, int p, int r){
+int median3(std::vector<int> &v, int p, int r){
 	//int start = p, middle = p+(r-p)/2, end = r-1;
 	int start = p, middle = (p+r)/2, end = r;
 	if(v[start] >= v[middle] && v[start] >= v[end]){
@@ -31,23 +23,38 @@ struct pivot {
 	int end;
 };
 
-pivot partition(vector<int> &v, int p, int r){
+int partition_lomuto(std::vector<int> v, int p, int r){
+	int index = rand() % (r-p) + p, x = v[index];
+	std::swap(v[index], v[r-1]);
+
+	int j=p;
+	for(int i=p; i<r-1; ++i)
+		if(v[i] <= x){
+			std::swap(v[i], v[j]);
+			++j;
+		}
+	
+	std::swap(v[j], v[r-1]);
+	return j;
+}
+
+pivot partition(std::vector<int> &v, int p, int r){
 	int index = median3(v, p, r);
-	swap(v[p], v[index]);
+	std::swap(v[p], v[index]);
 	int j = p+1, pivot = v[p];
 	for(int i=p+1; i<r; ++i){
 		if(v[i] < pivot){
-			swap(v[i], v[j]);
+			std::swap(v[i], v[j]);
 			++j;
 		}
 	}
-	swap(v[j-1], v[p]);
+	std::swap(v[j-1], v[p]);
 	int k;
 	for(k = j; k<v.size() && v[k] == pivot; ++k);
 	return {j-1, k};	// {j-1, j};
 }
 
-void insertion_sort(vector<int> &v, int p, int r){
+void insertion_sort(std::vector<int> &v, int p, int r){
 	for(int i=p + 1; i<r; ++i){
 		int key = v[i];
         int j = i-1;
@@ -60,7 +67,7 @@ void insertion_sort(vector<int> &v, int p, int r){
 }
 
 // the pivot end to be at index "q", so we dont need to consider it again
-void quick_sort(vector<int> &v, int p, int r){
+void quick_sort(std::vector<int> &v, int p, int r){
 	if(r - p < 20){
 		insertion_sort(v, p, r);
 	} else {
@@ -70,28 +77,3 @@ void quick_sort(vector<int> &v, int p, int r){
 	}
 }
 
-int main(int argc, char *argv[]){
-
-    srand(time(0));
-    int N = atoi(argv[1]);
-    vector<int> v(N);
-    
-    for(auto &i : v)
-        i = rand() % MOD;
-    vector<int> w(v);
-
-    time_t start = clock();
-    sort(w.begin(), w.end());
-	printf("std::sort = %lf\n", (double)(clock()-start)/(double)CLOCKS_PER_SEC);
-    start = clock();
-    quick_sort(v, 0, N);
-    printf("quick_sort = %lf\n", (double)(clock()-start)/(double)CLOCKS_PER_SEC);
-
-	if(!equal(v.begin(), v.end(), w.begin())){
-		printf("Error\n");
-	}
-
-    printf("%lld\n", comparison);
-    
-    return 0;
-}
