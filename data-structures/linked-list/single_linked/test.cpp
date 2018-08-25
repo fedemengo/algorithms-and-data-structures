@@ -22,6 +22,14 @@ struct single_linked_Test : testing::Test {
    }
 };
 
+TEST_F(single_linked_Test, PopFront) { 
+    for(int i=0; i<check->size(); ++i){
+		std::string str = l1->front();
+		l1->pop_front();
+		ASSERT_EQ(str, (*check)[i]);
+	}
+}
+
 TEST_F(single_linked_Test, Range) { 
 	int i = 0;
     for(std::string str: *l1)
@@ -41,15 +49,23 @@ TEST_F(single_linked_Test, TestIndex) {
 }
 
 TEST_F(single_linked_Test, RemoveIndex) { 
-	while(l1->size()){
+	int tests = 100;
+	while(tests--){
         int index = rand() % l1->size();
-        l1->remove(index);
+        l1->erase(index);
         check->erase(check->begin() + index);
         
         for(int i=0; i<check->size(); i++) {
             ASSERT_EQ((*l1)[i], (*check)[i]);
         }
     }
+}
+
+TEST_F(single_linked_Test, Reverse) { 
+	l1->reverse();
+	int i = 0;
+	for(auto it = l1->begin(); it != l1->end(); i++, it++)
+        ASSERT_EQ(*it, (*check)[check->size()-1-i]);
 }
 
 int main(int argc, char *argv[]) {

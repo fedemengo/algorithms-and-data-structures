@@ -5,7 +5,6 @@
 <div align="center">
 
 ![binary heap](https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Binary_tree_in_array.svg/370px-Binary_tree_in_array.svg.png)
-
 </div>
 
 It's implemented using an array. A function passed to the constructor determine the relative order of the elements (use as min-heap, max-heap..). 
@@ -26,7 +25,6 @@ To use the internal `update_key` an **unordered_map** is used to index a node gi
 <div align="center">
 
 ![fibo heap](https://i.imgur.com/XmQmTSz.png)
-
 </div>
 
 A function passed to the constructor determine the relative order of the elements (use as min-fibonacci-heap, max-fibonacci-heap..). 
@@ -50,7 +48,6 @@ A pool of instantiate nodes is used to lower the overhead of dynamic node creati
 <div align="center">
 
 ![leftist](https://i.imgur.com/pUay6Ja.png)
-
 </div>
 
 For this structure holds both the heap property and also the leftist property: `n->left->rank >= n->right->rank` and `n->left == nullptr` only if `n->right == nullptr`. In each node the shorted path to a leaf in left subtree is at least as long as the one in the right subtree.

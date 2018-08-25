@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stack>
 /*
     Insert in range [0, size)
     if insert at @size: push_back
@@ -62,12 +63,20 @@ public:
     }
 
     void pop_back(){
-        remove(_size-1);
+        erase(_size-1);
     }
 
     void pop_front(){
-        remove(0);
+        erase(0);
     }
+
+	T front(){
+		return _head->data;
+	}
+
+	T back(){
+		return _tail->data;
+	}
 
     node<T> *find(T data){
         node<T> *n = head();
@@ -93,9 +102,9 @@ public:
         return {n, prev};
     }
  
-    void remove(int index){
+    void erase(int index){
         if(_size == 0){
-            throw std::invalid_argument("can't remove from empty list");
+            throw std::invalid_argument("can't erase from empty list");
         }
         if(index < 0 || index > _size){
             throw std::out_of_range("index out of bounds"); 
@@ -134,6 +143,28 @@ public:
         }
         ++_size;
     }
+
+	void reverse(){
+		std::stack<node<T> *> nodes;
+		node<T> *n = _head;
+		T data;
+		int pos = 0;
+		
+		while(pos++ < _size / 2){
+			nodes.push(n);
+			n = n->next;
+		}
+
+		if (_size & 1) n = n->next;
+		
+		while(nodes.size()){
+			data = n->data;
+			n->data = nodes.top()->data;
+			nodes.top()->data = data;
+			nodes.pop();
+			n = n->next;
+		}
+	}
 
     int size() { return _size; }
 

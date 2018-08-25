@@ -4,6 +4,7 @@
 #include "binary_heap/binary_heap.hpp"
 #include "leftist_heap/leftist_heap.hpp"
 #include "skew_heap/skew_heap.hpp"
+#include <queue>
 
 static void FiboPushPop(benchmark::State& state) {
     fibonacci_heap<int, int> h([](int k1, int k2){ return k1 < k2;});
@@ -48,5 +49,16 @@ static void SkewPushPop(benchmark::State& state) {
     }
 }
 BENCHMARK(SkewPushPop)->Arg(1000)->Arg(10000)->Arg(100000);
+
+static void PQPushPop(benchmark::State& state) {
+	std::priority_queue<int> pq;
+  
+    for (auto _ : state) {
+        for(int i=0; i<state.range(0); ++i)
+            pq.push(i);
+        while(pq.size()) pq.pop();
+    }
+}
+BENCHMARK(PQPushPop)->Arg(1000)->Arg(10000)->Arg(100000);
 
 BENCHMARK_MAIN();

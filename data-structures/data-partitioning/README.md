@@ -1,0 +1,4 @@
+# Data Partitioning
+
+## Fenwick Tree
+

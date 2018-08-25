@@ -17,6 +17,8 @@
 	- [ ] Brodal Heap
 	- [ ] Pairing Heap
 	- [ ] Weak Heap
+	- [ ] 2-3 Heap
+	- [ ] Strict Fibonacci
 
 - Tree
 	- [ ] Mergesort Tree

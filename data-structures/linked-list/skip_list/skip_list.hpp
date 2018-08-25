@@ -88,7 +88,7 @@ private:
     std::function<bool(KEY, KEY)> compare;
 
 public:
-    skip_list(std::function<bool(KEY, KEY)> cmp) : head(new skip_lnode<KEY, DATA>(-1, "")), _size(0), pool(), compare(cmp) {
+    skip_list(std::function<bool(KEY, KEY)> cmp) : head(new skip_lnode<KEY, DATA>()), _size(0), pool(), compare(cmp) {
         srand(time(0));
         fill_pool();
     }
