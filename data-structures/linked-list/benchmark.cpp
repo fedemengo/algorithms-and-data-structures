@@ -1,7 +1,7 @@
 
 #include <benchmark/benchmark.h>
 #include <cstring>
-#include "skip-list/skip_list.hpp"
+#include "skip_list/skip_list.hpp"
 #include <map>
 
 static void SetInsert(benchmark::State& state) {

@@ -2,7 +2,7 @@
 
 benchFolder(){
     curr=`pwd`
-    echo "Benchmark in ${curr##*/}"
+    echo "Benchmark in ${1##*/}"
     cd "$1"
 	rm a.out 2>/dev/null
     g++ benchmark.cpp -lbenchmark
@@ -13,10 +13,10 @@ benchFolder(){
 }
 
 explore(){
-    if test -f "$1/benchmark.cpp"
+
+	if test -f "$1/benchmark.cpp"
     then
         benchFolder "$1"
-        return
     fi
 
 	rm -rf "$1/.vscode" 2>/dev/null
