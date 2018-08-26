@@ -21,7 +21,7 @@ struct selection_sort_Test : testing::Test {
 };
 
 TEST_F(selection_sort_Test, Check) {
-	selection_sort(v1, v1.size());
+	selection_sort(v1);
 	std::sort(v2.begin(), v2.end());
 
 	for(int i=0; i<v1.size(); ++i)

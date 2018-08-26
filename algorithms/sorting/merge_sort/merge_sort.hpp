@@ -2,11 +2,11 @@
 
 long long inversion = 0;
 
-void merge_sort(std::vector<int> &v, int p, int r) {
+void mergesort(std::vector<int> &v, int p, int r) {
 	if(r - p > 1){
 		int q = (p+r)/2;
-		merge_sort(v, p, q);
-		merge_sort(v, q, r);
+		mergesort(v, p, q);
+		mergesort(v, q, r);
 
 		// merge procedure
 		int n1 = q-p, n2 = r-q, i = 0, j = 0, k = p;
@@ -27,3 +27,6 @@ void merge_sort(std::vector<int> &v, int p, int r) {
 	}
 }
 
+void merge_sort(std::vector<int> &v) {
+	mergesort(v, 0, v.size());
+}

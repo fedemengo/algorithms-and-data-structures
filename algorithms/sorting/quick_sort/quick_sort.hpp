@@ -67,13 +67,16 @@ void insertion_sort(std::vector<int> &v, int p, int r){
 }
 
 // the pivot end to be at index "q", so we dont need to consider it again
-void quick_sort(std::vector<int> &v, int p, int r){
+void quicksort(std::vector<int> &v, int p, int r){
 	if(r - p < 20){
 		insertion_sort(v, p, r);
 	} else {
 		pivot q = partition(v, p, r);
-		quick_sort(v, p, q.start);
-		quick_sort(v, q.end, r);
+		quicksort(v, p, q.start);
+		quicksort(v, q.end, r);
 	}
 }
 
+void quick_sort(std::vector<int> &v) {
+	quicksort(v, 0, v.size());
+}

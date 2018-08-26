@@ -21,7 +21,7 @@ struct insertion_sort_Test : testing::Test {
 };
 
 TEST_F(insertion_sort_Test, Check) {
-	insertion_sort(v1, v1.size());
+	insertion_sort(v1);
 	std::sort(v2.begin(), v2.end());
 
 	for(int i=0; i<v1.size(); ++i)
