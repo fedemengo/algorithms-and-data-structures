@@ -1,21 +1,15 @@
 #include <vector>
+#include <functional>
 
 long long comparison = 0;
 
-int median3(std::vector<int> &v, int p, int r){
-	//int start = p, middle = p+(r-p)/2, end = r-1;
-	int start = p, middle = (p+r)/2, end = r;
-	if(v[start] >= v[middle] && v[start] >= v[end]){
-		if(v[middle] >= v[end])
-			return middle;
-		else
-			return end;
-	} else if(v[middle] >= v[start] && v[middle] >= v[end]){
-		if(v[end] >= v[start])
-			return end;	
-	} else if(v[middle] >= v[start])
-		return middle;
-	return start;
+template<typename T>
+int median3(std::vector<T> &v, int l, int r, std::function<bool(T, T)> compare){
+	int m = (l+r)/2;
+	int max = compare(v[m], v[l]) && compare(v[r], v[l]) ? l : compare(v[r], v[m]) ? m : r;
+	int min = compare(v[l], v[m]) && compare(v[l], v[r]) ? l : compare(v[m], v[r]) ? m : r;
+	
+	return l ^ m ^ r ^ max ^ min;
 }
 
 struct pivot {
@@ -23,7 +17,8 @@ struct pivot {
 	int end;
 };
 
-int partition_lomuto(std::vector<int> v, int p, int r){
+template<typename T>
+int partition_lomuto(std::vector<T> v, int p, int r){
 	int index = rand() % (r-p) + p, x = v[index];
 	std::swap(v[index], v[r-1]);
 
@@ -38,12 +33,14 @@ int partition_lomuto(std::vector<int> v, int p, int r){
 	return j;
 }
 
-pivot partition(std::vector<int> &v, int p, int r){
-	int index = median3(v, p, r);
+template<typename T>
+pivot partition(std::vector<T> &v, int p, int r, std::function<bool(T, T)> compare){
+	int index = median3(v, p, r, compare);
 	std::swap(v[p], v[index]);
-	int j = p+1, pivot = v[p];
+	int j = p+1;
+	T pivot = v[p];
 	for(int i=p+1; i<r; ++i){
-		if(v[i] < pivot){
+		if(compare(v[i], pivot)){
 			std::swap(v[i], v[j]);
 			++j;
 		}
@@ -54,11 +51,12 @@ pivot partition(std::vector<int> &v, int p, int r){
 	return {j-1, k};	// {j-1, j};
 }
 
-void insertion_sort(std::vector<int> &v, int p, int r){
+template<typename T>
+void insertion_sort(std::vector<T> &v, int p, int r, std::function<bool(T, T)> compare){
 	for(int i=p + 1; i<r; ++i){
-		int key = v[i];
+		T key = v[i];
         int j = i-1;
-        while(j > p-1 && key < v[j]){
+        while(j > p-1 && compare(key, v[j])){
             v[j+1] = v[j];
             --j;
         }
@@ -67,16 +65,21 @@ void insertion_sort(std::vector<int> &v, int p, int r){
 }
 
 // the pivot end to be at index "q", so we dont need to consider it again
-void quicksort(std::vector<int> &v, int p, int r){
+template<typename T>
+void quicksort(std::vector<T> &v, int p, int r, std::function<bool(T, T)> compare){
 	if(r - p < 20){
-		insertion_sort(v, p, r);
+		insertion_sort(v, p, r, compare);
 	} else {
-		pivot q = partition(v, p, r);
-		quicksort(v, p, q.start);
-		quicksort(v, q.end, r);
+		pivot q = partition(v, p, r, compare);
+		quicksort(v, p, q.start, compare);
+		quicksort(v, q.end, r, compare);
 	}
 }
 
-void quick_sort(std::vector<int> &v) {
-	quicksort(v, 0, v.size());
+template<typename T>
+void quick_sort(std::vector<T> &v, 
+		std::function<bool(T, T)> compare = [](T e1, T e2){ 
+			return e1 < e2; 
+		}) {
+	quicksort(v, 0, v.size(), compare);
 }
