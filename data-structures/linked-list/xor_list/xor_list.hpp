@@ -133,7 +133,7 @@ public:
 		}
 	}
 
-	void swap() {
+	void reverse() {
 		std::swap(head, tail);
 	}
 	

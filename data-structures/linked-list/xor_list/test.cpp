@@ -108,9 +108,9 @@ TEST_F(xor_list_Test, Remove) {
 	}
 }
 
-TEST_F(xor_list_Test, Swap) { 
+TEST_F(xor_list_Test, Reverse) { 
     int i = check->size()-1;
-    list->swap();
+    list->reverse();
     for(std::string x: *list)
         ASSERT_EQ(x, (*check)[i--]);
 }
