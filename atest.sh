@@ -9,7 +9,7 @@ testFolder(){
     ./a.out
 	rm a.out
     echo ""
-    cd "$curr"
+    cd "$curr"    
 }
 
 explore(){

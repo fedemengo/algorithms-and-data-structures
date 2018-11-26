@@ -14,7 +14,7 @@
  **/
 
 template <typename KEY, typename DATA>
-class binary_heap {
+class dary_heap {
 private:
 	template <typename KEY_NODE, typename DATA_NODE>
 	class node {
@@ -51,19 +51,18 @@ private:
 
 	int _size;
 	size_t _length;
+	int n_child;
 	std::vector<node<KEY, DATA> *> v;
 	std::unordered_map<DATA, int> indeces;
 	std::function<bool(KEY, KEY)> compare;
 
 	void heapify(int index){
-		int largest = index;
-
-        if(left(index) < _size && compare(v[left(index)]->key, v[largest]->key)) 
-            largest = left(index);
-
-        if(right(index) < _size && compare(v[right(index)]->key, v[largest]->key)) 
-            largest = right(index);
-        
+		int child_index, largest = index;
+		for(int i=0; i<n_child; ++i){
+			child_index = child(index, i+1);
+			if(child_index < _size && compare(v[child_index]->key, v[largest]->key)) 
+				largest = child_index;
+		}
 		if(largest != index){
 			heap_swap(index, largest);
 			heapify(largest);
@@ -76,9 +75,8 @@ private:
 		indeces[v[y]->data] = y;
 	}
 
-	int parent(int i) { return (int)((i-1) >> 1); }
-    int left(int i) { return (int)(i << 1) + 1; }
-    int right(int i) { return (int)(i << 1) + 2; }
+	int parent(int i) { return (int)((i-1) / n_child); }
+	int child(int i, int ith) { return (int)(i * n_child + ith); };
 
 	void build_heap(){
 		_size = length;
@@ -105,7 +103,7 @@ protected:
 	}
 
 public:
-	binary_heap(std::function<bool(KEY, KEY)> cmp) : _size(0), _length(0), v(), indeces(), compare(cmp) {}
+	dary_heap(int D, std::function<bool(KEY, KEY)> cmp) : _size(0), _length(0), n_child(D), v(), indeces(), compare(cmp) {}
 
 	void push(KEY key, DATA data){
 		node<KEY, DATA> *x = new node<KEY, DATA>(key, data);

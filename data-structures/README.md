@@ -13,7 +13,7 @@
 	- [ ] Binomial Heap
 	- [x] Leftist Heap
 	- [x] Skew Heap
-	- [ ] d-Heap
+	- [x] d-ary Heap
 	- [ ] Brodal Heap
 	- [ ] Pairing Heap
 	- [ ] Weak Heap
@@ -42,7 +42,10 @@
 	- [ ] X-fast, Y-fast
 
 - Data Partitioning
-	- [-] Fenwick Tree (basic, multidimensional)
+	- [ ] Fenwick Tree
+        - [x] 1D Fenwick Tree
+        - [ ] 2D Fenwick Tree
+        - [ ] nD Fenwick Tree
 	- [ ] Segment Tree (basic, 2D, persistent)
 	- [ ] k-d Tree
 	- [ ] Quad Tree
