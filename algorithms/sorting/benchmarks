@@ -1,0 +1,18 @@
+--------------------------------------------------------------
+Benchmark                    Time             CPU   Iterations
+--------------------------------------------------------------
+selection_sort/256      324831 ns       324768 ns         2144
+selection_sort/1024    5061966 ns      5060597 ns          137
+selection_sort/4096   80022051 ns     80012051 ns            9
+insertion_sort/256      162071 ns       162060 ns         4299
+insertion_sort/1024    2503422 ns      2503267 ns          277
+insertion_sort/4096   39793275 ns     39791562 ns           18
+merge_sort/256           99140 ns        99128 ns         6996
+merge_sort/1024         428078 ns       428043 ns         1615
+merge_sort/4096        1833645 ns      1833493 ns          381
+heap_sort/256            56061 ns        56058 ns        12371
+heap_sort/1024          275293 ns       275273 ns         2540
+heap_sort/4096         1311595 ns      1311512 ns          532
+quick_sort/256           37708 ns        37705 ns        18498
+quick_sort/1024         188630 ns       188623 ns         3695
+quick_sort/4096         906916 ns       906567 ns          781

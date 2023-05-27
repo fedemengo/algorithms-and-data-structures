@@ -1,0 +1,18 @@
+----------------------------------------------------------------
+Benchmark                      Time             CPU   Iterations
+----------------------------------------------------------------
+FiboPushPop/1000          774188 ns       774021 ns          916
+FiboPushPop/10000        8063604 ns      8063069 ns           84
+FiboPushPop/100000      91769179 ns     91759190 ns            7
+BinaryPushPop/1000       1189077 ns      1188940 ns          594
+BinaryPushPop/10000     16097552 ns     16095751 ns           44
+BinaryPushPop/100000   198596653 ns    198564611 ns            3
+LeftistPushPop/1000       676111 ns       676054 ns         1028
+LeftistPushPop/10000     9271401 ns      9270428 ns           75
+LeftistPushPop/100000  124272535 ns    124261729 ns            6
+SkewPushPop/1000          234651 ns       234639 ns         2992
+SkewPushPop/10000        3367043 ns      3366905 ns          210
+SkewPushPop/100000      42762363 ns     42759801 ns           17
+PQPushPop/1000            265446 ns       265426 ns         2638
+PQPushPop/10000          3436985 ns      3436472 ns          203
+PQPushPop/100000        42753576 ns     42749950 ns           16

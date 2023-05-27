@@ -5,7 +5,7 @@ benchFolder(){
     cd "$1" && \
     echo "Benchmark in ${1##*/}" && \
     g++ benchmark.cpp -lbenchmark -lbenchmark_main && \
-    ./a.out && \
+    ./a.out | tee benchmarks && \
 	rm -rf a.out && \
     echo "" && \
     cd "$prevwd"
