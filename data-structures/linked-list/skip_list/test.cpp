@@ -20,7 +20,7 @@ struct skip_list_Test : testing::Test {
         check = new std::vector<std::string>();
 	}
 
-    void SetUp( ) { 
+    void SetUp( ) {
         for(int i=0; i<SIZE; ++i){
             std::string str = "h" + std::to_string(i);
             list->insert(i, str);
@@ -44,7 +44,7 @@ TEST_F(skip_list_Test, Insert) {
     }
 }
 
-TEST_F(skip_list_Test, Find) { 
+TEST_F(skip_list_Test, Find) {
     srand(time(0));
     for(int i=0; i<check->size(); i++){
         int idx = rand() % check->size();
@@ -54,7 +54,7 @@ TEST_F(skip_list_Test, Find) {
 }
 
 TEST_F(skip_list_Test, Remove) {
-	
+
     std::multiset<int> s;
     for(int i=0; i<SIZE; ++i){
         s.insert(i);
@@ -76,7 +76,7 @@ TEST_F(skip_list_Test, Remove) {
     }
 }
 
-TEST_F(skip_list_Test, Iterator) { 
+TEST_F(skip_list_Test, Iterator) {
     srand(time(0));
     int i=0;
     for(std::string &str: *list){
@@ -85,14 +85,14 @@ TEST_F(skip_list_Test, Iterator) {
     }
 }
 
-TEST_F(skip_list_Test, IndexOp) { 
-    
+TEST_F(skip_list_Test, IndexOp) {
+
     for(int i=0; i<list->size(); ++i)
         ASSERT_EQ("h" + std::to_string(i), (*list)[i].second);
 }
 
-TEST_F(skip_list_Test, NaiveIndexing) { 
-    
+TEST_F(skip_list_Test, NaiveIndexing) {
+
     for(int i=0, j = 0; i<list->size(); j = 0, ++i){
         auto it = list->begin();
         while(j++ < i) it++;
@@ -102,7 +102,7 @@ TEST_F(skip_list_Test, NaiveIndexing) {
 
 
 TEST_F(skip_list_Test, RemoveAndIndex) {
-	
+
     srand(time(0));
     for(int i=0; i<check->size(); i++){
         int idx = rand() % list->size();
@@ -150,8 +150,3 @@ TEST(max_skip_list_Test, Insert) {
     }
 }
 
-int main(int argc, char *argv[]) {
-
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

@@ -1,5 +1,6 @@
 #include "fibonacci_heap.hpp"
 #include <gtest/gtest.h>
+#include <algorithm>
 
 std::pair<int, std::string> GetAndRemove(fibonacci_heap<int, std::string> &h){
 	std::pair<int, std::string> x = h.get();
@@ -8,7 +9,7 @@ std::pair<int, std::string> GetAndRemove(fibonacci_heap<int, std::string> &h){
 }
 
 struct min_fibonacci_heap_Test : testing::Test {
-	
+
 	const int SIZE = 100000;
 	fibonacci_heap<int, std::string> *heap;
 	std::vector<std::pair<int, std::string>> v1, v2, v3, v;
@@ -68,7 +69,7 @@ TEST_F(min_fibonacci_heap_Test, Merge) {
 
 	for(auto &p: v1)
 		heap->insert(p.first, p.second);
-	
+
 	for(auto &p: v2)
 		F2.insert(p.first, p.second);
 
@@ -115,7 +116,7 @@ TEST_F(max_fibonacci_heap_Test, UpdateKey) {
 			std::string v = it->second;
 			s.erase(it);
 			s.insert({k1*A_PRIME, v});
-			
+
 			heap->update_key(k1*A_PRIME, v);
 			upds--;
 		}
@@ -124,7 +125,7 @@ TEST_F(max_fibonacci_heap_Test, UpdateKey) {
 	while(s.size()){
 		std::pair<ull, std::string> p = *s.begin();
 		s.erase(s.begin());
-	
+
 		std::pair<ull, std::string> x = heap->get();
 		heap->remove();
 		ASSERT_EQ(p, x);
