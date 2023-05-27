@@ -1,26 +1,22 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 benchFolder(){
-    curr=`pwd`
-    echo "Benchmark in ${1##*/}"
-    cd "$1"
-	rm a.out 2>/dev/null
-    g++ benchmark.cpp -lbenchmark
-    ./a.out
-	rm a.out
-    echo ""
-    cd "$curr"
+    prevwd=`pwd`
+    cd "$1" && \
+    echo "Benchmark in ${1##*/}" && \
+    g++ benchmark.cpp -lbenchmark -lbenchmark_main && \
+    ./a.out && \
+	rm -rf a.out && \
+    echo "" && \
+    cd "$prevwd"
 }
 
 explore(){
-
 	if test -f "$1/benchmark.cpp"
     then
         benchFolder "$1"
     fi
 
-	rm -rf "$1/.vscode" 2>/dev/null
-    
 	subfolder=()
     for dir in "$1"/*;
     do

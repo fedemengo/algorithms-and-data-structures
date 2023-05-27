@@ -1,26 +1,22 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 testFolder(){
-    curr=`pwd`
-    cd "$1"
-    echo "Testing ${1##*/}"
-	rm a.out 2>/dev/null
-    g++ test.cpp -lgtest
-    ./a.out
-	rm a.out
-    echo ""
-    cd "$curr"    
+    prevwd=`pwd`
+    cd "$1" && \
+    printf "Testing ${1##*/}\n" && \
+    g++ test.cpp -lgtest -lgtest_main && \
+    ./a.out && \
+	rm -rf a.out && \
+    echo "" && \
+    cd "$prevwd"
 }
 
 explore(){
-    
     if test -f "$1/test.cpp"
     then
         testFolder "$1"
     fi
 
-	rm -rf "$1/.vscode" 2>/dev/null
-    
 	subfolder=()
     for dir in "$1"/*;
     do

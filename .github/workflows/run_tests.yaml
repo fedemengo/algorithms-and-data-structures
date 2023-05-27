@@ -1,0 +1,29 @@
+name: Run test
+
+on:
+  push:
+    branches: [ "main" ]
+
+  pull_request:
+    branches: [ "main" ]
+
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'skip GA')"
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Run tests
+        uses: addnab/docker-run-action@v3
+        with:
+          image: ghcr.io/fedemengo/googletest:1.13.0
+          options: --platform linux/amd64 -v ${{ github.workspace }}:/workspace
+          run: |
+            cd /workspace
+            make test
+
