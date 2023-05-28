@@ -128,8 +128,3 @@ TEST_F(xor_list_Test, Iterator) {
         ASSERT_EQ(*it, (*check)[i]);
 }
 
-int main(int argc, char *argv[]) {
-
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

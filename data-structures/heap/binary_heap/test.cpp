@@ -3,7 +3,6 @@
 #include <algorithm>
 
 const int SIZE = 100000;
-std::vector<std::pair<int, std::string>> values;
 
 std::pair<int, std::string> TopAndPop(binary_heap<int, std::string> &h){
 	std::pair<int, std::string> x = h.top();
@@ -79,15 +78,3 @@ TEST_F(min_binary_heap_Test, PushPopAfterHeapSort) {
     	ASSERT_EQ(p, TopAndPop(*heap));
 }
 
-int main(int argc, char **argv) {
-
-	srand(time(0));
-	for(int i=0; i<SIZE; i++){
-		int key = rand() % (SIZE * 100) + 1;
-		std::string str = "data" + std::to_string(key);
-		values.push_back({key, str});
-	}
-	
-	testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

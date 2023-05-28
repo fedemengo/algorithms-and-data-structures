@@ -92,7 +92,3 @@ TEST_F(max_queue_Test, Pop) {
 	}
 }
 
-int main(int argc, char **argv) {
-	testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

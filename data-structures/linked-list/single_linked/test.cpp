@@ -68,9 +68,4 @@ TEST_F(single_linked_Test, Reverse) {
         ASSERT_EQ(*it, (*check)[check->size()-1-i]);
 }
 
-int main(int argc, char *argv[]) {
-
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
 
