@@ -43,6 +43,11 @@
 	- [ ] Convex Hull
 	- [ ] Closest Pair
 
+- Randomized
+    - [ ] Reservoir sampling
+        - https://en.wikipedia.org/wiki/Reservoir_sampling
+    - [ ] HyperLogLog
+
 - ACM Workshop
 	- [ ] Knuth's Optimization
 	- [ ] Cormen Algorithm

@@ -58,6 +58,11 @@
     - [ ] Heavy-Light Decomposition
     - [ ] Fractional Cascading
 
+- Probabilistic
+    - [ ] Count–min sketch
+        - https://en.wikipedia.org/wiki/Count%E2%80%93min_sketch
+        - https://stackoverflow.com/a/64397892/4712324
+
 - ACM Workshop
 	- [ ] Cartesian Tree (Treap)
 	- [ ] Persistent BST
